@@ -1,0 +1,3 @@
+module Vxod
+  VERSION = "0.0.1"
+end
