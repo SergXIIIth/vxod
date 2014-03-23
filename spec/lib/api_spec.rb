@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Vxod::Instance do
+describe Vxod::Api do
   let(:rack_app){ double('rack_app') }
-  let(:vxod){ Vxod::Instance.new(rack_app) }
+  let(:vxod){ Vxod::Api.new(rack_app) }
 
   describe '#authorize' do
     context 'when not authorized' do

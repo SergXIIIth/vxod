@@ -1,4 +1,4 @@
-class Vxod::Instance
+class Vxod::Api
   def initialize(rack_app)
     @rack_app = rack_app
   end

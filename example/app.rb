@@ -4,7 +4,7 @@ require 'slim'
 
 helpers do
   def vxod 
-    @vxod = Vxod.new_instance(self)
+    @vxod = Vxod.api(self)
   end
 end
 

@@ -12,8 +12,8 @@ end
 
 module Vxod
   class << self
-    def new_instance(rack_app)
-      Vxod::Instance.new(rack_app)
+    def api(rack_app)
+      Vxod::Api.new(rack_app)
     end
   end
 end
