@@ -14,6 +14,6 @@ get '/' do
 end
 
 get '/secret' do
-  vxod.authorize
+  vxod.required
   'I am secret page'
 end

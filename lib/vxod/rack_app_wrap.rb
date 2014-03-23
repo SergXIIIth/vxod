@@ -10,4 +10,8 @@ class Vxod::RackAppWrap
   def redirect(url)
     rack_app.redirect(url)
   end
+
+  def request_path
+    rack_app.request.path
+  end
 end

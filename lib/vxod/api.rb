@@ -5,8 +5,11 @@ class Vxod::Api
 
   attr_reader :rack_app
 
-  def authorize
-    rack_app_wrap.redirect('/path')
+  # Check that user login and have right to make 'action' on 'object'
+  # If not it redirects to login page
+  def required(action = nil, object = nil)
+    path = "#{Vxod.config.login_path}?back=#{URI.escape(rack_app_wrap.request_path)}"
+    rack_app_wrap.redirect(path)
   end
 
 private
