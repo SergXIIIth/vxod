@@ -3,4 +3,21 @@ html
   == slim :'parts/head'
 
   body
-    h1 Login
+    .row
+      .col-sm-offset-3.col-sm-6.col-md-offset-4.col-md-4
+        .well.well-white
+          form role='form' action=Vxod.config.login_path method='POST'
+            .form-group
+              label for='email' Email
+              input.form-control type='email' id='email' placeholder='Enter email'
+            
+            .form-group
+              label for='password' Password
+              input.form-control type='password' id='password' placeholder='Enter password'
+            
+            .checkbox
+              label
+                input type='checkbox' name='dont_remember' Do not remember me
+
+            .text-right
+              button.btn.btn-primary type='submit' Login

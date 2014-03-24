@@ -1,7 +1,7 @@
 require 'sinatra/assetpack'
 
 class Vxod::Middleware < Sinatra::Base
-  get '/login' do
+  get Vxod.config.login_path do
     slim :login
   end
 
