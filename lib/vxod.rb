@@ -9,21 +9,9 @@ files = %w(
   config
   api
   api_static
+  omni_auth_provider
   middleware
 )
 
 files.each { |file| require "vxod/#{file}" }
-
-
-# wildcards = %w(
-
-#   **/*.rb
-# )
-
-# wildcards.each do |wildcard|
-#   file_search_pattern = File.dirname(__FILE__) + '/vxod/' + wildcard
-#   Dir.glob(file_search_pattern).each { |file| require file }
-# end
-
-
 

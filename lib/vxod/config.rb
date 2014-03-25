@@ -3,5 +3,5 @@ class Vxod::Config
     @login_path = '/login'
   end
 
-  attr_accessor :login_path
+  attr_accessor :login_path, :secret_secret
 end

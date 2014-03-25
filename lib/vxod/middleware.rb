@@ -1,11 +1,15 @@
 require 'sinatra/assetpack'
+require 'coffee_script'
 
 class Vxod::Middleware < Sinatra::Base
+  enable :sessions
+  set :sessions, secret: Vxod.config.secret_secret
+
   get Vxod.config.login_path do
     slim :login
   end
 
-  # assets
+  # Assets
 
   register Sinatra::AssetPack
 
@@ -27,5 +31,8 @@ class Vxod::Middleware < Sinatra::Base
 
     js_compression  :jsmin    # :jsmin | :yui | :closure | :uglify
     css_compression :simple   # :simple | :sass | :yui | :sqwish
-  end  
+  end
+
+  # OpenId
+
 end

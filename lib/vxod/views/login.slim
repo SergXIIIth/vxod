@@ -4,7 +4,7 @@ html
 
   coffee:
     $ ->
-      $('.vxod-login-with [data-tooltip]').tooltip(placement: 'bottom', delay: { show: 2000, hide: 100 })
+      $('.vxod-login-with [data-tooltip]').tooltip(placement: 'bottom', delay: { show: 1000, hide: 100 })
 
   body
     .row
@@ -38,22 +38,18 @@ html
               .col-xs-4.text-right
                 button.btn.btn-primary type='submit' Login
 
-          .vxod-login-with
-            hr
+          - if Vxod::OmniAuthProvider.any?
+            .vxod-login-with
+              hr
 
-            .row
-              .col-sm-3
-                p: strong Login with
-              .pull-right
-                ul
-                  li data-tooltip='1' title='Login with vk.com': a href='#'
-                    i.fa.fa-vk
-                  li data-tooltip='1' title='Login with Twitter': a href='#'
-                    i.fa.fa-twitter
-                  li data-tooltip='1' title='Login with Facebook': a href='#'
-                    i.fa.fa-facebook
-                  li data-tooltip='1' title='Login with Google': a href='#'
-                    i.fa.fa-google-plus
-                  li data-tooltip='1' title='Login with Github': a href='#'
-                    i.fa.fa-github-alt
-                .clearfix
+              .row
+                .col-sm-3
+                  p Login with
+                .pull-right
+                  ul
+                    - Vxod::OmniAuthProvider.all.each do |provider|
+                      - if provider.show?
+                        li data-tooltip='1' title=provider.title
+                          a href=provider.href
+                            i.fa class=provider.icon
+                  .clearfix

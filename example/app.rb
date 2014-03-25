@@ -1,13 +1,19 @@
 require 'sinatra'
 require 'vxod'
 require 'slim'
+require 'omniauth'
+require 'omniauth-twitter'
+require 'omniauth-vkontakte'
+require 'omniauth-facebook'
+require 'omniauth-google-oauth2'
+require 'omniauth-github'
+require_relative 'configuration'
 
 helpers do
   def vxod 
     @vxod = Vxod.api(self)
   end
 end
-
 
 get '/' do
   'Hello please try protected page at <a href="/secret">/secret</a>'
