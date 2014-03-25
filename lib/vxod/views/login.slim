@@ -2,10 +2,22 @@ doctype html
 html 
   == slim :'parts/head'
 
+  coffee:
+    $ ->
+      $('.vxod-login-with [data-tooltip]').tooltip(placement: 'bottom', delay: { show: 2000, hide: 100 })
+
   body
     .row
-      .col-sm-offset-3.col-sm-6.col-md-offset-4.col-md-4
-        .well.well-white
+
+      .vxod-space-100.visible-sm.visible-md.visible-lg
+      .vxod-space-50.visible-xs
+
+      .login-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6.col-lg-offset-4.col-lg-4
+        ul.nav.nav-tabs.vxod-login-tab
+          li.active: a href=Vxod.config.login_path Login
+          li: a href='#' Registration
+        
+        .well.vxod-well-white
           form role='form' action=Vxod.config.login_path method='POST'
             .form-group
               label for='email' Email
@@ -15,9 +27,33 @@ html
               label for='password' Password
               input.form-control type='password' id='password' placeholder='Enter password'
             
-            .checkbox
-              label
-                input type='checkbox' name='dont_remember' Do not remember me
+            .row
+              .col-xs-8.vxod-login-option
+                .checkbox
+                  label
+                    input type='checkbox' name='dont_remember' Do not remember me
 
-            .text-right
-              button.btn.btn-primary type='submit' Login
+                a href='#' Reset password
+
+              .col-xs-4.text-right
+                button.btn.btn-primary type='submit' Login
+
+          .vxod-login-with
+            hr
+
+            .row
+              .col-sm-3
+                p: strong Login with
+              .pull-right
+                ul
+                  li data-tooltip='1' title='Login with vk.com': a href='#'
+                    i.fa.fa-vk
+                  li data-tooltip='1' title='Login with Twitter': a href='#'
+                    i.fa.fa-twitter
+                  li data-tooltip='1' title='Login with Facebook': a href='#'
+                    i.fa.fa-facebook
+                  li data-tooltip='1' title='Login with Google': a href='#'
+                    i.fa.fa-google-plus
+                  li data-tooltip='1' title='Login with Github': a href='#'
+                    i.fa.fa-github-alt
+                .clearfix

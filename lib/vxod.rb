@@ -1,25 +1,29 @@
-require 'vxod/version'
 require 'sinatra/base'
 
-wildcards = %w(
-  **/*.rb
+module Vxod
+end
+
+files = %w(
+  version
+  rack_app_wrap
+  config
+  api
+  api_static
+  middleware
 )
 
-wildcards.each do |wildcard|
-  file_search_pattern = File.dirname(__FILE__) + '/vxod/' + wildcard
-  Dir.glob(file_search_pattern).each { |file| require file }
-end
+files.each { |file| require "vxod/#{file}" }
 
-module Vxod
-  class << self
-    def api(rack_app)
-      Vxod::Api.new(rack_app)
-    end
 
-    def config
-      @config ||= Vxod::Config.new
-    end
-  end
-end
+# wildcards = %w(
+
+#   **/*.rb
+# )
+
+# wildcards.each do |wildcard|
+#   file_search_pattern = File.dirname(__FILE__) + '/vxod/' + wildcard
+#   Dir.glob(file_search_pattern).each { |file| require file }
+# end
+
 
 

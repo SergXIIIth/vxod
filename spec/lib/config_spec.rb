@@ -5,7 +5,7 @@ describe Vxod::Config do
 
   describe '#login_path' do
     it 'has default value' do
-      expect(config.login_path).to eq 'login'
+      expect(config.login_path).to eq '/login'
     end
   end
 end
