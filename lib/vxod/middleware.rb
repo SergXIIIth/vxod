@@ -16,6 +16,12 @@ module Vxod
       slim :login, locals: { back_path: BackPath.new(self) }
     end
 
+    get Vxod.config.fill_user_data_path do
+      slim :fill_user_data, locals: { user: vxod.user_to_fill_data }
+    end
+
+    # post
+
     # Assets
 
     register Sinatra::AssetPack

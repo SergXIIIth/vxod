@@ -1,0 +1,26 @@
+doctype html
+html 
+  == slim :'parts/head'
+
+  coffee:
+    $ ->
+      $('.vxod-login-with [data-tooltip]').tooltip(placement: 'bottom', delay: { show: 1000, hide: 100 })
+
+  body
+    .login-container
+      .well
+        form role='form' action=Vxod.config.fill_user_data_path method='POST'
+          .form-group
+            label for='firstname' First name
+            input.form-control type='firstname' id='firstname' placeholder='Enter your first name' value=user.firstname
+
+          .form-group
+            label for='lastname' Last name
+            input.form-control type='lastname' id='lastname' placeholder='Enter your last name' value=user.lastname
+
+          .form-group
+            label for='email' Email *
+            input.form-control type='email' id='email' placeholder='Enter your email' value=user.email
+          
+          .text-right
+            button.btn.btn-primary.btn-lg type='submit' Continue

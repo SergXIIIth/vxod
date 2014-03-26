@@ -9,9 +9,8 @@ html
   body
     .login-container
       .well
-        ul.nav.nav-tabs.vxod-login-tab
-          li.active: a href=Vxod.config.login_path Login
-          li: a href='#' Registration
+        == slim :'parts/nav'
+
         form role='form' action=Vxod.config.login_path method='POST'
           .form-group
             label for='email' Email

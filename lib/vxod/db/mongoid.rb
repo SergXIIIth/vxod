@@ -31,8 +31,16 @@ module Vxod::Db
       
       has_many :identities
 
+      index({ auth_key: 1 }, { unique: true })
+
       def name
         "#{firstname} #{lastname}"
+      end
+
+      class << self
+        def find_by_auth_key(auth_key)
+          User.where(auth_key: auth_key)[0]
+        end
       end
     end    
   end

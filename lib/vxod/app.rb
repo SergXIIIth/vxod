@@ -41,6 +41,10 @@ module Vxod
       )      
     end
 
+    def auth_key_for_fill_user_data
+      rack_app.request.cookies['vxod.auth_fill_user_data']
+    end
+
     def after_login_path
       BackPath.new(rack_app).get
     end
