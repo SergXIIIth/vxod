@@ -4,9 +4,6 @@ require 'omniauth'
 
 module Vxod
   class Middleware < Sinatra::Base
-    enable :sessions
-    set :sessions, secret: Vxod.config.secret_secret
-
     helpers do
       def vxod
         @vxod ||= Vxod.api(self)

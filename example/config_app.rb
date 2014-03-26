@@ -1,3 +1,6 @@
+enable :sessions
+set :sessions, secret: ENV['secret_secret']
+
 use OmniAuth::Builder do
   # provider :twitter, ENV['omniauth.twitter'], ENV['omniauth.twitter_x']
   # provider :vkontakte, ENV['omniauth.vkontakte'], ENV['omniauth.vkontakte_x']
