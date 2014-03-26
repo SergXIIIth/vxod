@@ -25,12 +25,12 @@ html
             .col-xs-8.vxod-login-option
               .checkbox
                 label
-                  input type='checkbox' name='dont_remember' Do not remember me
+                  input type='checkbox' name='remember_me' checked='1' Remember me
 
               a href='#' Reset password
 
             .col-xs-4.text-right
-              button.btn.btn-primary type='submit' Login
+              button.btn.btn-primary.btn-lg type='submit' Login
 
         - if Vxod::OmniAuthProvider.any?
           .vxod-login-with
@@ -44,6 +44,6 @@ html
                   - Vxod::OmniAuthProvider.all.each do |provider|
                     - if provider.show?
                       li data-tooltip='1' title=provider.title
-                        a href=provider.href
+                        a href=back_path.add_to(provider.href)
                           i.fa class=provider.icon
                 .clearfix

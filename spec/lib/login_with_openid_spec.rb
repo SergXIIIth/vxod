@@ -14,9 +14,8 @@ module Vxod
 
     before do
       allow(app).to receive(:omniauth_hash){{ uid: openid, provider: provider }}
-      allow(app).to receive(:authentify)
-      allow(app).to receive(:redirect)
       allow(app).to receive(:after_login_path){ after_login_path }
+      allow(app).to receive(:redirect)
 
       allow(Db).to receive(:identity){ identity_class }
       allow(identity).to receive(:user){ user }
@@ -27,6 +26,9 @@ module Vxod
     describe '#login' do
       context 'when identity exists and user has valid email' do
         before do
+          allow(app).to receive(:authentify)
+          allow(app).to receive(:redirect)
+    
           allow(user).to receive(:email){ 'sergey@makridenkov.com' }
           allow(identity_class).to receive(:find_by_openid).with(provider, openid){ identity }
         end
@@ -55,6 +57,7 @@ module Vxod
 
           omniauth_info = { email: email, first_name: firstname, last_name: lastname }
           allow(app).to receive(:omniauth_hash){{ uid: openid, provider: provider, info: omniauth_info }}
+          allow(app).to receive(:authentify)
         end
 
         it 'create identity' do
@@ -74,8 +77,21 @@ module Vxod
       end
 
       context 'when user have not valid email' do
-        it 'authentify temporary'
-        it 'redirect user to fill email page'
+        before do 
+          allow(user).to receive(:email){ 'invalid_email' }
+          allow(identity_class).to receive(:find_by_openid).with(provider, openid){ identity }
+          allow(app).to receive(:authentify_for_fill_user_data)
+        end
+
+        it 'authentify for fill user data' do
+          expect(app).to receive(:authentify_for_fill_user_data).with(auth_key)
+          login_with_openid.login
+        end
+
+        it 'redirect user to fill email page' do
+          expect(app).to receive(:redirect).with(Vxod.config.fill_user_data_path)
+          login_with_openid.login
+        end
       end
     end
   end

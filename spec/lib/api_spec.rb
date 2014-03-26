@@ -31,23 +31,5 @@ module Vxod
         end
       end
     end
-
-    describe '#login_with_openid' do
-      it 'authentify user when identity exists' do
-      end
-
-      it 'redirect user back when user have email'
-  
-      context 'when identity not found' do
-        it 'create identity'
-        it 'create user'
-        it 'redirect user back'
-      end
-
-      context 'when user have not email' do
-        it 'authentify temporary'
-        it 'redirect user to fill email page'
-      end
-    end
   end
 end

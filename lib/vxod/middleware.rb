@@ -13,7 +13,7 @@ module Vxod
     # Pages
 
     get Vxod.config.login_path do
-      slim :login
+      slim :login, locals: { back_path: BackPath.new(self) }
     end
 
     # Assets

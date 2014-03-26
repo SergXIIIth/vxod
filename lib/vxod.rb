@@ -3,6 +3,8 @@ require 'vxod/version'
 
 module Vxod
   autoload :Db, 'vxod/db'
+  autoload :Email, 'vxod/email'
+  autoload :BackPath, 'vxod/back_path'
   autoload :Config, 'vxod/config'
   autoload :App, 'vxod/app'
   autoload :Api, 'vxod/api'

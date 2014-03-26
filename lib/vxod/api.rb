@@ -9,7 +9,8 @@ module Vxod
     # Check that user login and have right to make 'action' on 'object'
     # If not it redirects to login page
     def required(action = nil, object = nil)
-      path = "#{Vxod.config.login_path}?back=#{URI.escape(app.request_path)}"
+      back_path = BackPath.new(rack_app)
+      path = back_path.store_in(Vxod.config.login_path)
       app.redirect(path)
     end
 
