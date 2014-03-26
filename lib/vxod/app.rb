@@ -1,7 +1,7 @@
 # Responsibility - have one API for all frameworks
 # Wrap on Rack frameworks (Sinatra, Rails ...)
 module Vxod
-  class RackAppWrap
+  class App
     def initialize(rack_app)
       @rack_app = rack_app
     end
@@ -23,7 +23,7 @@ module Vxod
     def authentify(auth_key)
     end
 
-    def redirect_back
+    def after_login_path
     end
   end
 end
