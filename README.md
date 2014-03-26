@@ -49,6 +49,12 @@ App
       provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
     end
 
+## Config Db
+
+    require 'vxod/db/mongoid'
+
+    Vxod::Db.identity = Vxod::Db::Mongoid::Identity
+    Vxod::Db.user = Vxod::Db::Mongoid::User
 
 
 

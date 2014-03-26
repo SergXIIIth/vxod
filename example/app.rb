@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'vxod'
 require 'slim'
+require 'config_env'
 require 'omniauth'
 require 'omniauth-twitter'
 require 'omniauth-vkontakte'

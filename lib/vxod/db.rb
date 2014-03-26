@@ -1,5 +1,5 @@
 module Vxod
-  class Db
+  module Db
     class << self
       attr_accessor :identity, :user
 
