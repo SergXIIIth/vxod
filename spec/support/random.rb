@@ -1,6 +1,6 @@
 module CustomHelpers
   def rnd(text = nil)
-    Helpers.rnd(text)
+    CustomHelpers.rnd(text)
   end
 
   # rnd -> 1,5,7

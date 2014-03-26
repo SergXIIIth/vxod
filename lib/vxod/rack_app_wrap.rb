@@ -15,5 +15,15 @@ module Vxod
     def request_path
       rack_app.request.path
     end
+
+    def omniauth_hash
+      rack_app_wrap.env['omniauth.auth']
+    end
+
+    def authentify(auth_key)
+    end
+
+    def redirect_back
+    end
   end
 end

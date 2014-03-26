@@ -13,7 +13,7 @@ Social and password authorization solution
 
 Future
 
-- profile with password reset
+- profile with password reset, link other social servises to user
 - adminka for user management
 - support Sinatra, Mongoid, Rails, ActiveRecord, any Rack app, any DB
 
@@ -27,6 +27,19 @@ Future
 
 ## Config OmniAuth
 
+Gems
+
+    gem 'omniauth'
+    gem 'omniauth-twitter'
+    gem 'omniauth-vkontakte'
+    gem 'omniauth-facebook'
+    gem 'omniauth-google_oauth2'
+    gem 'omniauth-github'
+
+App
+
+    enable :sessions
+    set :sessions, secret: ENV['secret_secret']
 
     use OmniAuth::Builder do
       provider :twitter, ENV['omniauth.twitter'], ENV['omniauth.twitter_x']
@@ -36,12 +49,6 @@ Future
       provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
     end
 
-    gem 'omniauth'
-    gem 'omniauth-twitter'
-    gem 'omniauth-vkontakte'
-    gem 'omniauth-facebook'
-    gem 'omniauth-google_oauth2'
-    gem 'omniauth-github'
 
 
 

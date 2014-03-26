@@ -13,6 +13,11 @@ module Vxod
       rack_app_wrap.redirect(path)
     end
 
+    def login_with_openid
+      @openid ||= LoginWithOpenid.new(rack_app_wrap)
+      @openid.login
+    end
+
   private
 
     def rack_app_wrap
