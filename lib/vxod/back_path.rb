@@ -19,6 +19,11 @@ module Vxod
     end
 
     def get
+      if app.params['back']
+        URI.decode(app.params['back'])
+      else
+        Vxod.config.after_login_default_path
+      end
     end
 
   private

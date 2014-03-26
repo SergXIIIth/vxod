@@ -2,14 +2,20 @@ require 'spec_helper'
 
 module Vxod
   describe BackPath do
-    let(:response){ double('response') }
-    let(:request){ double('request') }
-    let(:rack_app){ double('rack_app', response: response, request: request) }
-    let(:app){ App.new(rack_app) }
+    let(:params){ {} }
+    let(:back_url){ rnd('back_url') }
+    let(:rack_app){ double('rack_app', params: params) }
+    let(:back_path){ BackPath.new(rack_app) }
 
     describe '#get' do
-      it 'take back path from url param'
-      it 'return default back path when no present in url'
+      it 'take back path from url param' do
+        params['back'] = back_url
+        expect(back_path.get).to eq back_url
+      end
+
+      it 'return default back path when no present in url' do
+        expect(back_path.get).to eq Vxod.config.after_login_default_path
+      end
     end
   end
 end

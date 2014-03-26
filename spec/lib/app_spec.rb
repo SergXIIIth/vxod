@@ -7,11 +7,6 @@ module Vxod
     let(:rack_app){ double('rack_app', response: response, request: request) }
     let(:app){ App.new(rack_app) }
 
-    describe '#after_login_path' do
-      it 'take back path from url param'
-      it 'return default back path when no present in url'
-    end
-
     describe '#authentify' do
       it 'set cookie with for whole domain with 10 years expires' do
         auth_key = rnd('auth_key')
