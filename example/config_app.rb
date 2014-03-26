@@ -1,3 +1,8 @@
+# Mongoid
+
+Mongoid.load!(__dir__ + '/mongoid.yml')
+
+
 # OmniAuth
 
 enable :sessions

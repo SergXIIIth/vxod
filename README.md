@@ -49,6 +49,8 @@ App
       provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
     end
 
+    use Vxod::Middleware # put it after use OmniAuth
+
 ## Config Db
 
     require 'vxod/db/mongoid'
