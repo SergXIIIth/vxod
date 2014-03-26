@@ -1,22 +1,11 @@
 body
   background-color: #f5f5f5
 
-.vxod-well-white
-  background-color: white
-
-.vxod-space-100
-  height: 100px
-
-.vxod-space-50
-  height: 50px
-
-
-.login-container
-
 .vxod-login-with
   ul
     list-style: none
     padding: 0
+    margin-top: -20px
 
     li
       float: left
@@ -33,6 +22,9 @@ body
         color: white
         transform: translate(-5px, -5px) rotate(10deg)
 
+  p
+    padding-left: 15px
+
 .vxod-login-option
   .checkbox
     margin: 0
@@ -44,5 +36,19 @@ body
 .vxod-login-tab
   border-bottom: none
   position: absolute
-  margin-top: -40px
-  right: 13px
+  margin-top: -60px
+  right: -3px
+
+.login-container
+  margin-top: 50px
+  wigth: 100%
+
+  .well
+    background-color: white
+    position: relative
+
+
+@media (min-width: 485px)
+  .login-container
+    width: 483px
+    margin: 100px auto 0 auto

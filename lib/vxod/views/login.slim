@@ -7,49 +7,43 @@ html
       $('.vxod-login-with [data-tooltip]').tooltip(placement: 'bottom', delay: { show: 1000, hide: 100 })
 
   body
-    .row
-
-      .vxod-space-100.visible-sm.visible-md.visible-lg
-      .vxod-space-50.visible-xs
-
-      .login-container.col-sm-offset-2.col-sm-8.col-md-offset-3.col-md-6.col-lg-offset-4.col-lg-4
+    .login-container
+      .well
         ul.nav.nav-tabs.vxod-login-tab
           li.active: a href=Vxod.config.login_path Login
           li: a href='#' Registration
-        
-        .well.vxod-well-white
-          form role='form' action=Vxod.config.login_path method='POST'
-            .form-group
-              label for='email' Email
-              input.form-control type='email' id='email' placeholder='Enter email'
-            
-            .form-group
-              label for='password' Password
-              input.form-control type='password' id='password' placeholder='Enter password'
-            
+        form role='form' action=Vxod.config.login_path method='POST'
+          .form-group
+            label for='email' Email
+            input.form-control type='email' id='email' placeholder='Enter email'
+          
+          .form-group
+            label for='password' Password
+            input.form-control type='password' id='password' placeholder='Enter password'
+          
+          .row
+            .col-xs-8.vxod-login-option
+              .checkbox
+                label
+                  input type='checkbox' name='dont_remember' Do not remember me
+
+              a href='#' Reset password
+
+            .col-xs-4.text-right
+              button.btn.btn-primary type='submit' Login
+
+        - if Vxod::OmniAuthProvider.any?
+          .vxod-login-with
+            hr
+
             .row
-              .col-xs-8.vxod-login-option
-                .checkbox
-                  label
-                    input type='checkbox' name='dont_remember' Do not remember me
-
-                a href='#' Reset password
-
-              .col-xs-4.text-right
-                button.btn.btn-primary type='submit' Login
-
-          - if Vxod::OmniAuthProvider.any?
-            .vxod-login-with
-              hr
-
-              .row
-                .col-sm-3
-                  p Login with
-                .pull-right
-                  ul
-                    - Vxod::OmniAuthProvider.all.each do |provider|
-                      - if provider.show?
-                        li data-tooltip='1' title=provider.title
-                          a href=provider.href
-                            i.fa class=provider.icon
-                  .clearfix
+              .pull-left
+                p Login with
+              .pull-right
+                ul
+                  - Vxod::OmniAuthProvider.all.each do |provider|
+                    - if provider.show?
+                      li data-tooltip='1' title=provider.title
+                        a href=provider.href
+                          i.fa class=provider.icon
+                .clearfix
