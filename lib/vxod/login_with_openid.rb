@@ -15,10 +15,25 @@ module Vxod
 
       if Email.valid?(identity.user.email)
         app.authentify(identity.user.auth_key)
-        app.redirect(app.after_login_path)
+        app.redirect_to_after_login
       else
         app.authentify_for_fill_user_data(identity.user.auth_key)
         app.redirect(Vxod.config.fill_user_data_path)
+      end
+    end
+
+    def save_user_data
+      if Email.valid?(app.params['email'])
+        user = Db.user.find_by_auth_key(app.auth_key_for_fill_user_data)
+        user.email      = app.params['email']
+        user.firstname  = app.params['firstname']
+        user.lastname   = app.params['lastname']
+        user.save!
+
+        app.authentify(user.auth_key)
+        app.redirect_to_after_login
+      else
+        false
       end
     end
 

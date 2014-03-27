@@ -20,7 +20,11 @@ module Vxod
       slim :fill_user_data, locals: { user: vxod.user_to_fill_data }
     end
 
-    # post
+    post Vxod.config.fill_user_data_path do
+      unless vxod.openid_save_user_data
+        slim :fill_user_data, locals: { user: vxod.user_to_fill_data }
+      end
+    end
 
     # Assets
 

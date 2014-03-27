@@ -52,5 +52,9 @@ module Vxod
     def after_login_path
       BackPath.new(rack_app).get
     end
+
+    def redirect_to_after_login
+      redirect(after_login_path)
+    end
   end
 end
