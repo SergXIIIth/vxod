@@ -10,6 +10,12 @@ html
     .login-container
       .well
         form role='form' action=Vxod.config.fill_user_data_path method='POST'
+          .alert.alert-danger Please provide your valid EMAIL address
+
+          .form-group
+            label for='email' Email *
+            input.form-control type='email' id='email' placeholder='Enter your email' value=user.email
+          
           .form-group
             label for='firstname' First name
             input.form-control type='firstname' id='firstname' placeholder='Enter your first name' value=user.firstname
@@ -18,9 +24,5 @@ html
             label for='lastname' Last name
             input.form-control type='lastname' id='lastname' placeholder='Enter your last name' value=user.lastname
 
-          .form-group
-            label for='email' Email *
-            input.form-control type='email' id='email' placeholder='Enter your email' value=user.email
-          
           .text-right
-            button.btn.btn-primary.btn-lg type='submit' Continue
+            button.btn.btn-primary.btn-lg type='submit' Continue >

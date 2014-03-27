@@ -19,8 +19,14 @@ module Vxod
       @openid.login
     end
 
+    # Return user for fill user data page
     def user_to_fill_data
       Db.user.find_by_auth_key(app.auth_key_for_fill_user_data)
+    end
+
+    # Current user
+    def user
+      Db.user.find_by_auth_key(app.auth_key)
     end
 
   private
