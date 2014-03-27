@@ -14,3 +14,8 @@ desc 'Rub tests'
 task 'test' do
   system %Q(bundle exec rerun --pattern '{**/*.rb}' -cx rspec)
 end
+
+desc 'Rub feature tests'
+task 'test_feature' do
+  system %Q(bundle exec rspec -t feature)
+end

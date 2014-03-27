@@ -1,9 +1,13 @@
 ENV['RACK_ENV'] ||= 'test'
 
 require 'rack/test'
+require 'capybara/rspec'
+require 'capybara/poltergeist'
 require 'vxod'
 
 Dir["#{__dir__}/support/**/*.rb"].each{ |path| require path }
+
+Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
   config.filter_run focus: true
@@ -13,4 +17,11 @@ RSpec.configure do |config|
 
   config.include Rack::Test::Methods
   config.include CustomHelpers
+
+  # feature
+  config.filter_run_excluding :feature
+  config.before :each, :feature do
+    require_relative '../example/app.rb'
+    Capybara.app = Sinatra::Application
+  end
 end
