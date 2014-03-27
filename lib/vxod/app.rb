@@ -27,17 +27,17 @@ module Vxod
     def authentify(auth_key)
       rack_app.response.set_cookie('vxod.auth', 
         value: auth_key,
-        domain: rack_app.request.host,
         path: '/',
-        expires: Date.new(DateTime.now.year + 10, 1, 1)
+        expires: Time.new(DateTime.now.year + 10, 1, 1),
+        httponly: true,
       )      
     end
 
     def authentify_for_fill_user_data(auth_key)
       rack_app.response.set_cookie('vxod.auth_fill_user_data', 
         value: auth_key,
-        domain: rack_app.request.host,
-        path: Vxod.config.fill_user_data_path
+        path: Vxod.config.fill_user_data_path,
+        httponly: true,
       )      
     end
 

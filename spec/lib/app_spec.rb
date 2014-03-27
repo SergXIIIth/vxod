@@ -15,9 +15,9 @@ module Vxod
 
         expect(response).to receive(:set_cookie).with('vxod.auth',
           value: auth_key,
-          domain: host,
           path: '/',
-          expires: Date.new(DateTime.now.year + 10, 1, 1)
+          expires: Time.new(DateTime.now.year + 10, 1, 1),
+          httponly: true
         )
 
         app.authentify(auth_key)
@@ -32,8 +32,8 @@ module Vxod
 
         expect(response).to receive(:set_cookie).with('vxod.auth_fill_user_data',
           value: auth_key,
-          domain: host,
-          path: Vxod.config.fill_user_data_path
+          path: Vxod.config.fill_user_data_path,
+          httponly: true
         )
 
         app.authentify_for_fill_user_data(auth_key)
