@@ -25,5 +25,16 @@ end
 
 get '/secret' do
   vxod.required
-  'I am secret page'
+  slim :secret
+end
+
+template :secret do
+%q(
+
+p 
+  | I am secret page for 
+  strong = vxod.user.email
+p: a href='/logout' Logout
+
+)
 end

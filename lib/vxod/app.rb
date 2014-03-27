@@ -49,6 +49,10 @@ module Vxod
       rack_app.request.cookies['vxod.auth']
     end
 
+    def detele_auth_key
+      rack_app.response.set_cookie('vxod.auth', nil)
+    end
+
     def after_login_path
       BackPath.new(rack_app).get
     end

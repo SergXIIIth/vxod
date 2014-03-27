@@ -24,6 +24,11 @@ module Vxod
       openid.login
     end
 
+    def logout
+      app.detele_auth_key
+      app.redirect(Vxod.config.after_login_default_path)
+    end
+
     # Save missing user data after openid registration
     def openid_save_user_data
       openid.save_user_data
