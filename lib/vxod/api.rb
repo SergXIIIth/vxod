@@ -6,12 +6,18 @@ module Vxod
 
     attr_reader :rack_app
 
+    # Authorize user right to make action on object
+    #
     # Check that user login and have right to make 'action' on 'object'
     # If not it redirects to login page
     def required(action = nil, object = nil)
-      back_path = BackPath.new(rack_app)
-      path = back_path.store_in(Vxod.config.login_path)
-      app.redirect(path)
+      if user.nil?
+        back_path = BackPath.new(rack_app)
+        path = back_path.store_in(Vxod.config.login_path)
+        app.redirect(path)
+      else
+        true
+      end
     end
 
     def login_with_openid

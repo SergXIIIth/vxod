@@ -5,11 +5,13 @@ module Vxod
     let(:rack_app){ double('rack_app') }
     let(:vxod){ Api.new(rack_app) }
 
-    before do
-      allow(rack_app).to receive(:request){ double(path: '/') }
-    end
 
     describe '#required' do
+      before do
+        allow(rack_app).to receive(:request){ double(path: '/') }
+        allow(vxod).to receive(:user){ nil }
+      end
+
       context 'when not authorized' do
         it 'redirects to login path' do
           expect(rack_app).to receive(:redirect).with{ |path|
@@ -28,6 +30,18 @@ module Vxod
           }
 
           vxod.required
+        end
+      end
+
+      context 'when authorized' do
+        let(:user){ double('user') }
+
+        before do
+          allow(vxod).to receive(:user){ user }
+        end
+
+        it 'true' do
+          expect(vxod.required).to be_true
         end
       end
     end
