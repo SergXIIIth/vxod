@@ -5,10 +5,12 @@ rvm:
   - 2.0.0
   - jruby-head
   - ruby-head
+  - rbx
 matrix:
   allow_failures:
     - rvm: jruby-head
     - rvm: ruby-head
+    - rvm: rbx
 
 services:
   - mongodb
