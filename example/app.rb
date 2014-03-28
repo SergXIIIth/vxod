@@ -35,7 +35,7 @@ template :secret do
 p 
   | I am secret page for 
   strong = vxod.user.email
-p: a href='/logout' Logout
+p: a id='logout' href='/logout' Logout
 
 )
 end

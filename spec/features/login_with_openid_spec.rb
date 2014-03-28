@@ -20,6 +20,8 @@ describe 'Login with openid', :type => :feature, feature: true, js: true  do
 
     expect(page).to have_content("I am secret page for #{email}")
 
-    fail('Finish test')
+    click_on('logout')
+
+    expect(current_path).to eq '/'
   end
 end
