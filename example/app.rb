@@ -11,7 +11,7 @@ require 'omniauth-facebook'
 require 'omniauth-google-oauth2'
 require 'omniauth-github'
 
-require_relative 'config_env'
+load "#{__dir__}/config_env"
 require_relative 'config_app'
 
 helpers do
