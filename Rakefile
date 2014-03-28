@@ -15,9 +15,7 @@ task 'test' do
   system %Q(bundle exec rerun --pattern '{**/*.rb}' -cx rspec -t ~feature)
 end
 
-desc 'Rub tests CI'
-task 'test_ci' do
-  system %Q(bundle exec rspec)
-end
-
-task :default => :test_ci
+# for CI
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec)
+task :default  => :spec
