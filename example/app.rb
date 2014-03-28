@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'vxod'
 require 'slim'
+require 'sass'
 require 'config_env'
 require 'mongoid'
 require 'omniauth'
@@ -20,7 +21,7 @@ helpers do
 end
 
 get '/' do
-  'Hello please try protected page at <a href="/secret">/secret</a>'
+  'Hello please try protected page at <a id="secret" href="/secret">/secret</a>'
 end
 
 get '/secret' do

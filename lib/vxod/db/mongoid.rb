@@ -29,7 +29,7 @@ module Vxod::Db
       field :lastname     , type: String
       field :auth_key     , type: String
       
-      has_many :identities
+      has_many :identities, dependent: :destroy
 
       index({ auth_key: 1 }, { unique: true })
 

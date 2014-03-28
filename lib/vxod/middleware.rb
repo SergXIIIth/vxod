@@ -57,6 +57,7 @@ module Vxod
     # OpenId
 
     get "#{OmniAuth.config.path_prefix}/:provider/callback" do
+      fail
       vxod.login_with_openid
     end
 

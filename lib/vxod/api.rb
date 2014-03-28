@@ -12,9 +12,8 @@ module Vxod
     # If not it redirects to login page
     def required(action = nil, object = nil)
       if user.nil?
-        back_path = BackPath.new(rack_app)
-        path = back_path.store_in(Vxod.config.login_path)
-        app.redirect(path)
+        BackPath.new(rack_app).save(app.request_path)
+        app.redirect(Vxod.config.login_path)
       else
         true
       end

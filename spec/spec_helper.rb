@@ -8,6 +8,8 @@ require 'vxod'
 Dir["#{__dir__}/support/**/*.rb"].each{ |path| require path }
 
 Capybara.javascript_driver = :poltergeist
+# Capybara.default_wait_time = 5
+# Capybara.default_driver = :selenium
 
 RSpec.configure do |config|
   config.filter_run focus: true
@@ -20,8 +22,25 @@ RSpec.configure do |config|
 
   # feature
   config.filter_run_excluding :feature
+
   config.before :each, :feature do
     require_relative '../example/app.rb'
+
+    OmniAuth.config.mock_auth[:vkontakte] = OmniAuth::AuthHash.new(
+      provider:   'vkontakte',
+      uid:        '12345',
+      extra:      {raw: {}},
+      info:       {
+                    first_name: 'Sergey', 
+                    last_name:  'Makridenkov', 
+                    email:      '',
+                  }
+    )
+
+    OmniAuth.config.test_mode = true
+
+    Mongoid.purge!
+    
     Capybara.app = Sinatra::Application
   end
 end

@@ -6,8 +6,8 @@ module Vxod
 
     attr_reader :rack_app
 
-    def store_in(url)
-      "#{url}?back=#{URI.escape(app.request_path)}"
+    def save(url)
+      app.session['vxod.back_path'] = url
     end
 
     def add_to(url)

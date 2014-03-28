@@ -20,6 +20,10 @@ module Vxod
       rack_app.params
     end
 
+    def session
+      rack_app.session
+    end
+
     def omniauth_hash
       rack_app.env['omniauth.auth']
     end

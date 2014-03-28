@@ -20,3 +20,4 @@ tmp
 .sass-cache
 
 config_env.rb
+capybara-*.html
