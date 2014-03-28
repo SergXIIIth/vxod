@@ -2,6 +2,7 @@
 
 Social and password authorization solution
 
+[![Build Status](https://travis-ci.org/SergXIIIth/vxod.svg?branch=master)](https://travis-ci.org/SergXIIIth/vxod)
 
 # Features
 
