@@ -21,7 +21,6 @@ RSpec.configure do |config|
   config.include CustomHelpers
 
   # feature
-  config.filter_run_excluding :feature
 
   config.before :each, :feature do
     require_relative '../example/app.rb'

@@ -12,10 +12,12 @@ end
 
 desc 'Rub tests'
 task 'test' do
-  system %Q(bundle exec rerun --pattern '{**/*.rb}' -cx rspec)
+  system %Q(bundle exec rerun --pattern '{**/*.rb}' -cx rspec -t ~feature)
 end
 
-desc 'Rub feature tests'
-task 'test_feature' do
-  system %Q(bundle exec rspec -t feature)
+desc 'Rub tests CI'
+task 'test_ci' do
+  system %Q(bundle exec rspec)
 end
+
+task :default => :test_ci
