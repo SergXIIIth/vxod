@@ -9,10 +9,10 @@ Social and password authorization solution
 
 # Features
 
-- social registration
+- + social registration/login
+- password base registration/login, 
+- checkbox auto-generated password send to email
 - optional require email in social registration
-- password base registration, checkbox auto-generated password send to email
-- login social/password
 - reset password
 
 Future
