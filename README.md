@@ -4,6 +4,7 @@ Social and password authorization solution
 
 [![Build Status](https://travis-ci.org/SergXIIIth/vxod.svg?branch=master)](https://travis-ci.org/SergXIIIth/vxod)
 [![Code Climate](https://codeclimate.com/github/SergXIIIth/vxod.png)](https://codeclimate.com/github/SergXIIIth/vxod)
+[![Dependency Status](https://gemnasium.com/SergXIIIth/vxod.svg)](https://gemnasium.com/SergXIIIth/vxod)
 
 # Features
 
