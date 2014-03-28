@@ -11,7 +11,10 @@ require 'omniauth-facebook'
 require 'omniauth-google-oauth2'
 require 'omniauth-github'
 
-load "#{__dir__}/config_env"
+
+config_env = "#{__dir__}/config_env.rb"
+require config_env if File.exists?(config_env)
+
 require_relative 'config_app'
 
 helpers do
