@@ -13,7 +13,7 @@ module Vxod
     # Pages
 
     get Vxod.config.login_path do
-      slim :login, locals: { back_path: BackPath.new(self) }
+      slim :login
     end
 
     get Vxod.config.logout_path do
@@ -57,7 +57,6 @@ module Vxod
     # OpenId
 
     get "#{OmniAuth.config.path_prefix}/:provider/callback" do
-      fail
       vxod.login_with_openid
     end
 

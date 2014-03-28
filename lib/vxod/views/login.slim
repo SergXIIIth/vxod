@@ -43,6 +43,6 @@ html
                   - Vxod::OmniAuthProvider.all.each do |provider|
                     - if provider.show?
                       li data-tooltip='1' title=provider.title
-                        a href=back_path.add_to(provider.href)
+                        a href=provider.href
                           i.fa class=provider.icon
                 .clearfix

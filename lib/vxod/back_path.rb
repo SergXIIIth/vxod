@@ -10,17 +10,9 @@ module Vxod
       app.session['vxod.back_path'] = url
     end
 
-    def add_to(url)
-      if app.params['back']
-        "#{url}?back=#{URI.escape(app.params['back'])}"
-      else
-        url
-      end
-    end
-
     def get
-      if app.params['back']
-        URI.decode(app.params['back'])
+      if app.session['vxod.back_path']
+        app.session['vxod.back_path']
       else
         Vxod.config.after_login_default_path
       end
