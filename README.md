@@ -11,17 +11,17 @@ Social and password authorization solution
 
 # Features
 
-- + social registration/login
-- password base registration/login, 
-- checkbox auto-generated password send to email
-- optional require email in social registration
-- reset password
+- [x] social registration/login
+- [ ] password base registration/login, 
+- [ ] checkbox auto-generated password send to email
+- [ ] reset password
+- [ ] optional require email in social registration
 
 Future
 
-- profile with password reset, link other social servises to user
-- adminka for user management
-- support Sinatra, Mongoid, Rails, ActiveRecord, any Rack app, any DB
+- [ ] profile with password reset, link other social servises to user
+- [ ] adminka for user management
+- [ ] support Sinatra, Mongoid, Rails, ActiveRecord, any Rack app, any DB
 
 
 # Installation
