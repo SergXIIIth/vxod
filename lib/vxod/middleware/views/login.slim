@@ -2,12 +2,8 @@ doctype html
 html 
   == slim :'parts/head'
 
-  coffee:
-    $ ->
-      $('.vxod-login-with [data-tooltip]').tooltip(placement: 'bottom', delay: { show: 1000, hide: 100 })
-
-  body
-    .login-container
+  body#vxod-login-page
+    .vxod-login-container
       .well
         == slim :'parts/nav'
 
@@ -31,18 +27,4 @@ html
             .col-xs-4.text-right
               button.btn.btn-primary.btn-lg type='submit' Login
 
-        - if Vxod::OmniAuthProvider.any?
-          .vxod-login-with
-            hr
-
-            .row
-              .pull-left
-                p Login with
-              .pull-right
-                ul
-                  - Vxod::OmniAuthProvider.all.each do |provider|
-                    - if provider.show?
-                      li data-tooltip='1' title=provider.title
-                        a href=provider.href
-                          i.fa class=provider.icon
-                .clearfix
+        == slim :'parts/openid'

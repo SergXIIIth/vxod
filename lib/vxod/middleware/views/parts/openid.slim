@@ -1,0 +1,21 @@
+- if Vxod::OmniAuthProvider.any?
+  - label ||= 'Login with'
+  
+  coffee:
+    $ ->
+      $('.vxod-login-with [data-tooltip]').tooltip(placement: 'bottom', delay: { show: 1000, hide: 100 })
+
+  .vxod-login-with
+    hr
+
+    .row
+      .pull-left
+        p = label
+      .pull-right
+        ul
+          - Vxod::OmniAuthProvider.all.each do |provider|
+            - if provider.show?
+              li data-tooltip='1' title=provider.title
+                a href=provider.href
+                  i.fa class=provider.icon
+        .clearfix

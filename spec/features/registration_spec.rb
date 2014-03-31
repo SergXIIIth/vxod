@@ -5,14 +5,14 @@ describe 'Registration', :type => :feature, feature: true, js: true  do
 
   context 'when invalid data' do
     it 'shows errors' do
-      # visit registration
-      # click on 'registration'
-      # I should see an errors
+      # Given I am on registration page
+      # When I click on 'registration'
+      # Then I should see an errors
 
       visit '/registration'
       click_on 'Registration'
 
-      expect(page).to have_content("Email is required")
+      expect(page).to have_content('Email is required')
     end
   end
 

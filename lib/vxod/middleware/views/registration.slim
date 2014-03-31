@@ -1,0 +1,50 @@
+doctype html
+html 
+  == slim :'parts/head'
+
+  coffee:
+    $ ->
+      auto_password_refresh = ->
+        if $('#vxod-auto-password-swither').is(':checked')
+          $('#vxod-auto-password').slideUp()
+        else
+          $('#vxod-auto-password').slideDown()
+
+      $('#vxod-auto-password-swither')
+        .change(auto_password_refresh)
+        .click(auto_password_refresh)
+
+      $('#vxod-auto-password').hide()
+
+
+  body#vxod-registration-page
+    .vxod-login-container
+      .well
+        == slim :'parts/nav'
+
+        form role='form' action=Vxod.config.registration_path method='POST'
+          .form-group
+            label for='firstname' First name
+            input.form-control type='text' id='firstname' placeholder='Enter your first name'
+
+          .form-group
+            label for='lastname' Last name
+            input.form-control type='text' id='lastname' placeholder='Enter your last name'
+          
+          .form-group
+            label for='email' Email *
+            input.form-control type='email' id='email' placeholder='Enter your email'
+
+          .form-group
+            .checkbox
+              label
+                input#vxod-auto-password-swither type='checkbox' name='remember_me' checked='1' Auto generate password and sent to email
+
+          #vxod-auto-password.form-group
+            label for='password' Password
+            input.form-control type='password' id='password' placeholder='Enter password'
+          
+          .text-right
+            button.btn.btn-primary.btn-lg type='submit' Register
+
+        == slim :'parts/openid', locals: { label: 'Registration with' }
