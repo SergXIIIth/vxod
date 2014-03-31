@@ -1,19 +1,18 @@
-require 'sinatra/assetpack'
-require 'coffee_script'
 require 'omniauth'
 
 module Vxod
   class Middleware < Sinatra::Base
-    helpers do
-      def vxod
-        @vxod ||= Vxod.api(self)
-      end
-    end
+    helpers MiddlewareHelpers
+    register MiddlewareAssets
 
     # Pages
 
     get Vxod.config.login_path do
       slim :login
+    end
+
+    get Vxod.config.registration_path do
+      slim :registration
     end
 
     get Vxod.config.logout_path do
@@ -28,30 +27,6 @@ module Vxod
       unless vxod.openid_save_user_data
         slim :fill_user_data, locals: { user: vxod.user_to_fill_data }
       end
-    end
-
-    # Assets
-
-    register Sinatra::AssetPack
-
-    assets do
-      serve '/vxod/js',  from: 'assets/js'    
-      serve '/vxod/css', from: 'assets/css'   
-      serve '/vxod/img', from: 'assets/img'   
-
-      js :app, [
-        '/vxod/js/jquery.js',
-        '/vxod/js/**/*.js',
-        '/vxod/js/**/*.coffee',
-      ]
-
-      css :app, [
-        '/vxod/css/*.css',
-        '/vxod/css/*.sass'
-      ]
-
-      js_compression  :jsmin    # :jsmin | :yui | :closure | :uglify
-      css_compression :simple   # :simple | :sass | :yui | :sqwish
     end
 
     # OpenId

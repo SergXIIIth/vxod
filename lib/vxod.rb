@@ -11,5 +11,7 @@ module Vxod
   autoload :LoginWithOpenid, 'vxod/login_with_openid'
   require 'vxod/api_static'
   autoload :OmniAuthProvider, 'vxod/omni_auth_provider'
-  autoload :Middleware, 'vxod/middleware'
+  autoload :MiddlewareHelpers, 'vxod/middleware/helpers'
+  autoload :MiddlewareAssets, 'vxod/middleware/assets'
+  autoload :Middleware, 'vxod/middleware/middleware'
 end
