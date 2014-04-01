@@ -5,7 +5,6 @@ module Vxod
     let(:rack_app){ double('rack_app') }
     let(:vxod){ Api.new(rack_app) }
 
-
     describe '#required' do
       let(:back_path){ "/secret_page#{rnd}" }
       let(:session){ {} }

@@ -12,7 +12,17 @@ module Vxod
     end
 
     get Vxod.config.registration_path do
-      slim :registration
+      slim :registration, locals: { user: Db.user.new } 
+    end
+
+    post Vxod.config.registration_path do
+      user = vxod.register
+
+      if user.valid?
+        vxod.redirect_back
+      else
+        slim :registration, locals: { user: user } 
+      end
     end
 
     get Vxod.config.logout_path do

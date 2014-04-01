@@ -9,15 +9,17 @@ module Vxod
     def login
       identity = Db.identity.find_by_openid(provider, openid)
 
-      if identity.nil?
-        identity = Db.identity_create(provider, openid, email, firstname, lastname)
+      user = if identity.nil?
+        User.create_openid(provider, openid, email, firstname, lastname)
+      else
+        identity.user
       end
 
-      if Email.valid?(identity.user.email)
-        app.authentify(identity.user.auth_key)
+      if Email.valid?(user.email)
+        app.authentify(user.auth_key)
         app.redirect_to_after_login
       else
-        app.authentify_for_fill_user_data(identity.user.auth_key)
+        app.authentify_for_fill_user_data(user.auth_key)
         app.redirect(Vxod.config.fill_user_data_path)
       end
     end

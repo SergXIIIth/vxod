@@ -5,11 +5,6 @@ module Vxod
     let(:identity){ double('identity') }
     let(:user){ double('user') }
 
-    # describe '.identity_create' do
-    #   it 'create identity'
-    #   it 'create user'
-    # end
-
     describe '.identity' do
       it 'accessable' do
         Db.identity = identity
@@ -19,7 +14,7 @@ module Vxod
 
     describe '.user' do
       it 'accessable' do
-        Db.user = user
+        allow(Db).to receive(:user){ user }
         expect(Db.user).to eq user
       end
     end

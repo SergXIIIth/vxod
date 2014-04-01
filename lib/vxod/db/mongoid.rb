@@ -28,6 +28,7 @@ module Vxod::Db
       field :firstname    , type: String
       field :lastname     , type: String
       field :auth_key     , type: String
+      field :password     , type: String
       
       has_many :identities, dependent: :destroy
 

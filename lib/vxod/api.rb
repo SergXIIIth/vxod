@@ -19,8 +19,16 @@ module Vxod
       end
     end
 
+    def redirect_back
+      app.redirect_to_after_login
+    end
+
     def login_with_openid
       openid.login
+    end
+
+    def register
+      Registrator.new(app).register
     end
 
     def logout

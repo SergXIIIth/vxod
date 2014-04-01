@@ -23,6 +23,9 @@ html
         == slim :'parts/nav'
 
         form role='form' action=Vxod.config.registration_path method='POST'
+          - unless user.valid? 
+            .alert.alert-danger = user.error
+
           .form-group
             label for='firstname' First name
             input.form-control type='text' id='firstname' placeholder='Enter your first name'
@@ -32,13 +35,13 @@ html
             input.form-control type='text' id='lastname' placeholder='Enter your last name'
           
           .form-group
-            label for='email' Email *
+            label for='email' Email
             input.form-control type='email' id='email' placeholder='Enter your email'
 
           .form-group
             .checkbox
               label
-                input#vxod-auto-password-swither type='checkbox' name='remember_me' checked='1' Auto generate password and sent to email
+                input#vxod-auto-password-swither type='checkbox' name='auto_password' checked='1' Auto generate password and sent to email
 
           #vxod-auto-password.form-group
             label for='password' Password
