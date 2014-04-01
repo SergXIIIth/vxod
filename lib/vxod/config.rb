@@ -4,13 +4,13 @@ module Vxod
       @login_path = '/login'
       @registration_path = '/registration'
       @logout_path = '/logout'
-      @fill_user_data_path = '/fill_user_data'
+      @fill_openid_path = '/fill_openid'
       @after_login_default_path = '/'
     end
 
     attr_accessor :login_path, 
       :logout_path, 
-      :fill_user_data_path, 
+      :fill_openid_path, 
       :after_login_default_path,
       :registration_path
   end

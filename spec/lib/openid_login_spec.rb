@@ -38,7 +38,7 @@ module Vxod
 
       it 'redirect to fill openid page when user invalid' do
         allow(user).to receive('valid?'){ false }
-        expect(app).to receive(:redirect_fill_openid).with(openid)
+        expect(app).to receive(:redirect_to_fill_openid).with(openid)
         openid_login.login
       end
     end

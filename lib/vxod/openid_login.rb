@@ -13,7 +13,7 @@ module Vxod
       if user.valid?
         app.authentify_and_back(user)
       else
-        app.redirect_fill_openid(openid)
+        app.redirect_to_fill_openid(openid)
       end
     end
 

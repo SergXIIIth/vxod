@@ -6,10 +6,10 @@ module Vxod
     let(:request){ double('request') }
     let(:rack_app){ double('rack_app', response: response, request: request) }
     let(:app){ App.new(rack_app) }
+    let(:auth_key){ rnd 'auth_key' }
 
     describe '#authentify' do
       it 'set cookie with for whole domain with 10 years expires' do
-        auth_key = rnd('auth_key')
         host = rnd('host')
         allow(request).to receive(:host){ host }
 
@@ -24,28 +24,37 @@ module Vxod
       end
     end
 
-    describe '#redirect_fill_openid' do
-      it 'store openid#id in session["vxod.openid"]'
+    describe '#redirect_to_fill_openid' do
+      let(:session){ {} }
+      let(:openid_id){ rnd 'openid_id' }
+      let(:openid){ double(id: openid_id) }
+
+      before do
+        allow(app).to receive(:session){ session }
+        allow(app).to receive(:redirect)
+      end
+
+      it 'store openid#id in session["vxod.auth_openid"]' do
+        app.redirect_to_fill_openid(openid)
+        expect(session['vxod.auth_openid']).to eq openid_id
+      end
+
+      it 'redirect fill openid path' do
+        expect(app).to receive(:redirect).with(Vxod.config.fill_openid_path)
+        app.redirect_to_fill_openid(openid)
+      end
     end
 
     describe '#authentify_and_back' do
-      it 'authentify and redirect to after login path'
-    end
+      it 'authentify and redirect to after login path' do
+        user = double(auth_key: auth_key)
 
-    describe '#authentify_for_fill_user_data' do
-      it 'set cookie for fill user data only' do
-        auth_key = rnd('auth_key')
-        host = rnd('host')
-        allow(request).to receive(:host){ host }
+        expect(app).to receive(:authentify).with(auth_key)
+        expect(app).to receive(:redirect_to_after_login)
 
-        expect(response).to receive(:set_cookie).with('vxod.auth_fill_user_data',
-          value: auth_key,
-          path: Vxod.config.fill_user_data_path,
-          httponly: true
-        )
-
-        app.authentify_for_fill_user_data(auth_key)
+        app.authentify_and_back(user)
       end
     end
+
   end
 end

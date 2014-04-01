@@ -30,11 +30,11 @@ module Vxod
       vxod.logout
     end
 
-    get Vxod.config.fill_user_data_path do
+    get Vxod.config.fill_openid_path do
       slim :fill_user_data, locals: { user: vxod.user_to_fill_data }
     end
 
-    post Vxod.config.fill_user_data_path do
+    post Vxod.config.fill_openid_path do
       unless vxod.openid_save_user_data
         slim :fill_user_data, locals: { user: vxod.user_to_fill_data }
       end
