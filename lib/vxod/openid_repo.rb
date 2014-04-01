@@ -6,7 +6,7 @@ module Vxod
 
         openid = Db.openid.find_by_openid(data.provider, data.uid)
 
-        openid ||= create(data.provider, data.uid, omniauth_hash)
+        openid ||= create(omniauth_hash)
 
         openid
       end

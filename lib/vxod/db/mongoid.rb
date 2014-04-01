@@ -10,6 +10,10 @@ module Vxod::Db
       field :uid      , type: String
       field :raw      , type: Hash
 
+      validates :provider, presence: true
+      validates :uid, presence: true
+      validates :raw, presence: true
+
       belongs_to :user
 
       index({ provider: 1, uid: 1 }, { unique: true })
@@ -30,7 +34,12 @@ module Vxod::Db
       field :lastname     , type: String
       field :auth_key     , type: String
       field :password     , type: String
-      
+
+      validates :email, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
+      validates :email, presence: true
+      validates :email, uniqueness: true
+      validates :auth_key, presence: true
+
       has_many :openids, dependent: :destroy
 
       index({ auth_key: 1 }, { unique: true })

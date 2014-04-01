@@ -21,7 +21,7 @@ module Vxod
       end
 
       it 'create openid when not found' do
-        expect(OpenidRepo).to receive(:create)
+        expect(OpenidRepo).to receive(:create).with(omniauth_hash)
         OpenidRepo.find_or_create(omniauth_hash)
       end
     end

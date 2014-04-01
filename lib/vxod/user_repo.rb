@@ -2,34 +2,31 @@ module Vxod
   class UserRepo
     class << self
       def register(params)
-        user = Db.user.new
-        
-        user.firstname = params['firstname']
-        user.lastname = params['lastname']
-        user.email = params['email']
-        user.password = params['auto_password'] ? SecureRandom.hex(4) : params['password']
-        user.auth_key = SecureRandom.base64(64)
-
-        user.save
-
-        user
+        build(params['firstname'], params['lastname'], params['email']).tap do |user|
+          user.password = params['auto_password'] ? SecureRandom.hex(4) : params['password']
+          user.save
+        end
       end
 
-      def create_openid(provider, uid, email, firstname, lastname)
-        user = Db.user.new
-        user.auth_key = SecureRandom.base64(64)
-        user.email = email
-        user.firstname = firstname
-        user.lastname = lastname
-        user.save!
+      def find_or_create_by_openid(openid)
+        data = OpenidRawParser.new(openid.raw)
+        
+        if openid.user
+          openid.user
+        else
+          build(data.firstname, data.lastname, data.email).tap do |user|
+            user.save
+          end
+        end
+      end
 
-        openid = Db.openid.new
-        openid.provider = provider
-        openid.uid = uid
-        openid.user = user
-        openid.save!
-
-        user
+      def build(firstname, lastname, email)
+        Db.user.new.tap do |user|
+          user.auth_key = SecureRandom.base64(64)
+          user.firstname = firstname
+          user.lastname = lastname
+          user.email = email
+        end
       end
     end
   end
