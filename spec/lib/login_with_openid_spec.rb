@@ -51,7 +51,7 @@ module Vxod
           allow(user).to receive(:email){ 'sergey@makridenkov.com' }
           allow(openid_class).to receive(:find_by_openid).with(provider, openid){ nil }
 
-          allow(User).to receive(:create_openid){ user }
+          allow(UserRepo).to receive(:create_openid){ user }
 
           omniauth_info = { email: email, first_name: firstname, last_name: lastname }
           allow(app).to receive(:omniauth_hash){{ uid: openid, provider: provider, info: omniauth_info }}
@@ -60,7 +60,7 @@ module Vxod
         end
 
         it 'create openid' do
-          expect(User).to receive(:create_openid).with(provider, openid, email, firstname, lastname){ user }
+          expect(UserRepo).to receive(:create_openid).with(provider, openid, email, firstname, lastname){ user }
           login_with_openid.login
         end
 

@@ -10,7 +10,7 @@ module Vxod
       openid = Db.openid.find_by_openid(provider, uid)
 
       user = if openid.nil?
-        User.create_openid(provider, uid, email, firstname, lastname)
+        UserRepo.create_openid(provider, uid, email, firstname, lastname)
       else
         openid.user
       end

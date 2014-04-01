@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'vxod/db/mongoid'
 
 module Vxod
-  describe User do
+  describe UserRepo do
     let(:user){ double('user') }
     let(:firstname){ rnd('firstname') }
     let(:lastname){ rnd('lastname') }
@@ -39,7 +39,7 @@ module Vxod
         expect(user).to receive(:email=).with(email)
         expect(user).to receive(:password=).with(password)
 
-        User.register(params)
+        UserRepo.register(params)
       end
 
       it 'gerenate password when auto password' do
@@ -48,7 +48,7 @@ module Vxod
 
         expect(user).to receive(:password=).with(secure_random)
 
-        User.register(params)
+        UserRepo.register(params)
       end
 
       it 'generate auth_key' do
@@ -56,16 +56,16 @@ module Vxod
 
         expect(user).to receive(:auth_key=).with(secure_random)
 
-        User.register(params)
+        UserRepo.register(params)
       end
 
       it 'save to db' do
         expect(user).to receive(:save)
-        User.register(params)
+        UserRepo.register(params)
       end
 
       it 'returns user' do
-        expect(User.register(params)).to eq user
+        expect(UserRepo.register(params)).to eq user
       end
     end
 

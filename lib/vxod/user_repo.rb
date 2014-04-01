@@ -1,5 +1,5 @@
 module Vxod
-  class User
+  class UserRepo
     class << self
       def register(params)
         user = Db.user.new

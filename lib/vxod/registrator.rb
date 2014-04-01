@@ -10,7 +10,7 @@ module Vxod
       params = app.params.clone
       params['auto_password'] = app.params['auto_password'] == 'on'
 
-      user = User.register(params)
+      user = UserRepo.register(params)
      
       if user.valid?
         # Notify.registration(user, auto_password) 

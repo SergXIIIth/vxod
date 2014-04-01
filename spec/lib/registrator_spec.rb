@@ -12,16 +12,16 @@ module Vxod
 
       before do
         allow(app).to receive(:params){ params }
-        allow(User).to receive(:register){ user }
+        allow(UserRepo).to receive(:register){ user }
       end
 
       it 'register user' do
-        expect(User).to receive(:register){ user }
+        expect(UserRepo).to receive(:register){ user }
         registrator.register
       end
 
       it 'convert params["auto_password"] = nil to false' do
-        expect(User).to receive(:register).with{ |params|
+        expect(UserRepo).to receive(:register).with{ |params|
           expect(params['auto_password']).to eq false
         }
 
@@ -31,7 +31,7 @@ module Vxod
       it 'convert params["auto_password"] = "on" to true' do
         params['auto_password'] = 'on'
 
-        expect(User).to receive(:register).with{ |params|
+        expect(UserRepo).to receive(:register).with{ |params|
           expect(params['auto_password']).to eq true
         }
 
