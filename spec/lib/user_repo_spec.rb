@@ -69,9 +69,8 @@ module Vxod
       end
     end
 
-    # describe '.create_openid' do
-    #   it 'create openid'
-    #   it 'create user'
-    # end
+    describe '.create_from_openid' do
+      it 'create user'
+    end
   end
 end

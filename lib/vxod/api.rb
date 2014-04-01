@@ -54,7 +54,7 @@ module Vxod
   private
 
     def openid
-      @openid ||= LoginWithOpenid.new(app)
+      @openid ||= OpenidLogin.new(app)
     end
 
     def app

@@ -7,15 +7,16 @@ module Vxod::Db
       include ::Mongoid::Timestamps
 
       field :provider , type: String
-      field :openid   , type: String
+      field :uid      , type: String
+      field :raw      , type: Hash
 
       belongs_to :user
 
-      index({ provider: 1, social_id: 1 }, { unique: true })
+      index({ provider: 1, uid: 1 }, { unique: true })
 
       class << self
-        def find_by_openid(provider, openid)
-          Openid.where(provider: provider, openid: openid)[0]
+        def find_by_openid(provider, uid)
+          Openid.where(provider: provider, uid: uid)[0]
         end
       end
     end

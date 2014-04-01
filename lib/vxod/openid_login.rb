@@ -1,5 +1,5 @@
 module Vxod
-  class LoginWithOpenid
+  class OpenidLogin
     def initialize(app)
       @app = app
     end
@@ -7,20 +7,13 @@ module Vxod
     attr_reader :app
 
     def login
-      openid = Db.openid.find_by_openid(provider, uid)
-
-      user = if openid.nil?
-        UserRepo.create_openid(provider, uid, email, firstname, lastname)
+      openid = OpenidRepo.find_or_create(app.omniauth_hash)
+      user = UserRepo.find_or_create_by_openid(openid)
+        
+      if user.valid?
+        app.authentify_and_back(user)
       else
-        openid.user
-      end
-
-      if Email.valid?(user.email)
-        app.authentify(user.auth_key)
-        app.redirect_to_after_login
-      else
-        app.authentify_for_fill_user_data(user.auth_key)
-        app.redirect(Vxod.config.fill_user_data_path)
+        app.redirect_fill_openid(openid)
       end
     end
 
@@ -32,8 +25,7 @@ module Vxod
         user.lastname   = app.params['lastname']
         user.save!
 
-        app.authentify(user.auth_key)
-        app.redirect_to_after_login
+        app.authentify_and_back(user)
       else
         false
       end

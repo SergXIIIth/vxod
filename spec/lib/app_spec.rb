@@ -24,6 +24,14 @@ module Vxod
       end
     end
 
+    describe '#redirect_fill_openid' do
+      it 'store openid#id in session["vxod.openid"]'
+    end
+
+    describe '#authentify_and_back' do
+      it 'authentify and redirect to after login path'
+    end
+
     describe '#authentify_for_fill_user_data' do
       it 'set cookie for fill user data only' do
         auth_key = rnd('auth_key')

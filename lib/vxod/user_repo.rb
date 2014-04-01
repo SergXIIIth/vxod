@@ -15,7 +15,7 @@ module Vxod
         user
       end
 
-      def create_openid(provider, openid, email, firstname, lastname)
+      def create_openid(provider, uid, email, firstname, lastname)
         user = Db.user.new
         user.auth_key = SecureRandom.base64(64)
         user.email = email
@@ -25,7 +25,7 @@ module Vxod
 
         openid = Db.openid.new
         openid.provider = provider
-        openid.openid = openid
+        openid.uid = uid
         openid.user = user
         openid.save!
 
