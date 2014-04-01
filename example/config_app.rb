@@ -23,5 +23,5 @@ use Vxod::Middleware
 
 require 'vxod/db/mongoid'
 
-Vxod::Db.identity = Vxod::Db::Mongoid::Identity
+Vxod::Db.openid = Vxod::Db::Mongoid::Openid
 Vxod::Db.user = Vxod::Db::Mongoid::User

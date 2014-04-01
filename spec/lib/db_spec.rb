@@ -2,13 +2,13 @@ require 'spec_helper'
 
 module Vxod
   describe Db do
-    let(:identity){ double('identity') }
+    let(:openid){ double('openid') }
     let(:user){ double('user') }
 
-    describe '.identity' do
+    describe '.openid' do
       it 'accessable' do
-        Db.identity = identity
-        expect(Db.identity).to eq identity
+        Db.openid = openid
+        expect(Db.openid).to eq openid
       end
     end
 

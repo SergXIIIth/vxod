@@ -21,7 +21,6 @@ module Vxod
 
     post Vxod.config.registration_path do
       user = vxod.register
-
       unless user.valid?
         slim :registration, locals: { user: user } 
       end

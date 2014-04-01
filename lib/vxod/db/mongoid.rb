@@ -2,7 +2,7 @@ require 'mongoid'
 
 module Vxod::Db
   module Mongoid
-    class Identity
+    class Openid
       include ::Mongoid::Document
       include ::Mongoid::Timestamps
 
@@ -15,7 +15,7 @@ module Vxod::Db
 
       class << self
         def find_by_openid(provider, openid)
-          Identity.where(provider: provider, openid: openid)[0]
+          Openid.where(provider: provider, openid: openid)[0]
         end
       end
     end
@@ -30,7 +30,7 @@ module Vxod::Db
       field :auth_key     , type: String
       field :password     , type: String
       
-      has_many :identities, dependent: :destroy
+      has_many :openids, dependent: :destroy
 
       index({ auth_key: 1 }, { unique: true })
 

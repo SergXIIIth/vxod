@@ -3,9 +3,9 @@ require 'spec_helper'
 module Vxod
   describe LoginWithOpenid do
     let(:app){ double('app') }
-    let(:identity){ double('identity') }
+    let(:openid){ double('openid') }
     let(:user){ double('user') }
-    let(:identity_class){ double('identity_class') }
+    let(:openid_class){ double('openid_class') }
     let(:provider){ rnd('provider') }
     let(:openid){ rnd('openid') }
     let(:auth_key){ rnd('auth_key') }
@@ -17,18 +17,18 @@ module Vxod
 
     describe '#login' do
       before do
-        allow(Db).to receive(:identity){ identity_class }
+        allow(Db).to receive(:openid){ openid_class }
         allow(app).to receive(:omniauth_hash){{ uid: openid, provider: provider }}
-        allow(identity).to receive(:user){ user }
+        allow(openid).to receive(:user){ user }
       end
 
-      context 'when identity exists and user has valid email' do
+      context 'when openid exists and user has valid email' do
         before do
           allow(app).to receive(:authentify)
           allow(app).to receive(:redirect_to_after_login)
     
           allow(user).to receive(:email){ 'sergey@makridenkov.com' }
-          allow(identity_class).to receive(:find_by_openid).with(provider, openid){ identity }
+          allow(openid_class).to receive(:find_by_openid).with(provider, openid){ openid }
         end
 
         it 'authentify' do
@@ -42,14 +42,14 @@ module Vxod
         end
       end
   
-      context 'when identity not found' do
+      context 'when openid not found' do
         let(:email){ rnd('email') }
         let(:firstname){ rnd('firstname') }
         let(:lastname){ rnd('lastname') }
 
         before do
           allow(user).to receive(:email){ 'sergey@makridenkov.com' }
-          allow(identity_class).to receive(:find_by_openid).with(provider, openid){ nil }
+          allow(openid_class).to receive(:find_by_openid).with(provider, openid){ nil }
 
           allow(User).to receive(:create_openid){ user }
 
@@ -59,7 +59,7 @@ module Vxod
           allow(app).to receive(:redirect_to_after_login)
         end
 
-        it 'create identity' do
+        it 'create openid' do
           expect(User).to receive(:create_openid).with(provider, openid, email, firstname, lastname){ user }
           login_with_openid.login
         end
@@ -78,7 +78,7 @@ module Vxod
       context 'when user have not valid email' do
         before do 
           allow(user).to receive(:email){ 'invalid_email' }
-          allow(identity_class).to receive(:find_by_openid).with(provider, openid){ identity }
+          allow(openid_class).to receive(:find_by_openid).with(provider, openid){ openid }
 
           allow(app).to receive(:authentify_for_fill_user_data)
           allow(app).to receive(:redirect)

@@ -23,11 +23,11 @@ module Vxod
         user.lastname = lastname
         user.save!
 
-        identity = Db.identity.new
-        identity.provider = provider
-        identity.openid = openid
-        identity.user = user
-        identity.save!
+        openid = Db.openid.new
+        openid.provider = provider
+        openid.openid = openid
+        openid.user = user
+        openid.save!
 
         user
       end

@@ -12,7 +12,7 @@ end
 
 desc 'Rub tests'
 task 'test' do
-  system %Q(bundle exec rerun --pattern '{**/*.rb}' -cx 'rspec -t ~feature')
+  system %Q(bundle exec rerun --pattern '{**/*.rb}' -cx 'rspec -t ~feature --format documentation')
 end
 
 # for CI

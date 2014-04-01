@@ -7,12 +7,12 @@ module Vxod
     attr_reader :app
 
     def login
-      identity = Db.identity.find_by_openid(provider, openid)
+      openid = Db.openid.find_by_openid(provider, uid)
 
-      user = if identity.nil?
-        User.create_openid(provider, openid, email, firstname, lastname)
+      user = if openid.nil?
+        User.create_openid(provider, uid, email, firstname, lastname)
       else
-        identity.user
+        openid.user
       end
 
       if Email.valid?(user.email)
@@ -69,7 +69,7 @@ module Vxod
       end
     end
 
-    def openid
+    def uid
       app.omniauth_hash[:uid]
     end
 

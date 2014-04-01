@@ -33,7 +33,7 @@ development:
     # not have a field definition on the model. (default: true)
     # allow_dynamic_fields: true
 
-    # Enable the identity map, needed for eager loading. (default: false)
+    # Enable the openid map, needed for eager loading. (default: false)
     # identity_map_enabled: false
 
     # Includes the root model name in json serialization. (default: false)

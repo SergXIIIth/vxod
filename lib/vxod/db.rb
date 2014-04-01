@@ -1,7 +1,7 @@
 module Vxod
   module Db
     class << self
-      attr_accessor :identity, :user
+      attr_accessor :openid, :user
 
       def identity_create(provider, openid, email, firstname, lastname)
         user = self.user.new
@@ -11,13 +11,13 @@ module Vxod
         user.lastname = lastname
         user.save!
 
-        identity = self.identity.new
-        identity.provider = provider
-        identity.openid = openid
-        identity.user = user
-        identity.save!
+        openid = self.openid.new
+        openid.provider = provider
+        openid.openid = openid
+        openid.user = user
+        openid.save!
 
-        identity
+        openid
       end
     end
   end
