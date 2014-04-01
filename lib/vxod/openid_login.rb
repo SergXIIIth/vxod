@@ -30,43 +30,5 @@ module Vxod
         false
       end
     end
-
-  private
-
-    def info
-      app.omniauth_hash[:info]
-    end
-
-    def email
-      if info && info[:email]
-        info[:email]
-      else
-        nil
-      end
-    end
-
-    def firstname
-      if info && info[:first_name]
-        info[:first_name]
-      else
-        nil
-      end
-    end
-
-    def lastname
-      if info && info[:last_name]
-        info[:last_name]
-      else
-        nil
-      end
-    end
-
-    def uid
-      app.omniauth_hash[:uid]
-    end
-
-    def provider
-      app.omniauth_hash[:provider]
-    end
   end
 end

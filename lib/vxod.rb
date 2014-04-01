@@ -8,6 +8,7 @@ module Vxod
   autoload :Config, 'vxod/config'
   autoload :App, 'vxod/app'
   autoload :Api, 'vxod/api'
+  autoload :OpenidRawParser, 'vxod/openid_raw_parser'
   autoload :UserRepo, 'vxod/user_repo'
   autoload :OpenidRepo, 'vxod/openid_repo'
   autoload :Registrator, 'vxod/registrator'
