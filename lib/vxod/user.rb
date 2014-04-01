@@ -7,7 +7,7 @@ module Vxod
         user.firstname = params['firstname']
         user.lastname = params['lastname']
         user.email = params['email']
-        user.password = params['auto_password'] ? SecureRandom.base64(8) : params['password']
+        user.password = params['auto_password'] ? SecureRandom.hex(4) : params['password']
         user.auth_key = SecureRandom.base64(64)
 
         user.save

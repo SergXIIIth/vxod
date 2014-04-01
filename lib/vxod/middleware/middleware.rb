@@ -11,6 +11,10 @@ module Vxod
       slim :login
     end
 
+    post Vxod.config.login_path do
+      (params['remember_me'] == 'on').to_s
+    end
+
     get Vxod.config.registration_path do
       slim :registration, locals: { user: Db.user.new } 
     end
@@ -18,9 +22,7 @@ module Vxod
     post Vxod.config.registration_path do
       user = vxod.register
 
-      if user.valid?
-        vxod.redirect_back
-      else
+      unless user.valid?
         slim :registration, locals: { user: user } 
       end
     end
