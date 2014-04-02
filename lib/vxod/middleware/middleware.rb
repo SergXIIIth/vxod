@@ -31,12 +31,16 @@ module Vxod
     end
 
     get Vxod.config.fill_openid_path do
-      slim :fill_user_data, locals: { user: vxod.user_to_fill_data }
+      user = vxod.show_openid_data
+      unless user.valid?
+        slim :fill_user_data, locals: { user: user }
+      end
     end
 
     post Vxod.config.fill_openid_path do
-      unless vxod.openid_save_user_data
-        slim :fill_user_data, locals: { user: vxod.user_to_fill_data }
+      user = vxod.update_openid_data
+      unless user.valid?
+        slim :fill_user_data, locals: { user: user }
       end
     end
 

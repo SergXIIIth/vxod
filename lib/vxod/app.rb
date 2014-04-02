@@ -42,10 +42,6 @@ module Vxod
       redirect_to_after_login
     end
 
-    def auth_key_for_fill_user_data
-      rack_app.request.cookies['vxod.auth_fill_user_data']
-    end
-
     def auth_key
       rack_app.request.cookies['vxod.auth']
     end

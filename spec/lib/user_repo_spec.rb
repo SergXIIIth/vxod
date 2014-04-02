@@ -72,5 +72,11 @@ module Vxod
     describe '.find_or_create_by_openid' do
       # it 'use openid.user'
     end
+
+    describe 'create_by_openid' do
+      it 'link user with openid'
+      it 'build user from params - email, firstname, lastname'
+      it 'returns user'
+    end
   end
 end

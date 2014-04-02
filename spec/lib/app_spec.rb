@@ -24,6 +24,10 @@ module Vxod
       end
     end
 
+    describe '#current_openid' do
+      it 'return openid by session["vxod.auth_openid"]'
+    end
+
     describe '#redirect_to_fill_openid' do
       let(:session){ {} }
       let(:openid_id){ rnd 'openid_id' }

@@ -17,18 +17,26 @@ module Vxod
       end
     end
 
-    def save_user_data
-      if Email.valid?(app.params['email'])
-        user = Db.user.find_by_auth_key(app.auth_key_for_fill_user_data)
-        user.email      = app.params['email']
-        user.firstname  = app.params['firstname']
-        user.lastname   = app.params['lastname']
-        user.save!
+    def update_openid_data
+      openid = app.current_openid
+      user = UserRepo.create_by_openid(openid, app.params)
 
+      if user.valid?
         app.authentify_and_back(user)
-      else
-        false
       end
+
+      user
+    end
+
+    def show_openid_data
+      openid = app.current_openid
+      user = UserRepo.find_or_create_by_openid(openid)
+
+      if user.valid?
+        app.authentify_and_back(user)
+      end
+
+      user
     end
   end
 end

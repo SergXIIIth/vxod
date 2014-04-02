@@ -36,14 +36,10 @@ module Vxod
       app.redirect(Vxod.config.after_login_default_path)
     end
 
-    # Save missing user data after openid registration
-    def openid_save_user_data
-      openid.save_user_data
+    def update_openid_data
     end
 
-    # Return user for fill user data page
-    def user_to_fill_data
-      @user_to_fill_data ||= Db.user.find_by_auth_key(app.auth_key_for_fill_user_data)
+    def show_openid_data
     end
 
     # Current user

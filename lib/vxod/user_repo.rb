@@ -20,6 +20,9 @@ module Vxod
         end
       end
 
+      def create_by_openid(openid, params)
+      end
+
       def build(firstname, lastname, email)
         Db.user.new.tap do |user|
           user.auth_key = SecureRandom.base64(64)
