@@ -5,7 +5,7 @@ module Vxod
   describe OpenidRepo do
     let(:provider){ double('provider') }
     let(:uid){ double('uid') }
-    let(:omniauth_hash){ { uid: uid, provider: provider } }
+    let(:omniauth_hash){ { 'uid' => uid, 'provider' => provider } }
     let(:openid){ double('openid') }
 
     before do

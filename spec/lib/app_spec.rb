@@ -25,7 +25,16 @@ module Vxod
     end
 
     describe '#current_openid' do
-      it 'return openid by session["vxod.auth_openid"]'
+      let(:openid){ double('openid') }
+      let(:id){ double('id') }
+
+      it 'return openid by session["vxod.auth_openid"]' do
+        expect(app).to receive(:session){{ 'vxod.auth_openid' => id }}
+        expect(openid).to receive(:find).with(id)
+        expect(Db).to receive(:openid){ openid }
+
+        app.current_openid
+      end
     end
 
     describe '#redirect_to_fill_openid' do

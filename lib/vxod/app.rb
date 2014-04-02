@@ -62,5 +62,9 @@ module Vxod
       session['vxod.auth_openid'] = openid.id
       redirect(Vxod.config.fill_openid_path)
     end
+
+    def current_openid
+      Db.openid.find(session['vxod.auth_openid'])
+    end
   end
 end

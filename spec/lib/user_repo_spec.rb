@@ -70,13 +70,62 @@ module Vxod
     end
 
     describe '.find_or_create_by_openid' do
-      # it 'use openid.user'
+      let(:openid){ double('openid') }
+      let(:raw){{ 'info' => {
+        'first_name' => firstname, 'last_name' => lastname, 'email' => email 
+      }}}
+
+      before do
+        allow(openid).to receive(:user){ nil }
+        allow(openid).to receive(:raw){ raw }
+      end
+
+      it 'return when openid.user exist' do
+        expect(openid).to receive(:user){ user }
+        UserRepo.find_or_create_by_openid(openid)
+      end
+
+      it 'return user create_by_openid when openid.user not exist' do
+        expect(UserRepo).to receive(:create_by_openid) do |obj, hash|
+          expect(obj).to eq openid
+          expect(hash['firstname']).to eq firstname
+          expect(hash['lastname']).to eq lastname
+          expect(hash['email']).to eq email
+        end.and_return(user)
+        
+        expect(UserRepo.find_or_create_by_openid(openid)).to eq user
+      end
     end
 
     describe 'create_by_openid' do
-      it 'link user with openid'
-      it 'build user from params - email, firstname, lastname'
-      it 'returns user'
+      let(:openid){ double('openid') }
+      let(:params){{ 'firstname' => firstname, 'lastname' => lastname, 'email' => email }}
+
+      before do
+        allow(UserRepo).to receive(:build){ user }
+        allow(user).to receive(:save)
+      end
+
+      it 'build user from params - email, firstname, lastname' do
+        expect(UserRepo).to receive(:build).with(firstname, lastname, email)
+        UserRepo.create_by_openid(openid, params)
+      end
+
+      it 'save to db openid.user_id when user saved' do
+        allow(user).to receive(:save){ true }
+        expect(openid).to receive(:user=).with(user)
+        expect(openid).to receive('save!')
+        UserRepo.create_by_openid(openid, params)
+      end
+
+      it 'save to db' do
+        expect(user).to receive(:save)
+        UserRepo.create_by_openid(openid, params)
+      end
+
+      it 'returns user' do
+        expect(UserRepo.create_by_openid(openid, params)).to eq user
+      end
     end
   end
 end
