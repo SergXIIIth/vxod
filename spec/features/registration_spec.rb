@@ -9,8 +9,8 @@ describe 'Registration', :type => :feature, feature: true, js: true  do
       # When I click on 'registration'
       # Then I should see an errors
 
-      visit '/registration'
-      click_on 'Register'
+      # visit '/registration'
+      # click_on 'Register'
 
       # expect(page).to have_content('Email is required')
     end

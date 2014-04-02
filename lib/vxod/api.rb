@@ -23,10 +23,6 @@ module Vxod
       app.redirect_to_after_login
     end
 
-    def login_with_openid
-      openid.login
-    end
-
     def register
       Registrator.new(app).register
     end
@@ -36,10 +32,16 @@ module Vxod
       app.redirect(Vxod.config.after_login_default_path)
     end
 
-    def update_openid_data
+    def login_with_openid
+      openid.login
     end
 
     def show_openid_data
+      openid.show_openid_data
+    end
+
+    def update_openid_data
+      openid.update_openid_data
     end
 
     # Current user
