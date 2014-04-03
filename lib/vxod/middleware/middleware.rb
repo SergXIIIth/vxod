@@ -20,10 +20,7 @@ module Vxod
     end
 
     post Vxod.config.registration_path do
-      user = vxod.register
-      unless user.valid?
-        slim :registration, locals: { user: user } 
-      end
+      call_vxod_api :register, :registration
     end
 
     get Vxod.config.logout_path do
@@ -31,17 +28,11 @@ module Vxod
     end
 
     get Vxod.config.fill_openid_path do
-      user = vxod.show_openid_data
-      unless user.valid?
-        slim :fill_openid_data, locals: { user: user }
-      end
+      call_vxod_api :show_openid_data, :fill_openid_data
     end
 
     post Vxod.config.fill_openid_path do
-      user = vxod.update_openid_data
-      unless user.valid?
-        slim :fill_openid_data, locals: { user: user }
-      end
+      call_vxod_api :update_openid_data, :fill_openid_data
     end
 
     # OpenId
