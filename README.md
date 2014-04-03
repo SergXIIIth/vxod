@@ -64,6 +64,23 @@ App
     Vxod::Db.openid = Vxod::Db::Mongoid::Openid
     Vxod::Db.user = Vxod::Db::Mongoid::User
 
+## Config SMTP, exaple on yander.ru 
+
+Pony.options = {
+  from: '<email>', 
+  via: :smtp, 
+  via_options: { 
+    address:      'smtp.yandex.ru',
+    port:         '587',
+    smtp_domain:  '<domain>',
+    user_name:    '<user_name>',
+    password:     '<password>',
+
+    enable_starttls_auto: true,
+    authentication: :plain
+  } 
+}
+
 
 
 # Usage
