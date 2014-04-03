@@ -39,8 +39,15 @@ module Vxod
       end
 
       context 'when user data is valid' do
-        it 'authentify user'
-        it 'redirect to after login path'
+        before do
+          allow(user).to receive(:valid?){ true }
+        end
+
+        it 'authentify user and redirect back' do
+          expect(app).to receive(:authentify_and_back).with(user)
+          registrator.register
+        end
+
         it 'notify user about new registration'
       end
     end

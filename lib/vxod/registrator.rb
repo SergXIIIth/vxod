@@ -14,8 +14,7 @@ module Vxod
      
       if user.valid?
         # Notify.registration(user, auto_password) 
-        app.authentify(user.auth_key)
-        app.redirect_to_after_login
+        app.authentify_and_back(user)
       end
       
       user
