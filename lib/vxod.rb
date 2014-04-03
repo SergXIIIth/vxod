@@ -10,6 +10,7 @@ module Vxod
   autoload :OpenidRawParser, 'vxod/openid_raw_parser'
   autoload :UserRepo, 'vxod/user_repo'
   autoload :OpenidRepo, 'vxod/openid_repo'
+  autoload :Notify, 'vxod/notify'
   autoload :Registrator, 'vxod/registrator'
   autoload :OpenidLogin, 'vxod/openid_login'
   require 'vxod/api_static'

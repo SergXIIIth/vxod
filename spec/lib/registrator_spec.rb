@@ -41,6 +41,8 @@ module Vxod
       context 'when user data is valid' do
         before do
           allow(user).to receive(:valid?){ true }
+          allow(app).to receive(:authentify_and_back)
+          allow(Notify).to receive(:registration)
         end
 
         it 'authentify user and redirect back' do
@@ -48,7 +50,11 @@ module Vxod
           registrator.register
         end
 
-        it 'notify user about new registration'
+        it 'notify user about new registration' do
+          params['auto_password'] = 'on'
+          expect(Notify).to receive(:registration).with(user, true)
+          registrator.register
+        end
       end
     end
   end
