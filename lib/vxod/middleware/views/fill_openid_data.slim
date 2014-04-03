@@ -10,7 +10,10 @@ html
     .vxod-login-container
       .well
         form role='form' action=Vxod.config.fill_openid_path method='POST'
-          .alert.alert-danger Please provide your valid EMAIL address
+          - unless user.valid?
+            .alert.alert-danger 
+              - user.errors.full_messages.each do |m|
+                p =m
 
           .form-group
             label for='email' Email

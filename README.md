@@ -7,7 +7,7 @@ Social and password authorization solution
 [![Dependency Status](https://gemnasium.com/SergXIIIth/vxod.svg)](https://gemnasium.com/SergXIIIth/vxod)
 [![Gem Version](https://badge.fury.io/rb/vxod.png)](http://badge.fury.io/rb/vxod)
 
-[![Login](https://pbs.twimg.com/media/Bj1RKFdCUAArOZ0.png:large)](http://rostimo.com)
+[![Login](https://pbs.twimg.com/media/Bj1RKFdCUAArOZ0.png:large)](http://makridenkov.com)
 
 # Features
 
