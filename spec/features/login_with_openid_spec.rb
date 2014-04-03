@@ -17,7 +17,7 @@ describe 'Login with openid', :type => :feature, feature: true, js: true  do
     click_on 'secret'
     find('.fa-vk').click
 
-    expect(find('.alert-danger')).to have_content("Email can't be blank")
+    expect(find('.alert-danger')).to have_content('Email is invalid')
 
     fill_in('email', with: email)
     find('.btn-primary').click

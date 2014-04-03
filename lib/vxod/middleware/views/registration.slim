@@ -23,8 +23,7 @@ html
         == slim :'parts/nav'
 
         form role='form' action=Vxod.config.registration_path method='POST'
-          - unless user.valid? 
-            .alert.alert-danger = user.error
+          == errors(user)
 
           .form-group
             label for='firstname' First name
