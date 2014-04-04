@@ -1,0 +1,16 @@
+doctype html
+html 
+  == slim :'parts/head'
+
+  body
+    .vxod-login-container
+      .well
+        - if success
+          .alert.alert-success
+            p Confirm email success
+        - else
+          .alert.alert-danger
+            - error.each do |m|
+              p =m
+        .text-center          
+          a.btn.btn-primary.btn-lg href=back_path Continue >

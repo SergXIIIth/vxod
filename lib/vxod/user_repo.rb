@@ -36,7 +36,7 @@ module Vxod
       def build(firstname, lastname, email)
         Db.user.new.tap do |user|
           user.auth_key = SecureRandom.base64(64)
-          user.confirm_email_key = SecureRandom.base64(66)
+          user.confirm_email_key = SecureRandom.hex(20)
           user.firstname = firstname
           user.lastname = lastname
           user.email = email

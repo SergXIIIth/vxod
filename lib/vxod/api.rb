@@ -28,7 +28,9 @@ module Vxod
     end
 
     def confirm_email
-      ConfirmEmail.new(app).confirm
+      res = ConfirmEmail.new(app).confirm
+      res[:back_path] = app.after_login_path
+      res
     end
 
     def logout

@@ -129,7 +129,7 @@ module Vxod
         allow(user).to receive(:confirm_email_key=)
         allow(user).to receive(:auth_key=)
         allow(SecureRandom).to receive(:base64).with(64)
-        allow(SecureRandom).to receive(:base64).with(66)
+        allow(SecureRandom).to receive(:hex).with(20)
       end
 
       it 'set fields' do
@@ -149,7 +149,7 @@ module Vxod
       end
 
       it 'generate User#confirm_email_key' do
-        allow(SecureRandom).to receive(:base64).with(66){ secure_random }
+        allow(SecureRandom).to receive(:hex).with(20){ secure_random }
 
         expect(user).to receive(:confirm_email_key=).with(secure_random)
 
