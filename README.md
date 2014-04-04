@@ -64,7 +64,7 @@ App
     Vxod::Db.openid = Vxod::Db::Mongoid::Openid
     Vxod::Db.user = Vxod::Db::Mongoid::User
 
-## Config SMTP, exaple on yander.ru 
+## Config SMTP, example on yander.ru 
 
 Pony.options = {
   from: '<email>', 
