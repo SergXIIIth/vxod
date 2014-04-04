@@ -12,6 +12,7 @@ module Vxod
     before do
       allow(app).to receive(:params){ params }
       allow(user).to receive(:confirm_at){ nil }
+      allow(user).to receive(:lock_code){ nil }
       allow(Db.user).to receive(:find_by_confirm_email_key){ user }
     end
 
@@ -32,9 +33,64 @@ module Vxod
       end
       
       context 'when lock = 1' do
-        it 'set User#lock_code to unconfirm_email'
-        it 'save a user'
-        it 'return { success: false, error: [ "Thanks, we break registration. If any questions please conntact support" ]}'
+        before do
+          params['lock'] = '1'
+          allow(user).to receive(:lock_code=)
+          allow(user).to receive(:save!)
+        end
+
+        after{ confirm_email.confirm }
+
+        it 'set User#lock_code to unconfirm_email' do
+          expect(user).to receive(:lock_code=).with('unconfirm_email')
+        end
+
+        it 'save a user' do
+          expect(user).to receive(:save!)
+        end
+
+        it 'return { success: false, error: [ "break registration" ]}' do
+          res = confirm_email.confirm
+          expect(res[:success]).to be_false
+          expect(res[:error][0]).to include('break registration')
+        end
+      end
+
+      context 'when user.confirm_at in db' do
+        before do
+          params['lock'] = '1'
+          allow(user).to receive(:confirm_at){ double('confirm_at') }
+        end
+
+        after{ confirm_email.confirm }
+
+        it 'do not update lock, do not save' do
+          expect(user).to_not receive(:lock_code=)
+          expect(user).to_not receive(:save!)
+        end
+
+        it 'return { success: false, error: [ "Email already confirmed" ]}' do
+          expect(confirm_email.confirm).to eq({ success: false, error: [ "Email already confirmed" ] })
+        end
+      end
+
+      context 'when user.lock in db' do
+        before do
+          allow(user).to receive(:lock_code){ 'unconfirm_email' }
+        end
+
+        after{ confirm_email.confirm }
+
+        it 'do not update user#confirm_at, do not save' do
+          expect(user).to_not receive(:confirm_at=)
+          expect(user).to_not receive(:save!)
+        end
+
+        it 'return { success: false, error: [ "break registration" ]}' do
+          res = confirm_email.confirm
+          expect(res[:success]).to be_false
+          expect(res[:error][0]).to include('break registration')
+        end
       end
 
       context 'when key valid, no confirm_at, no lock' do
