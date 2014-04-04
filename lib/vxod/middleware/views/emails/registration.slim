@@ -1,1 +1,9 @@
 h1 Hello #{email}
+
+- if auto_password
+  p 
+    |> Your login:
+    strong #{email}
+  p
+    |> Password:
+    strong #{password}
