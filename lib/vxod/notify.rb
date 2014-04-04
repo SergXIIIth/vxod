@@ -22,7 +22,7 @@ module Vxod
       Pony.mail(
         to: user.email,
         subject: 'Registration',
-        html_body: Tilt.new[templite].render(user)
+        html_body: Tilt.new(templite).render(user)
       )
     end
   end

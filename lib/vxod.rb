@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'vxod/version'
+require 'pony'
 
 module Vxod
   autoload :Db, 'vxod/db'
