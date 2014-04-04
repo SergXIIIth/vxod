@@ -23,6 +23,11 @@ describe 'Registration', :type => :feature, feature: true, js: true  do
 
     visit '/registration'
     fill_in('email', with: email)
+
+    expect(Pony).to receive(:mail).with{|params| 
+      expect(params[:to]).to eq email
+    }
+
     click_on 'Register'
 
     click_on 'secret'
