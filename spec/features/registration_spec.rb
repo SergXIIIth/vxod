@@ -3,6 +3,10 @@ require 'spec_helper'
 describe 'Registration', :type => :feature, feature: true, js: true  do
   let(:email){ "sergey#{rnd}@makridenkov.com" }
 
+  before do
+    allow(Pony).to receive(:mail) # prevent email send
+  end
+
   it 'shows errors when invalid data' do
     # Given I am on registration page
     # When I click on 'registration'

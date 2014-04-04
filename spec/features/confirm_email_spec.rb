@@ -11,12 +11,17 @@ describe 'Confirm email', :type => :feature, feature: true, js: true  do
 
     visit "#{Vxod.config.confirm_email_path}?key=#{user.confirm_email_key}"
 
-    expect(page).to have_content 'Email confirmed'
+    expect(page).to have_content 'Confirm email success'
     expect(page).to have_content 'Continue'
   end
 
   it 'show error when confirmation invalid' do
-    visit "#{Vxod.config.confirm_email_path}?key=1234"
+    user = Vxod::UserRepo.register('email' => email)
+
+    user.confirm_at = DateTime.now
+    user.save!
+
+    visit "#{Vxod.config.confirm_email_path}?key=#{user.confirm_email_key}"
 
     expect(page).to have_css '.alert-danger'
   end
