@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'omniauth-google-oauth2'
   spec.add_development_dependency 'omniauth-github'
 
-  spec.add_development_dependency 'mongoid'
+  spec.add_development_dependency 'mongoid', '>= 3'
 
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'rack-test'
