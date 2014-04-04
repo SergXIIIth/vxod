@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sass'
   spec.add_dependency 'coffee-script'
   spec.add_dependency 'sinatra-assetpack'
+  spec.add_dependency 'pony'
 
   spec.add_development_dependency 'omniauth'
   spec.add_development_dependency 'omniauth-twitter'
