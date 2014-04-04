@@ -27,6 +27,10 @@ module Vxod
       Registrator.new(app).register
     end
 
+    def confirm_email
+      ConfirmEmail.new(app).confirm
+    end
+
     def logout
       app.detele_auth_key
       app.redirect(Vxod.config.after_login_default_path)

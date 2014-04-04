@@ -5,7 +5,7 @@ module Vxod
     helpers MiddlewareHelpers
     register MiddlewareAssets
 
-    # Pages
+    # Login
 
     get Vxod.config.login_path do
       slim :login
@@ -15,6 +15,12 @@ module Vxod
       (params['remember_me'] == 'on').to_s
     end
 
+    get Vxod.config.logout_path do
+      vxod.logout
+    end
+
+    # Registration
+
     get Vxod.config.registration_path do
       slim :registration, locals: { user: Db.user.new } 
     end
@@ -23,9 +29,11 @@ module Vxod
       call_vxod_api :register, :registration
     end
 
-    get Vxod.config.logout_path do
-      vxod.logout
+    get Vxod.config.confirm_email_path do
+      vxod.confirm_email
     end
+
+    # OpenId
 
     get Vxod.config.fill_openid_path do
       call_vxod_api :show_openid_data, :fill_openid_data
@@ -34,8 +42,6 @@ module Vxod
     post Vxod.config.fill_openid_path do
       call_vxod_api :update_openid_data, :fill_openid_data
     end
-
-    # OpenId
 
     get "#{OmniAuth.config.path_prefix}/:provider/callback" do
       vxod.login_with_openid

@@ -35,14 +35,16 @@ module Vxod::Db
       field :lastname     , type: String
       field :auth_key     , type: String
       field :password     , type: String
+      field :lock_code    , type: String
+
       field :confirm_email_key  , type: String
       field :confirm_at         , type: DateTime
-      field :lock_code          , type: String
 
       validates :email, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
       validates :email, presence: true
       validates :email, uniqueness: true
       validates :auth_key, presence: true
+      validates :confirm_email_key, presence: true
 
       has_many :openids, dependent: :destroy
 
@@ -55,6 +57,10 @@ module Vxod::Db
       class << self
         def find_by_auth_key(auth_key)
           User.where(auth_key: auth_key)[0]
+        end
+
+        def find_by_confirm_email_key(confirm_email_key)
+          User.where(confirm_email_key: confirm_email_key)[0]
         end
       end
     end    

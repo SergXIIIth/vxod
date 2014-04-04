@@ -7,7 +7,7 @@ require 'vxod'
 
 Dir["#{__dir__}/support/**/*.rb"].each{ |path| require path }
 
-Capybara.default_wait_time = 5 # for CI
+Capybara.default_wait_time = 15 # for CI
 Capybara.javascript_driver = :poltergeist
 # Capybara.default_driver = :selenium
 
