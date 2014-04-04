@@ -16,6 +16,10 @@ module Vxod
       rack_app.request.path
     end
 
+    def request_host
+      rack_app.request.host
+    end
+
     def params
       rack_app.params
     end

@@ -29,7 +29,7 @@ Vxod::Db.user = Vxod::Db::Mongoid::User
 # Emails
 
 
-if %w(development production).includes?(ENV['RACK_ENV'])
+if %w(development production).include?(ENV['RACK_ENV'])
   Pony.options = {
     from: 'Makridenkov <hello@makridenkov.com>', 
     via: :smtp, 

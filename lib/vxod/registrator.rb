@@ -13,7 +13,7 @@ module Vxod
       user = UserRepo.register(params)
      
       if user.valid?
-        Notify.registration(user, params['auto_password']) 
+        Notify.new.registration(user, app.request_host, params['auto_password']) 
         app.authentify_and_back(user)
       end
       

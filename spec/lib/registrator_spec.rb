@@ -9,10 +9,15 @@ module Vxod
     describe 'register' do
       let(:params){ {} }
       let(:user){ double('valid?' => false) }
+      let(:notify){ double('notify', registration: 1) }
+      let(:host){ double('host') }
+
 
       before do
         allow(app).to receive(:params){ params }
+        allow(app).to receive(:request_host){ host }
         allow(UserRepo).to receive(:register){ user }
+        allow(Notify).to receive(:new){ notify }
       end
 
       it 'register user' do
@@ -52,7 +57,9 @@ module Vxod
 
         it 'notify user about new registration' do
           params['auto_password'] = 'on'
-          expect(Notify).to receive(:registration).with(user, true)
+
+          expect(notify).to receive(:registration).with(user, host, true)
+
           registrator.register
         end
       end

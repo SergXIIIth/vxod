@@ -35,6 +35,9 @@ module Vxod::Db
       field :lastname     , type: String
       field :auth_key     , type: String
       field :password     , type: String
+      field :confirm_email_key  , type: String
+      field :confirm_at         , type: DateTime
+      field :lock_code          , type: String
 
       validates :email, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
       validates :email, presence: true

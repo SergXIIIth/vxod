@@ -3,13 +3,16 @@ require 'vxod/db/mongoid'
 
 module Vxod
   describe Notify do
-    describe '.registration' do
+    let(:notify){ Notify.new }
+
+    describe '#registration' do
+      let(:host){ double('host') }
       let(:user){ double('user', email: double('email')) }
       let(:html){ double('html') }
       let(:auto_password){ double('auto_password') }
 
       before do
-        allow(Notify).to receive(:render){ html }
+        allow(notify).to receive(:render){ html }
         allow(Pony).to receive(:mail)
       end
 
@@ -20,17 +23,18 @@ module Vxod
           expect(params[:html_body]).to eq html 
         }
 
-        Notify.registration(user)
+        notify.registration(user, host)
       end
 
       it 'render email templite' do
-        expect(Notify).to receive(:render).with { |templite, user, scope|
+        expect(notify).to receive(:render).with { |templite, scope|
           expect(templite).to include 'registration.slim'
-          expect(user).to eq user
           expect(scope[:auto_password]).to eq auto_password
+          expect(scope[:user]).to eq user
+          expect(scope[:host]).to eq host
         }
 
-        Notify.registration(user, auto_password)
+        notify.registration(user, host, auto_password)
       end
     end
   end

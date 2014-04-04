@@ -1,9 +1,24 @@
-h1 Hello #{email}
+h1 
+  | Your register on 
+  a href='http//#{host}' #{host}
+
+p Hello.
 
 - if auto_password
   p 
-    |> Your login:
-    strong #{email}
+    |Your login: 
+    strong #{user.email}
   p
-    |> Password:
-    strong #{password}
+    |Password: 
+    strong #{user.password}
+
+h2 Confirm your registration
+
+p
+  | To cofirm your registration, please, click on 
+  a href="http://#{host}#{Vxod.config.confirm_email_path}?key=#{user.confirm_email_key}" "Confirm registration"
+
+p
+  | If you did not register on #{host}, please, click on 
+  a href="http://#{host}#{Vxod.config.confirm_email_path}?key=#{user.confirm_email_key}&lock=1" "I did not register"
+
