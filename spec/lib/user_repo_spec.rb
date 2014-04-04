@@ -6,8 +6,8 @@ module Vxod
     let(:user){ double('user') }
     let(:firstname){ rnd('firstname') }
     let(:lastname){ rnd('lastname') }
-    let(:secure_random){ rnd('secure_random') }
     let(:email){ "sergey#{rnd}@makridenkov.com" }
+    let(:secure_random){ double('secure_random') }
 
     before do
       allow(Db).to receive(:user){ double(new: user) }
@@ -25,18 +25,18 @@ module Vxod
       }}
 
       before do
-        allow(user).to receive(:firstname=)
-        allow(user).to receive(:lastname=)
-        allow(user).to receive(:email=)
-        allow(user).to receive(:password=).with(password)
-        allow(user).to receive(:auth_key=)
+        allow(user).to receive(:password=)
         allow(user).to receive(:save)
+        allow(UserRepo).to receive(:build){ user }
       end
 
-      it 'set fields' do
-        expect(user).to receive(:firstname=).with(firstname)
-        expect(user).to receive(:lastname=).with(lastname)
-        expect(user).to receive(:email=).with(email)
+      it 'call build' do
+        expect(UserRepo).to receive(:build).with(firstname, lastname, email)
+
+        UserRepo.register(params)
+      end
+
+      it 'set password' do
         expect(user).to receive(:password=).with(password)
 
         UserRepo.register(params)
@@ -47,14 +47,6 @@ module Vxod
         allow(SecureRandom).to receive(:hex).with(4){ secure_random }
 
         expect(user).to receive(:password=).with(secure_random)
-
-        UserRepo.register(params)
-      end
-
-      it 'generate auth_key' do
-        allow(SecureRandom).to receive(:base64).with(64){ secure_random }
-
-        expect(user).to receive(:auth_key=).with(secure_random)
 
         UserRepo.register(params)
       end
@@ -97,7 +89,7 @@ module Vxod
       end
     end
 
-    describe 'create_by_openid' do
+    describe '.create_by_openid' do
       let(:openid){ double('openid') }
       let(:params){{ 'firstname' => firstname, 'lastname' => lastname, 'email' => email }}
 
@@ -125,6 +117,43 @@ module Vxod
 
       it 'returns user' do
         expect(UserRepo.create_by_openid(openid, params)).to eq user
+      end
+    end
+
+    describe '.build' do
+      before do
+        allow(user).to receive(:auth_key=)
+        allow(user).to receive(:firstname=)
+        allow(user).to receive(:lastname=)
+        allow(user).to receive(:email=)
+        allow(user).to receive(:confirm_email_key=)
+        allow(user).to receive(:auth_key=)
+        allow(SecureRandom).to receive(:base64).with(64)
+        allow(SecureRandom).to receive(:base64).with(66)
+      end
+
+      it 'set fields' do
+        expect(user).to receive(:firstname=).with(firstname)
+        expect(user).to receive(:lastname=).with(lastname)
+        expect(user).to receive(:email=).with(email)
+
+        UserRepo.build(firstname, lastname, email)
+      end
+
+      it 'generate auth_key' do
+        allow(SecureRandom).to receive(:base64).with(64){ secure_random }
+
+        expect(user).to receive(:auth_key=).with(secure_random)
+
+        UserRepo.build(firstname, lastname, email)
+      end
+
+      it 'generate User#confirm_email_key' do
+        allow(SecureRandom).to receive(:base64).with(66){ secure_random }
+
+        expect(user).to receive(:confirm_email_key=).with(secure_random)
+
+        UserRepo.build(firstname, lastname, email)
       end
     end
   end
