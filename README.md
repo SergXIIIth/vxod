@@ -12,7 +12,7 @@ Social and password authorization solution
 # Features
 
 - [x] social registration/login
-- [ ] password base registration/login, 
+- [ ] password base registration/login
 - [ ] checkbox auto-generated password send to email
 - [ ] reset password
 - [ ] optional require email in social registration
