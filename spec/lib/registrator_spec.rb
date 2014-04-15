@@ -6,7 +6,7 @@ module Vxod
     let(:app){ double('app') }
     let(:registrator){ Registrator.new(app) }
 
-    describe 'register' do
+    describe '#register' do
       let(:params){ {} }
       let(:user){ double('valid?' => false) }
       let(:notify){ double('notify', registration: 1) }
@@ -64,6 +64,17 @@ module Vxod
 
           registrator.register
         end
+      end
+    end
+
+    describe '#register_by_openid' do
+      context 'when user unvalid' do
+        it 'redirect to fill openid page when user invalid'
+      end
+
+      context 'when user valid' do
+        it 'notify user about registration'
+        it 'authentify and redirect back'
       end
     end
   end

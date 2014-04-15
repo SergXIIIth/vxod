@@ -20,7 +20,7 @@ module Vxod
       user
     end
 
-    def openid_register(openid)
+    def register_by_openid(openid)
       user = UserRepo.find_or_create_by_openid(openid)
         
       if user.valid?

@@ -156,5 +156,13 @@ module Vxod
         UserRepo.build(firstname, lastname, email)
       end
     end
+
+    describe '.find_by_openid' do
+      it 'return user'
+    end
+
+    describe '.build_by_openid' do
+      it 'initialize user from openid#raw'
+    end
   end
 end
