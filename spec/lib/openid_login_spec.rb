@@ -32,6 +32,8 @@ module Vxod
         expect(UserRepo).to receive(:create_by_openid).with(openid, params)
       end
 
+      it 'openid.user = user when registration success'
+
       it 'return user' do
         expect(openid_login.update_openid_data).to eq user
       end
@@ -60,14 +62,14 @@ module Vxod
         allow(user).to receive('valid?'){ false }
       end 
 
-      it 'try create user from app.current_openid' do
+      it 'find user by app.current_openid' do
         expect(app).to receive(:current_openid){ openid }
         expect(UserRepo).to receive(:find_or_create_by_openid).with(openid)
 
         openid_login.show_openid_data
       end
 
-      it 'authentify and redirect back when user valid' do
+      it 'authentify when user valid' do
         allow(user).to receive('valid?'){ true }
         expect(app).to receive(:authentify_and_back).with(user)
         openid_login.show_openid_data

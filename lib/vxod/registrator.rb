@@ -19,5 +19,16 @@ module Vxod
       
       user
     end
+
+    def openid_register(openid)
+      user = UserRepo.find_or_create_by_openid(openid)
+        
+      if user.valid?
+        Notify.new.openid_registration(openid, app.request_host)
+        app.authentify_and_back(user)
+      else
+        app.redirect_to_fill_openid(openid)
+      end
+    end
   end
 end

@@ -8,23 +8,17 @@ module Vxod
 
     def login
       openid = OpenidRepo.find_or_create(app.omniauth_hash)
-      user = UserRepo.find_or_create_by_openid(openid)
-        
-      if user.valid?
-        Notify.new.openid_registration(openid, app.request_host)
-        app.authentify_and_back(user)
-      else
-        app.redirect_to_fill_openid(openid)
-      end
+      UserRepo.find_by_openid(openid) || registrator.openid_register(openid)
     end
 
     def update_openid_data
       openid = app.current_openid
-      user = UserRepo.create_by_openid(openid, app.params)
+
+      user = registrator.register
 
       if user.valid?
-        Notify.new.openid_registration(openid, app.request_host)
-        app.authentify_and_back(user)
+        openid.user = user
+        openid.save!
       end
 
       user
@@ -32,13 +26,17 @@ module Vxod
 
     def show_openid_data
       openid = app.current_openid
-      user = UserRepo.find_or_create_by_openid(openid)
+      user = UserRepo.find_by_openid(openid) || UserRepo.build_by_openid(openid)
 
-      if user.valid?
-        app.authentify_and_back(user)
-      end
+      user.valid? # fill up user#errors
 
       user
+    end
+
+    private 
+
+    def registrator
+      Registrator.new(app)
     end
   end
 end

@@ -33,6 +33,8 @@ module Vxod
         registrator.register
       end
 
+      it 'generate password if params["password"] missing'
+
       it 'convert params["auto_password"] = "on" to true' do
         params['auto_password'] = 'on'
 
