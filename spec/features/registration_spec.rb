@@ -3,10 +3,6 @@ require 'spec_helper'
 describe 'Registration', :type => :feature, feature: true, js: true  do
   let(:email){ "sergey#{rnd}@makridenkov.com" }
 
-  before do
-    allow(Pony).to receive(:mail) # prevent email send
-  end
-
   it 'shows errors when invalid data' do
     # Given I am on registration page
     # When I click on 'registration'
@@ -18,7 +14,7 @@ describe 'Registration', :type => :feature, feature: true, js: true  do
     expect(find('.alert-danger')).to have_content('Email is invalid')
   end
 
-  it 'register an user when valid data' do
+  it 'register a user when valid data' do
     # Given I am on registration page
     # Wnen I fill the form
     # And click on 'registration'

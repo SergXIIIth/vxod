@@ -11,6 +11,7 @@ module Vxod
       user = UserRepo.find_or_create_by_openid(openid)
         
       if user.valid?
+        Notify.new.openid_registration(openid, app.request_host)
         app.authentify_and_back(user)
       else
         app.redirect_to_fill_openid(openid)
@@ -22,6 +23,7 @@ module Vxod
       user = UserRepo.create_by_openid(openid, app.params)
 
       if user.valid?
+        Notify.new.openid_registration(openid, app.request_host)
         app.authentify_and_back(user)
       end
 

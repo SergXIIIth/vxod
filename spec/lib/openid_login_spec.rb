@@ -6,41 +6,54 @@ module Vxod
     let(:user){ double('user') }
     let(:openid){ double('openid') }
     let(:openid_login){ OpenidLogin.new(app) }
+    let(:notify){ double('notify') }
+    let(:host){ double('host') }
 
     before do
-      allow(app).to receive(:authentify_and_back)
+      allow(app).to receive(:request_host){ host }
+      allow(Notify).to receive(:new){ notify }
+      allow(user).to receive('valid?'){ false }
     end
 
-    describe 'update_openid_data' do
+    describe '#update_openid_data' do
       let(:params){ double('params') }
 
       before do
         allow(app).to receive(:params){ params }
         allow(app).to receive(:current_openid){ openid }
         allow(UserRepo).to receive(:create_by_openid){ user }
-        allow(user).to receive('valid?'){ false }
-      end 
+      end
+
+      after{ openid_login.update_openid_data }
 
       it 'try create user by openid' do
         expect(app).to receive(:params){ params }
         expect(app).to receive(:current_openid){ openid }
         expect(UserRepo).to receive(:create_by_openid).with(openid, params)
-
-        openid_login.update_openid_data
-      end
-
-      it 'authentify and redirect back when user valid' do
-        allow(user).to receive('valid?'){ true }
-        expect(app).to receive(:authentify_and_back).with(user)
-        openid_login.update_openid_data
       end
 
       it 'return user' do
         expect(openid_login.update_openid_data).to eq user
       end
+
+      context 'when user valid' do
+        before do
+          allow(user).to receive('valid?'){ true }
+          allow(notify).to receive(:openid_registration)
+          allow(app).to receive(:authentify_and_back)
+        end
+  
+        it 'notify user about registration ' do
+          expect(notify).to receive(:openid_registration).with(openid, host)
+        end
+
+        it 'authentify and redirect back when user valid' do
+          expect(app).to receive(:authentify_and_back).with(user)
+        end
+      end
     end
 
-    describe 'show_openid_data' do
+    describe '#show_openid_data' do
       before do
         allow(app).to receive(:current_openid){ openid }
         allow(UserRepo).to receive(:find_or_create_by_openid){ user }
@@ -68,33 +81,43 @@ module Vxod
     describe '#login' do
       let(:openid){ double('openid') }
       let(:omniauth_hash){ double('omniauth_hash') }
-  
+
       before do
         allow(app).to receive(:omniauth_hash){ omniauth_hash }
         allow(OpenidRepo).to receive(:find_or_create){ openid }
         allow(UserRepo).to receive(:find_or_create_by_openid){ user }
-        allow(user).to receive('valid?'){ true }
+        allow(app).to receive(:redirect_to_fill_openid).with(openid)
       end
+
+      after { openid_login.login }
 
       it 'find or create openid' do
         expect(OpenidRepo).to receive(:find_or_create).with(omniauth_hash)
-        openid_login.login
       end
 
       it 'find or create user by openid' do
         expect(UserRepo).to receive(:find_or_create_by_openid).with(openid)
-        openid_login.login
       end
-
-      it 'authentify and redirect back when user valid' do
-        expect(app).to receive(:authentify_and_back).with(user)
-        openid_login.login
-      end 
 
       it 'redirect to fill openid page when user invalid' do
         allow(user).to receive('valid?'){ false }
         expect(app).to receive(:redirect_to_fill_openid).with(openid)
-        openid_login.login
+      end
+
+      context 'when user valid' do
+        before do
+          allow(user).to receive('valid?'){ true }
+          allow(notify).to receive(:openid_registration)
+          allow(app).to receive(:authentify_and_back)
+        end
+
+        it 'notify user about registration when user valid' do
+          expect(notify).to receive(:openid_registration).with(openid, host)
+        end
+
+        it 'authentify and redirect back when user valid' do
+          expect(app).to receive(:authentify_and_back).with(user)
+        end 
       end
     end
   end
