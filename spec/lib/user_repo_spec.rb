@@ -158,7 +158,7 @@ module Vxod
     end
 
     describe '.find_by_openid' do
-      it 'return user'
+      it 'return Openid#user'
     end
 
     describe '.build_by_openid' do

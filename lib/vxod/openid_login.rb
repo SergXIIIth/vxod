@@ -8,7 +8,13 @@ module Vxod
 
     def login
       openid = OpenidRepo.find_or_create(app.omniauth_hash)
-      UserRepo.find_by_openid(openid) || registrator.register_by_openid(openid)
+      user = UserRepo.find_by_openid(openid) 
+
+      if user
+        app.authentify_and_back(user)
+      else
+        registrator.register_by_openid(openid)
+      end
     end
 
     def update_openid_data

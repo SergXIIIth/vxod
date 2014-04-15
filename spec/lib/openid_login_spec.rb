@@ -8,22 +8,24 @@ module Vxod
     let(:openid_login){ OpenidLogin.new(app) }
     let(:notify){ double('notify') }
     let(:host){ double('host') }
+    let(:registrator){ double('registrator') }
 
     before do
       allow(app).to receive(:request_host){ host }
       allow(Notify).to receive(:new){ notify }
+      allow(Registrator).to receive(:new){ registrator }
       allow(user).to receive('valid?'){ false }
     end
 
-    describe '#login', :focus do
+    describe '#login' do
       let(:openid){ double('openid') }
       let(:omniauth_hash){ double('omniauth_hash') }
 
       before do
         allow(app).to receive(:omniauth_hash){ omniauth_hash }
+        allow(app).to receive(:authentify_and_back)
         allow(OpenidRepo).to receive(:find_or_create){ openid }
-        allow(UserRepo).to receive(:find_or_create_by_openid){ user }
-        allow(app).to receive(:redirect_to_fill_openid).with(openid)
+        allow(UserRepo).to receive(:find_by_openid).with(openid){ user }
       end
 
       after { openid_login.login }
@@ -33,11 +35,19 @@ module Vxod
       end
 
       context 'when user exist' do
-        it 'authentify and redirect back'
+        it 'authentify and redirect back' do
+          expect(app).to receive(:authentify_and_back).with(user)
+        end
       end
 
       context 'when user not exist' do
-        it 'register user by openid'
+        before do
+          allow(UserRepo).to receive(:find_by_openid).with(openid){ nil }
+        end
+
+        it 'register user by openid' do
+          expect(registrator).to receive(:register_by_openid).with(openid)
+        end
       end
     end
 
