@@ -10,17 +10,24 @@ module Vxod
 
     describe '#authentify' do
       it 'set cookie with for whole domain with 10 years expires' do
-        host = rnd('host')
-        allow(request).to receive(:host){ host }
-
         expect(response).to receive(:set_cookie).with('vxod.auth',
           value: auth_key,
           path: '/',
           expires: Time.new(DateTime.now.year + 10, 1, 1),
           httponly: true
         )
+        app.authentify(auth_key, true)
+      end
 
-        app.authentify(auth_key)
+      context 'when remember_me false' do
+        it 'set session cookie' do
+          expect(response).to receive(:set_cookie).with('vxod.auth',
+            value: auth_key,
+            path: '/',
+            httponly: true
+          )
+          app.authentify(auth_key, false)
+        end
       end
     end
 
@@ -62,12 +69,11 @@ module Vxod
       it 'authentify and redirect to after login path' do
         user = double(auth_key: auth_key)
 
-        expect(app).to receive(:authentify).with(auth_key)
+        expect(app).to receive(:authentify).with(auth_key, true)
         expect(app).to receive(:redirect_to_after_login)
 
         app.authentify_and_back(user)
       end
     end
-
   end
 end

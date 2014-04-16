@@ -1,7 +1,7 @@
 module Vxod
-  class Error
-    def initialize(error = nil)
-      @error = error
+  class Success
+    def initialize(message = nil)
+      @error = nil
     end
 
     attr_accessor :error

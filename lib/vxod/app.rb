@@ -32,17 +32,22 @@ module Vxod
       rack_app.env['omniauth.auth']
     end
 
-    def authentify(auth_key)
-      rack_app.response.set_cookie('vxod.auth', 
+    def authentify(auth_key, remember_me = true)
+      cookie_hash = {
         value: auth_key,
         path: '/',
-        expires: Time.new(DateTime.now.year + 10, 1, 1),
-        httponly: true,
-      )      
+        httponly: true
+      }
+
+      if remember_me
+        cookie_hash[:expires] = Time.new(DateTime.now.year + 10, 1, 1)
+      end
+
+      rack_app.response.set_cookie('vxod.auth', cookie_hash)      
     end
 
-    def authentify_and_back(user)
-      authentify(user.auth_key)
+    def authentify_and_back(user, remember_me = true)
+      authentify(user.auth_key, remember_me)
       redirect_to_after_login
     end
 

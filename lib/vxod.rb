@@ -6,6 +6,7 @@ require 'bcrypt'
 module Vxod
   autoload :Db, 'vxod/db'
   autoload :Error, 'vxod/error'
+  autoload :Success, 'vxod/success'
   autoload :BackPath, 'vxod/back_path'
   autoload :Config, 'vxod/config'
   autoload :App, 'vxod/app'
