@@ -57,36 +57,32 @@ module Vxod
       before do
         allow(app).to receive(:params){ params }
         allow(app).to receive(:current_openid){ openid }
-        allow(UserRepo).to receive(:create_by_openid){ user }
+        allow(registrator).to receive(:register_by_clarify_openid){ user }
       end
 
       after{ openid_login.update_openid_data }
 
-      it 'try create user by openid' do
-        expect(app).to receive(:params){ params }
-        expect(app).to receive(:current_openid){ openid }
-        expect(UserRepo).to receive(:create_by_openid).with(openid, params)
+      it 'register user' do
+        expect(registrator).to receive(:register_by_clarify_openid)
       end
-
-      it 'openid.user = user when registration success'
-
+      
       it 'return user' do
         expect(openid_login.update_openid_data).to eq user
       end
 
-      context 'when user valid' do
+      context 'when registration success' do
         before do
           allow(user).to receive('valid?'){ true }
-          allow(notify).to receive(:openid_registration)
-          allow(app).to receive(:authentify_and_back)
-        end
-  
-        it 'notify user about registration ' do
-          expect(notify).to receive(:openid_registration).with(openid, host)
+          allow(openid).to receive(:user=)
+          allow(openid).to receive(:save!)
         end
 
-        it 'authentify and redirect back when user valid' do
-          expect(app).to receive(:authentify_and_back).with(user)
+        it 'update openid#user reference' do
+          expect(openid).to receive(:user=).with(user)
+        end
+
+        it 'save openid' do
+          expect(openid).to receive(:save!)
         end
       end
     end
@@ -94,25 +90,29 @@ module Vxod
     describe '#show_openid_data' do
       before do
         allow(app).to receive(:current_openid){ openid }
-        allow(UserRepo).to receive(:find_or_create_by_openid){ user }
-        allow(user).to receive('valid?'){ false }
-      end 
-
-      it 'find user by app.current_openid' do
-        expect(app).to receive(:current_openid){ openid }
-        expect(UserRepo).to receive(:find_or_create_by_openid).with(openid)
-
-        openid_login.show_openid_data
+        allow(UserRepo).to receive(:find_by_openid).with(openid){ user }
       end
 
-      it 'authentify when user valid' do
-        allow(user).to receive('valid?'){ true }
-        expect(app).to receive(:authentify_and_back).with(user)
-        openid_login.show_openid_data
+      after { openid_login.show_openid_data }
+
+      it 'find user by app#current_openid' do
+        expect(app).to receive(:current_openid){ openid }
+        expect(UserRepo).to receive(:find_by_openid).with(openid){ user }
+      end
+
+      it 'fill up user#errors' do
+        expect(user).to receive('valid?')
       end
 
       it 'return user' do
         expect(openid_login.show_openid_data).to eq user
+      end
+
+      context 'when user not exist' do
+        it 'build user by openid' do
+          allow(UserRepo).to receive(:find_by_openid).with(openid){ nil }
+          expect(UserRepo).to receive(:build_by_openid).with(openid){ user }
+        end
       end
     end
   end

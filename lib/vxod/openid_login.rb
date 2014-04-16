@@ -20,7 +20,7 @@ module Vxod
     def update_openid_data
       openid = app.current_openid
 
-      user = registrator.register
+      user = registrator.register_by_clarify_openid
 
       if user.valid?
         openid.user = user
@@ -32,7 +32,8 @@ module Vxod
 
     def show_openid_data
       openid = app.current_openid
-      user = UserRepo.find_by_openid(openid) || UserRepo.build_by_openid(openid)
+      user = UserRepo.find_by_openid(openid) 
+      user ||= UserRepo.build_by_openid(openid)
 
       user.valid? # fill up user#errors
 

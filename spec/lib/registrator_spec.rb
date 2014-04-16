@@ -73,7 +73,17 @@ module Vxod
       end
 
       context 'when user valid' do
-        it 'notify user about registration'
+        it 'notify user about openid registration'
+        it 'authentify and redirect back'
+      end
+    end
+
+    describe '#register_by_clarify_openid' do
+      it 'create user with auto password'
+      it 'return user'
+
+      context 'when registration success' do
+        it 'notify user about openid registration'
         it 'authentify and redirect back'
       end
     end
