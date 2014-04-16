@@ -8,11 +8,15 @@ module Vxod
     # Login
 
     get Vxod.config.login_path do
-      slim :login
+      slim :login, locals: { model: Success.new }
     end
 
     post Vxod.config.login_path do
-      call_vxod_api :login, :login
+      model = vxod.login
+      
+      if model.error?
+        slim :login, locals: { model: model }
+      end
     end
 
     get Vxod.config.logout_path do

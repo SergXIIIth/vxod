@@ -1,14 +1,8 @@
 module Vxod
-  class Success
-    def initialize(message = nil)
+  class Success < Error
+    def initialize(success = nil)
       @error = nil
-    end
-
-    attr_accessor :error
-    attr_accessor :success
-
-    def success?
-      error.nil?
+      @success = success
     end
   end
 end

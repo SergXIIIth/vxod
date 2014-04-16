@@ -8,6 +8,11 @@ html
         == slim :'parts/nav'
 
         form role='form' action=Vxod.config.login_path method='POST'
+          - if model.error?
+            .alert.alert-danger
+              - model.error.each do |m|
+                p =m
+
           .form-group
             label for='email' Email
             input.form-control type='email' id='email' name='email' placeholder='Enter email'
