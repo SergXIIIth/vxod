@@ -4,24 +4,34 @@ require 'vxod/db/mongoid'
 module Vxod
   describe UserRepo do
     let(:user){ double('user') }
-    let(:firstname){ rnd('firstname') }
-    let(:lastname){ rnd('lastname') }
-    let(:email){ "sergey#{rnd}@makridenkov.com" }
-    let(:secure_random){ double('secure_random') }
-    let(:params){{ 'firstname' => firstname, 'lastname' => lastname, 'email' => email }}
+    let(:firstname){ double('firstname') }
+    let(:lastname){ double('lastname') }
+    let(:email){ double('email') }
     let(:openid){ double('openid') }
     let(:password){ double('password') }
+    let(:secure_random){ double('secure_random') }
+    let(:params){{ 'firstname' => firstname, 'lastname' => lastname, 'email' => email }}
 
     before do
       allow(Db).to receive(:user){ double(new: user) }
       allow(user).to receive(:new){ user }
     end
 
+    describe '.crypt_password' do
+      let(:password_hash){ double('password_hash') }
+
+      it 'set User#password_hash' do
+        expect(BCrypt::Password).to receive(:create).with(password){ password_hash }
+        expect(user).to receive(:password_hash=).with(password_hash)
+        UserRepo.crypt_password(user, password)
+      end
+    end
+
     describe '.create' do
       before do
         params.merge!({'password' => password, 'auto_password' => false})
-        allow(user).to receive(:password=)
         allow(user).to receive(:save)
+        allow(UserRepo).to receive(:crypt_password)
         allow(UserRepo).to receive(:build){ user }
       end
 
@@ -33,8 +43,8 @@ module Vxod
         expect(UserRepo).to receive(:build).with(firstname, lastname, email)
       end
 
-      it 'set password' do
-        expect(user).to receive(:password=).with(password)
+      it 'crypt password' do
+        expect(UserRepo).to receive(:crypt_password).with(user, password)
       end
 
       it 'save to db' do
@@ -51,6 +61,7 @@ module Vxod
         allow(user).to receive(:save)
         allow(user).to receive(:password=)
         allow(UserRepo).to receive(:build_by_openid).with(openid){ user }
+        allow(UserRepo).to receive(:crypt_password)
       end
 
       subject(:create_by_openid){ UserRepo.create_by_openid(openid, password) }
@@ -61,8 +72,11 @@ module Vxod
         expect(UserRepo).to receive(:build_by_openid).with(openid){ user }
       end
 
-      it 'set password and save to DB' do
-        expect(user).to receive(:password=).with(password)
+      it 'crypt password' do
+        expect(UserRepo).to receive(:crypt_password).with(user, password)
+      end
+
+      it 'save to DB' do
         expect(user).to receive(:save)
       end
 

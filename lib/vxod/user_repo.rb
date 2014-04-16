@@ -3,14 +3,14 @@ module Vxod
     class << self
       def create(params)
         build(params['firstname'], params['lastname'], params['email']).tap do |user|
-          user.password = params['password']
+          crypt_password(user, params['password'])
           user.save
         end
       end
 
       def create_by_openid(openid, password)
         build_by_openid(openid).tap do |user|
-          user.password = password
+          crypt_password(user, password)
           user.save
         end
       end
@@ -32,6 +32,10 @@ module Vxod
       def build_by_openid(openid)
         data = OpenidRawParser.new(openid.raw)
         build(data.firstname, data.lastname, data.email)
+      end
+
+      def crypt_password(user, password)
+        user.password_hash = BCrypt::Password.create(password)
       end
 
       def generate_password
