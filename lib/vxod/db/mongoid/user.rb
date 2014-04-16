@@ -25,6 +25,8 @@ module Vxod::Db::Mongoid
     has_many :openids, dependent: :destroy
 
     index({ auth_key: 1 }, { unique: true })
+    index({ email: 1 }, { unique: true })
+    index({ confirm_email_key: 1 }, { unique: true })
 
     def name
       "#{firstname} #{lastname}"
@@ -33,6 +35,10 @@ module Vxod::Db::Mongoid
     class << self
       def find_by_auth_key(auth_key)
         User.where(auth_key: auth_key)[0]
+      end
+
+      def find_by_email(email)
+        User.where(email: email)[0]
       end
 
       def find_by_confirm_email_key(confirm_email_key)

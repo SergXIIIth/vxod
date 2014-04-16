@@ -37,7 +37,7 @@ module Vxod
       end
     end      
 
-    # nil - state is not set. update allowed
+    # return nil when confirm state update allowed
     def confirm_state
       if @user.confirm_at
         { success: false, error: [ "Email already confirmed" ] }

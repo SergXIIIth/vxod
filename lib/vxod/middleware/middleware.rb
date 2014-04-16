@@ -12,7 +12,7 @@ module Vxod
     end
 
     post Vxod.config.login_path do
-      (params['remember_me'] == 'on').to_s
+      call_vxod_api :login, :login
     end
 
     get Vxod.config.logout_path do

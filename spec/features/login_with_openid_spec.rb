@@ -4,7 +4,7 @@ describe 'Login with openid', :type => :feature, feature: true, js: true  do
   let(:email){ "sergey#{rnd}@makridenkov.com" }
 
   it 'allow access to secret page' do
-    # Given I am onhome page
+    # Given I am on home page
     # When I click on secret page
     # And I click login with VK
     # Then I should see error about email on page
@@ -14,7 +14,7 @@ describe 'Login with openid', :type => :feature, feature: true, js: true  do
     # When I click on logout
     # Then I should be on home page
 
-    # Given I am onhome page
+    # Given I am on home page
     visit '/'
     # When I click on secret page
     click_on 'secret'

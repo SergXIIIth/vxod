@@ -27,6 +27,10 @@ module Vxod
       Registrator.new(app).register
     end
 
+    def login
+      Login.new(app).login
+    end
+
     def confirm_email
       res = ConfirmEmail.new(app).confirm
       res[:back_path] = app.after_login_path
