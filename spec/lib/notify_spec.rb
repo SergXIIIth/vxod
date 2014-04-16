@@ -36,6 +36,13 @@ module Vxod
           expect(params[:host]).to eq host
         }
       end
+
+      it 'default send_password is true' do
+        expect(notify).to receive(:render).with { |templite, params|
+          expect(params[:send_password]).to be_true
+        }
+        notify.registration(user, password, host)
+      end
     end
 
     describe '#openid_registration' do
