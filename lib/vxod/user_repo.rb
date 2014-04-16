@@ -42,6 +42,9 @@ module Vxod
           user.email = email
         end
       end
+
+      def build_by_openid(openid)
+      end
     end
   end
 end

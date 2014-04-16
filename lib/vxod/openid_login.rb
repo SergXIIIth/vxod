@@ -8,10 +8,9 @@ module Vxod
 
     def login
       openid = OpenidRepo.find_or_create(app.omniauth_hash)
-      user = UserRepo.find_by_openid(openid) 
 
-      if user
-        app.authentify_and_back(user)
+      if openid.user
+        app.authentify_and_back(openid.user)
       else
         registrator.register_by_openid(openid)
       end
@@ -32,7 +31,7 @@ module Vxod
 
     def show_openid_data
       openid = app.current_openid
-      user = UserRepo.find_by_openid(openid) 
+      user = openid.user 
       user ||= UserRepo.build_by_openid(openid)
 
       user.valid? # fill up user#errors

@@ -68,6 +68,8 @@ module Vxod
     end
 
     describe '#register_by_openid' do
+      it 'create user'
+
       context 'when user unvalid' do
         it 'redirect to fill openid page when user invalid'
       end

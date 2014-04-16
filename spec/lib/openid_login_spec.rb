@@ -25,7 +25,7 @@ module Vxod
         allow(app).to receive(:omniauth_hash){ omniauth_hash }
         allow(app).to receive(:authentify_and_back)
         allow(OpenidRepo).to receive(:find_or_create){ openid }
-        allow(UserRepo).to receive(:find_by_openid).with(openid){ user }
+        allow(openid).to receive(:user){ user }
       end
 
       after { openid_login.login }
@@ -42,7 +42,7 @@ module Vxod
 
       context 'when user not exist' do
         before do
-          allow(UserRepo).to receive(:find_by_openid).with(openid){ nil }
+          allow(openid).to receive(:user){ nil }
         end
 
         it 'register user by openid' do
@@ -90,14 +90,13 @@ module Vxod
     describe '#show_openid_data' do
       before do
         allow(app).to receive(:current_openid){ openid }
-        allow(UserRepo).to receive(:find_by_openid).with(openid){ user }
+        allow(openid).to receive(:user){ user }
       end
 
       after { openid_login.show_openid_data }
 
       it 'find user by app#current_openid' do
         expect(app).to receive(:current_openid){ openid }
-        expect(UserRepo).to receive(:find_by_openid).with(openid){ user }
       end
 
       it 'fill up user#errors' do
@@ -109,8 +108,11 @@ module Vxod
       end
 
       context 'when user not exist' do
+        before do
+          allow(openid).to receive(:user){ nil }
+        end
+
         it 'build user by openid' do
-          allow(UserRepo).to receive(:find_by_openid).with(openid){ nil }
           expect(UserRepo).to receive(:build_by_openid).with(openid){ user }
         end
       end
