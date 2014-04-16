@@ -17,16 +17,7 @@ module Vxod
     end
 
     def update_openid_data
-      openid = app.current_openid
-
-      user = registrator.register_by_clarify_openid
-
-      if user.valid?
-        openid.user = user
-        openid.save!
-      end
-
-      user
+      registrator.register_by_clarify_openid(app.current_openid)
     end
 
     def show_openid_data

@@ -52,10 +52,7 @@ module Vxod
     end
 
     describe '#update_openid_data' do
-      let(:params){ double('params') }
-
       before do
-        allow(app).to receive(:params){ params }
         allow(app).to receive(:current_openid){ openid }
         allow(registrator).to receive(:register_by_clarify_openid){ user }
       end
@@ -63,27 +60,11 @@ module Vxod
       after{ openid_login.update_openid_data }
 
       it 'register user' do
-        expect(registrator).to receive(:register_by_clarify_openid)
+        expect(registrator).to receive(:register_by_clarify_openid).with(openid)
       end
       
       it 'return user' do
         expect(openid_login.update_openid_data).to eq user
-      end
-
-      context 'when registration success' do
-        before do
-          allow(user).to receive('valid?'){ true }
-          allow(openid).to receive(:user=)
-          allow(openid).to receive(:save!)
-        end
-
-        it 'update openid#user reference' do
-          expect(openid).to receive(:user=).with(user)
-        end
-
-        it 'save openid' do
-          expect(openid).to receive(:save!)
-        end
       end
     end
 

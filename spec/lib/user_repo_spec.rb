@@ -30,6 +30,8 @@ module Vxod
         allow(UserRepo).to receive(:build){ user }
       end
 
+      it 'generate password if params["password"] missing'
+
       it 'call build' do
         expect(UserRepo).to receive(:build).with(firstname, lastname, email)
 
@@ -120,6 +122,11 @@ module Vxod
       it 'returns user' do
         expect(UserRepo.create_by_openid(openid, params)).to eq user
       end
+    end
+
+    describe '.create_by_clarify_openid' do
+      it 'take name, surname, email from params'
+      it 'create user with auto password'
     end
 
     describe '.build' do

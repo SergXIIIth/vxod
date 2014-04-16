@@ -24,11 +24,29 @@ module Vxod
       user = UserRepo.create_by_openid(openid)
         
       if user.valid?
-        Notify.new.openid_registration(openid, app.request_host)
-        app.authentify_and_back(user)
+        openid_registered(openid, user)
       else
         app.redirect_to_fill_openid(openid)
       end
+    end
+
+    def register_by_clarify_openid(openid)
+      user = UserRepo.create_by_clarify_openid(openid, app.params)
+      openid_registered(openid, user)
+    end
+
+    private
+
+    def openid_registered(openid, user)
+      if user.valid?
+        openid.user = user
+        openid.save!
+
+        Notify.new.openid_registration(openid, app.request_host)
+        app.authentify_and_back(user)
+      end
+
+      user
     end
   end
 end
