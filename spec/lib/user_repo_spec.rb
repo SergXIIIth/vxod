@@ -26,7 +26,7 @@ module Vxod
         allow(UserRepo).to receive(:build){ user }
       end
 
-      after{ UserRepo.register(params) }
+      after{ UserRepo.create(params) }
 
       it 'validate password when not auto password'
 
@@ -50,7 +50,7 @@ module Vxod
       end
 
       it 'returns user' do
-        expect(UserRepo.register(params)).to eq user
+        expect(UserRepo.create(params)).to eq user
       end
     end
 

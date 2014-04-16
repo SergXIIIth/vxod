@@ -7,7 +7,7 @@ describe 'Confirm email', :type => :feature, feature: true, js: true  do
     # Given I follow confirmation link
     # Then I should see message "Email confirmed"
     # And link to after login path
-    user = Vxod::UserRepo.register('email' => email)
+    user = Vxod::UserRepo.create('email' => email)
 
     visit "#{Vxod.config.confirm_email_path}?key=#{user.confirm_email_key}"
 
@@ -16,7 +16,7 @@ describe 'Confirm email', :type => :feature, feature: true, js: true  do
   end
 
   it 'show error when confirmation invalid' do
-    user = Vxod::UserRepo.register('email' => email)
+    user = Vxod::UserRepo.create('email' => email)
 
     user.confirm_at = DateTime.now
     user.save!

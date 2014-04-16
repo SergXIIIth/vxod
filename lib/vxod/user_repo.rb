@@ -1,7 +1,7 @@
 module Vxod
   class UserRepo
     class << self
-      def register(params)
+      def create(params)
         build(params['firstname'], params['lastname'], params['email']).tap do |user|
           user.password = params['auto_password'] ? generate_password : params['password']
           user.save
