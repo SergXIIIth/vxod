@@ -13,15 +13,18 @@ module Vxod
       allow(app).to receive(:params){ params }
       allow(user).to receive(:confirm_at){ nil }
       allow(user).to receive(:lock_code){ nil }
-      allow(Db.user).to receive(:find_by_confirm_email_key){ user }
+
+      user_class = double('user')
+      allow(Db).to receive(:user){ user_class }
+      allow(user_class).to receive(:find_by_confirm_email_key).with(key){ user }
     end
 
     describe '#confirm' do
       context 'when user not found by key' do
         it 'raise fail - confirmation link without key app.requst_path' do
           allow(app).to receive(:request_path)
-          allow(Db.user).to receive(:find_by_confirm_email_key){ nil }
-          expect{ confirm_email.confirm }.to raise_error
+          allow(Db.user).to receive(:find_by_confirm_email_key).with(key){ nil }
+          expect{ confirm_email.confirm }.to raise_error RuntimeError
         end
       end
 

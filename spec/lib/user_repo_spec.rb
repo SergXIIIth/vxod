@@ -8,6 +8,8 @@ module Vxod
     let(:lastname){ rnd('lastname') }
     let(:email){ "sergey#{rnd}@makridenkov.com" }
     let(:secure_random){ double('secure_random') }
+    let(:params){{ 'firstname' => firstname, 'lastname' => lastname, 'email' => email }}
+    let(:openid){ double('openid') }
 
     before do
       allow(Db).to receive(:user){ double(new: user) }
@@ -63,64 +65,24 @@ module Vxod
       end
     end
 
-    describe '.find_or_create_by_openid' do
-      let(:openid){ double('openid') }
-      let(:raw){{ 'info' => {
-        'first_name' => firstname, 'last_name' => lastname, 'email' => email 
-      }}}
-
-      before do
-        allow(openid).to receive(:user){ nil }
-        allow(openid).to receive(:raw){ raw }
-      end
-
-      it 'return when openid.user exist' do
-        expect(openid).to receive(:user){ user }
-        UserRepo.find_or_create_by_openid(openid)
-      end
-
-      it 'return user create_by_openid when openid.user not exist' do
-        expect(UserRepo).to receive(:create_by_openid) do |obj, hash|
-          expect(obj).to eq openid
-          expect(hash['firstname']).to eq firstname
-          expect(hash['lastname']).to eq lastname
-          expect(hash['email']).to eq email
-        end.and_return(user)
-        
-        expect(UserRepo.find_or_create_by_openid(openid)).to eq user
-      end
-    end
-
     describe '.create_by_openid' do
-      let(:openid){ double('openid') }
-      let(:params){{ 'firstname' => firstname, 'lastname' => lastname, 'email' => email }}
-
       before do
-        allow(UserRepo).to receive(:build){ user }
         allow(user).to receive(:save)
+        allow(UserRepo).to receive(:build_by_openid).with(openid){ user }
       end
 
-      it 'build user from params - email, firstname, lastname' do
-        expect(UserRepo).to receive(:build).with(firstname, lastname, email)
-        UserRepo.create_by_openid(openid, params)
-      end
+      after{ UserRepo.create_by_openid(openid) }
 
-      it 'save to db openid.user_id when user saved' do
-        allow(user).to receive(:save){ true }
-        expect(openid).to receive(:user=).with(user)
-        expect(openid).to receive('save!')
-        UserRepo.create_by_openid(openid, params)
+      it 'invoke build_by_openid' do
+        expect(UserRepo).to receive(:build_by_openid).with(openid){ user }
       end
-
-      it 'invoke build_by_openid'
 
       it 'save to db' do
         expect(user).to receive(:save)
-        UserRepo.create_by_openid(openid, params)
       end
 
       it 'returns user' do
-        expect(UserRepo.create_by_openid(openid, params)).to eq user
+        expect(UserRepo.create_by_openid(openid)).to eq user
       end
     end
 

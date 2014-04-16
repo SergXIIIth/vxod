@@ -8,29 +8,10 @@ module Vxod
         end
       end
 
-      def find_or_create_by_openid(openid)
-        if openid.user
-          openid.user
-        else
-          data = OpenidRawParser.new(openid.raw)
-
-          create_by_openid(openid, { 
-            'firstname' => data.firstname,
-            'lastname' => data.lastname,
-            'email' => data.email,
-          })
-        end
-      end
-
-      def create_by_openid(openid, params)
-        build(params['firstname'], params['lastname'], params['email']).tap do |user|
-          saved = user.save
-          
-          if saved
-            openid.user = user
-            openid.save!
-          end
-        end
+      def create_by_openid(openid)
+        user = build_by_openid(openid)
+        user.save
+        user
       end
 
       def build(firstname, lastname, email)
@@ -44,6 +25,13 @@ module Vxod
       end
 
       def build_by_openid(openid)
+          # data = OpenidRawParser.new(openid.raw)
+
+          # create_by_openid(openid, { 
+          #   'firstname' => data.firstname,
+          #   'lastname' => data.lastname,
+          #   'email' => data.email,
+          # })
       end
     end
   end
