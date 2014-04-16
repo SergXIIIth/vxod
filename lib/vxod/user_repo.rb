@@ -3,15 +3,23 @@ module Vxod
     class << self
       def register(params)
         build(params['firstname'], params['lastname'], params['email']).tap do |user|
-          user.password = params['auto_password'] ? SecureRandom.hex(4) : params['password']
+          user.password = params['auto_password'] ? generate_password : params['password']
           user.save
         end
       end
 
       def create_by_openid(openid)
-        user = build_by_openid(openid)
-        user.save
-        user
+        build_by_openid(openid).tap do |user|
+          user.password = generate_password
+          user.save
+        end
+      end
+
+      def create_by_clarify_openid(openid, params)
+        build(params['firstname'], params['lastname'], params['email']).tap do |user|
+          user.password = generate_password
+          user.save
+        end
       end
 
       def build(firstname, lastname, email)
@@ -25,13 +33,12 @@ module Vxod
       end
 
       def build_by_openid(openid)
-          # data = OpenidRawParser.new(openid.raw)
+        data = OpenidRawParser.new(openid.raw)
+        build(data.firstname, data.lastname, data.email)
+      end
 
-          # create_by_openid(openid, { 
-          #   'firstname' => data.firstname,
-          #   'lastname' => data.lastname,
-          #   'email' => data.email,
-          # })
+      def generate_password
+        SecureRandom.hex(4)
       end
     end
   end
