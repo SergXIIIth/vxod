@@ -110,6 +110,8 @@ module Vxod
         UserRepo.create_by_openid(openid, params)
       end
 
+      it 'invoke build_by_openid'
+
       it 'save to db' do
         expect(user).to receive(:save)
         UserRepo.create_by_openid(openid, params)
@@ -155,10 +157,6 @@ module Vxod
 
         UserRepo.build(firstname, lastname, email)
       end
-    end
-
-    describe '.find_by_openid' do
-      it 'return Openid#user'
     end
 
     describe '.build_by_openid' do

@@ -5,19 +5,21 @@ module Vxod
   describe Registrator do
     let(:app){ double('app') }
     let(:registrator){ Registrator.new(app) }
+    let(:user){ double('valid?' => false) }
+    let(:notify){ double('notify', registration: 1) }
+    let(:host){ double('host') }
+
+    before do
+      allow(app).to receive(:request_host){ host }
+      allow(Notify).to receive(:new){ notify }
+    end
 
     describe '#register' do
       let(:params){ {} }
-      let(:user){ double('valid?' => false) }
-      let(:notify){ double('notify', registration: 1) }
-      let(:host){ double('host') }
-
 
       before do
         allow(app).to receive(:params){ params }
-        allow(app).to receive(:request_host){ host }
         allow(UserRepo).to receive(:register){ user }
-        allow(Notify).to receive(:new){ notify }
       end
 
       it 'register user' do
@@ -68,15 +70,39 @@ module Vxod
     end
 
     describe '#register_by_openid' do
-      it 'create user'
+      let(:openid){ double('openid') }
+
+      before do
+        allow(app).to receive(:redirect_to_fill_openid).with(openid)
+        allow(UserRepo).to receive(:create_by_openid){ user }
+      end
+      
+      after{ registrator.register_by_openid(openid) }
+
+      it 'create user' do
+        expect(UserRepo).to receive(:create_by_openid).with(openid){ user }
+      end
 
       context 'when user unvalid' do
-        it 'redirect to fill openid page when user invalid'
+        it 'redirect to fill openid page when user invalid' do
+          expect(app).to receive(:redirect_to_fill_openid).with(openid)
+        end
       end
 
       context 'when user valid' do
-        it 'notify user about openid registration'
-        it 'authentify and redirect back'
+        before do
+          allow(user).to receive('valid?'){ true }
+          allow(notify).to receive(:openid_registration).with(openid, host)
+          allow(app).to receive(:authentify_and_back).with(user)
+        end
+
+        it 'notify user about openid registration' do
+          expect(notify).to receive(:openid_registration).with(openid, host)
+        end
+
+        it 'authentify and redirect back' do
+          expect(app).to receive(:authentify_and_back).with(user)
+        end
       end
     end
 
