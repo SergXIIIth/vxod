@@ -1,6 +1,6 @@
 module Vxod
   class Notify
-    def registration(user, host, send_password = false)
+    def registration(user, user_password, host, send_password = false)
       templite = "#{__dir__}/middleware/views/emails/registration.slim"
 
       Pony.mail(
@@ -10,13 +10,14 @@ module Vxod
           templite, 
           user: user, 
           host: host,
+          password: user_password,
           send_password: send_password
         )
       )
     end
 
-    def openid_registration(openid, host)
-      registration(openid.user, host)
+    def openid_registration(openid, user_password, host)
+      registration(openid.user, user_password, host)
     end
 
     def render(templite, locals)

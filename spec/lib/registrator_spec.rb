@@ -10,39 +10,70 @@ module Vxod
     let(:notify){ double('notify', registration: 1) }
     let(:host){ double('host') }
     let(:openid){ double('openid') }
+    let(:password){ double('password') }
 
     before do
       allow(app).to receive(:request_host){ host }
-      allow(app).to receive(:params){ params }
       allow(Notify).to receive(:new){ notify }
+    end
+
+    describe '#params' do
+      before do
+        allow(app).to receive(:params){ params }
+        allow(registrator).to receive(:password){ password }
+      end
+
+      subject('call_params'){ registrator.send(:params) }
+
+      it 'prevent app.params from changes' do
+        expect(params).to receive(:clone){ params }
+        call_params
+      end
+
+      it 'add password to app params' do
+        expect(call_params['password']).to eq password
+      end
+    end
+
+    describe '#password' do
+      before do
+        allow(app).to receive(:params){ params }
+      end
+
+      subject('call_password'){ registrator.send(:password) }
+
+      context 'when auto password' do
+        before do
+          params['auto_password'] = 'on'
+        end
+
+        it 'generate password' do
+          expect(SecureRandom).to receive(:hex).with(4){ password }
+          expect(call_password).to eq password
+        end
+      end
+
+      context 'when not auto password' do
+        before do
+          params['password'] = password
+        end
+
+        it 'returns password from request' do
+          expect(call_password).to eq password
+        end
+      end
     end
 
     describe '#register' do
       before do
         allow(UserRepo).to receive(:create){ user }
+        allow(registrator).to receive(:params){ params }
       end
 
-      it 'register user' do
-        expect(UserRepo).to receive(:create){ user }
-        registrator.register
-      end
+      after{ registrator.register }
 
-      it 'convert params["auto_password"] = nil to false' do
-        expect(UserRepo).to receive(:create).with{ |params|
-          expect(params['auto_password']).to eq false
-        }
-
-        registrator.register
-      end
-
-      it 'convert params["auto_password"] = "on" to true' do
-        params['auto_password'] = 'on'
-
-        expect(UserRepo).to receive(:create).with{ |params|
-          expect(params['auto_password']).to eq true
-        }
-
-        registrator.register
+      it 'create user in DB' do
+        expect(UserRepo).to receive(:create).with(params)
       end
 
       context 'when user data is valid' do
@@ -50,19 +81,15 @@ module Vxod
           allow(user).to receive(:valid?){ true }
           allow(app).to receive(:authentify_and_back)
           allow(Notify).to receive(:registration)
+          allow(registrator).to receive(:password){ password }
         end
 
         it 'authentify user and redirect back' do
           expect(app).to receive(:authentify_and_back).with(user)
-          registrator.register
         end
 
         it 'notify user about new registration' do
-          params['auto_password'] = 'on'
-
-          expect(notify).to receive(:registration).with(user, host, true)
-
-          registrator.register
+          expect(notify).to receive(:registration).with(user, password, host)
         end
       end
     end
@@ -71,12 +98,13 @@ module Vxod
       before do
         allow(app).to receive(:redirect_to_fill_openid).with(openid)
         allow(UserRepo).to receive(:create_by_openid){ user }
+        allow(registrator).to receive(:generate_password){ password }
       end
       
       after{ registrator.register_by_openid(openid) }
 
-      it 'create user' do
-        expect(UserRepo).to receive(:create_by_openid).with(openid){ user }
+      it 'create user with auto password' do
+        expect(UserRepo).to receive(:create_by_openid).with(openid, password){ user }
       end
 
       context 'when user unvalid' do
@@ -100,12 +128,17 @@ module Vxod
       before do
         allow(UserRepo).to receive(:create_by_clarify_openid).with(openid, params){ user }
         allow(registrator).to receive(:openid_registered).with(openid, user)
+        allow(registrator).to receive(:params){ params }
       end
 
       after{ registrator.register_by_clarify_openid(openid) }
 
-      it 'create user' do
-        expect(UserRepo).to receive(:create_by_clarify_openid).with(openid, params){ user }
+      it 'create user with auto password' do
+        expect(registrator).to receive(:generate_password){ password }
+
+        expect(UserRepo).to receive(:create_by_clarify_openid).with{|openid, params|
+          expect(params['password']).to eq password
+        }{ user }
       end
 
       it 'invoke openid_registered' do
@@ -127,8 +160,9 @@ module Vxod
           allow(user).to receive('valid?'){ true }
           allow(openid).to receive('user=').with(user)
           allow(openid).to receive('save!')
-          allow(notify).to receive(:openid_registration).with(openid, host)
-          allow(app).to receive(:authentify_and_back).with(user)
+          allow(notify).to receive(:openid_registration)
+          allow(app).to receive(:authentify_and_back)
+          allow(registrator).to receive(:password){ password }
         end
 
         it 'link user with openid' do
@@ -137,7 +171,7 @@ module Vxod
         end
 
         it 'notify user about openid registration' do
-          expect(notify).to receive(:openid_registration).with(openid, host)
+          expect(notify).to receive(:openid_registration).with(openid, password, host)
         end
 
         it 'authentify and redirect back' do

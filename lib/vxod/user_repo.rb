@@ -3,23 +3,20 @@ module Vxod
     class << self
       def create(params)
         build(params['firstname'], params['lastname'], params['email']).tap do |user|
-          user.password = params['auto_password'] ? generate_password : params['password']
+          user.password = params['password']
           user.save
         end
       end
 
-      def create_by_openid(openid)
+      def create_by_openid(openid, password)
         build_by_openid(openid).tap do |user|
-          user.password = generate_password
+          user.password = password
           user.save
         end
       end
 
       def create_by_clarify_openid(openid, params)
-        build(params['firstname'], params['lastname'], params['email']).tap do |user|
-          user.password = generate_password
-          user.save
-        end
+        create(params)
       end
 
       def build(firstname, lastname, email)

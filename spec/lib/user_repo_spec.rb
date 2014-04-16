@@ -10,15 +10,14 @@ module Vxod
     let(:secure_random){ double('secure_random') }
     let(:params){{ 'firstname' => firstname, 'lastname' => lastname, 'email' => email }}
     let(:openid){ double('openid') }
+    let(:password){ double('password') }
 
     before do
       allow(Db).to receive(:user){ double(new: user) }
       allow(user).to receive(:new){ user }
     end
 
-    describe '.register' do
-      let(:password){ rnd('password') }
-
+    describe '.create' do
       before do
         params.merge!({'password' => password, 'auto_password' => false})
         allow(user).to receive(:password=)
@@ -38,13 +37,6 @@ module Vxod
         expect(user).to receive(:password=).with(password)
       end
 
-      it 'gerenate password when auto password' do
-        params['auto_password'] = true
-        allow(UserRepo).to receive(:generate_password){ secure_random }
-
-        expect(user).to receive(:password=).with(secure_random)
-      end
-
       it 'save to db' do
         expect(user).to receive(:save)
       end
@@ -58,43 +50,32 @@ module Vxod
       before do
         allow(user).to receive(:save)
         allow(user).to receive(:password=)
-        allow(UserRepo).to receive(:generate_password){ secure_random }
         allow(UserRepo).to receive(:build_by_openid).with(openid){ user }
       end
 
-      after{ UserRepo.create_by_openid(openid) }
+      subject(:create_by_openid){ UserRepo.create_by_openid(openid, password) }
+
+      after{ create_by_openid }
 
       it 'invoke build_by_openid' do
         expect(UserRepo).to receive(:build_by_openid).with(openid){ user }
       end
 
-      it 'create user with auto password' do
-        expect(user).to receive(:password=).with(secure_random)
+      it 'set password and save to DB' do
+        expect(user).to receive(:password=).with(password)
         expect(user).to receive(:save)
       end
 
       it 'returns user' do
-        expect(UserRepo.create_by_openid(openid)).to eq user
+        expect(create_by_openid).to eq user
       end
     end
 
     describe '.create_by_clarify_openid' do
-      before do
-        allow(user).to receive(:save)
-        allow(user).to receive(:password=)
-        allow(UserRepo).to receive(:build){ user }
-        allow(UserRepo).to receive(:generate_password){ secure_random }
-      end
-
       after{ UserRepo.create_by_clarify_openid(openid, params) }
 
-      it 'take fistname, lastname, email from params and send to #build' do
-        expect(UserRepo).to receive(:build).with(firstname, lastname, email)
-      end
-
-      it 'create user with auto password' do
-        expect(user).to receive(:password=).with(secure_random)
-        expect(user).to receive(:save)
+      it 'delegates to create' do
+        expect(UserRepo).to receive(:create).with(params)
       end
     end
 
@@ -142,7 +123,7 @@ module Vxod
       before do
         allow(openid).to receive(:raw){ raw }
         allow(UserRepo).to receive(:build){ user }
-        
+
         allow(OpenidRawParser).to receive(:new){ parser }
         allow(parser).to receive(:firstname){ firstname }
         allow(parser).to receive(:lastname){ lastname }

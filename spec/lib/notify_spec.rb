@@ -4,6 +4,7 @@ require 'vxod/db/mongoid'
 module Vxod
   describe Notify do
     let(:host){ double('host') }
+    let(:password){ double('password') }
     let(:notify){ Notify.new }
     let(:user){ double('user', email: double('email')) }
 
@@ -16,25 +17,24 @@ module Vxod
         allow(Pony).to receive(:mail)
       end
 
+      after{ notify.registration(user, password, host, send_password) }
+
       it 'send email to user' do        
         expect(Pony).to receive(:mail).with{ |params|
           expect(params[:to]).to eq user.email 
           expect(params[:subject]).to_not be_nil 
           expect(params[:html_body]).to eq html 
         }
-
-        notify.registration(user, host)
       end
 
       it 'render email templite' do
-        expect(notify).to receive(:render).with { |templite, scope|
+        expect(notify).to receive(:render).with { |templite, params|
           expect(templite).to include 'registration.slim'
-          expect(scope[:send_password]).to eq send_password
-          expect(scope[:user]).to eq user
-          expect(scope[:host]).to eq host
+          expect(params[:send_password]).to eq send_password
+          expect(params[:password]).to eq password
+          expect(params[:user]).to eq user
+          expect(params[:host]).to eq host
         }
-
-        notify.registration(user, host, send_password)
       end
     end
 
@@ -42,8 +42,8 @@ module Vxod
       let(:openid){ double('openid', user: user) }
 
       it 'invoike #registration' do
-        expect(notify).to receive(:registration).with(user, host)
-        notify.openid_registration(openid, host)
+        expect(notify).to receive(:registration).with(user, password, host)
+        notify.openid_registration(openid, password, host)
       end
     end
   end
