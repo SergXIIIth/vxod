@@ -1,6 +1,7 @@
 class LoginForm
   def initialize
     @errors = {}
+    @remember_me = true
   end
 
   attr_accessor :email,
@@ -19,7 +20,7 @@ class LoginForm
       LoginForm.new.tap do |login_form|
         login_form.email = params['email']
         login_form.password = params['password']
-        login_form.remember_me = params['remember_me']
+        login_form.remember_me = params['remember_me'] == 'on'
       end
     end
   end

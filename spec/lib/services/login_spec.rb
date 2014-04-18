@@ -3,17 +3,24 @@ require 'spec_helper'
 module Vxod
   describe Login do
     let(:app){ double('app') }
-    let(:params){ double('params') }
     let(:user){ double('user') }
+    let(:user_class){ double('User') }
     let(:login_obj){ Login.new(app) }
     let(:result){ double('result') }
 
     before do
-      allow(app).to receive(:params){ params }
+      allow(Db).to receive(:user){ user_class }
     end
 
+
     describe '#login_form' do
-      after { login_obj.login_form }
+      let(:params){ double('params') }
+  
+      before do
+        allow(app).to receive(:params){ params }
+      end
+
+      after { Login.new(app).login_form }
 
       it 'init LoginForm by app.params' do
         expect(LoginForm).to receive(:init_by_params).with(params)
@@ -24,7 +31,7 @@ module Vxod
       let(:email){ double('email') }
 
       before do
-        allow(params).to receive(:[]).with('email'){ email }
+        allow(login_obj).to receive(:login_form){ double(email: email) }
         allow(Db.user).to receive(:find_by_email){ nil }
       end
 
@@ -65,7 +72,7 @@ module Vxod
         allow(BCrypt::Password).to receive(:new).with(password_hash){ crypt }
         allow(crypt).to receive(:==).with(password){ false }
         allow(user).to receive(:password_hash){ password_hash }
-        allow(params).to receive(:[]).with('password'){ password }
+        allow(login_obj).to receive(:login_form){ double(password: password) }
       end
 
       subject(:check_password){ login_obj.check_password(user) }
@@ -96,33 +103,22 @@ module Vxod
     end
 
     describe '#authentify' do
+      let(:remember_me){ double('remember_me') }
+
       subject(:authentify){ login_obj.authentify(user) }
 
       before do
-        allow(params).to receive(:[]).with('remember_me'){ nil }
+        allow(login_obj).to receive(:login_form){ double(remember_me: remember_me) }
         allow(app).to receive(:authentify_and_back)
       end        
       
+      it 'authentify and redirect back' do
+        expect(app).to receive(:authentify_and_back).with(user, remember_me)
+        authentify
+      end
+
       it 'returns success' do
         expect(authentify.success?).to be_true
-      end
-
-      context 'when remember me' do
-        before do
-          allow(params).to receive(:[]).with('remember_me'){ 'on' }
-        end
-
-        it 'authentify and redirect back' do
-          expect(app).to receive(:authentify_and_back).with(user, true)
-          authentify
-        end
-      end
-
-      context 'when do not remember me' do
-        it 'authentify by session cookie and redirect back' do
-          expect(app).to receive(:authentify_and_back).with(user, false)
-          authentify
-        end
       end
     end
   end

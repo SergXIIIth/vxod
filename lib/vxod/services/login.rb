@@ -7,7 +7,7 @@ module Vxod
     attr_reader :app
 
     def login
-      user = Db.user.find_by_email(app.params['email'])
+      user = Db.user.find_by_email(login_form.email)
 
       if user
         check_password(user)
@@ -17,7 +17,7 @@ module Vxod
     end
 
     def check_password(user)
-      if BCrypt::Password.new(user.password_hash) == app.params['password']
+      if BCrypt::Password.new(user.password_hash) == login_form.password
         authentify(user)
       else
         error
@@ -25,8 +25,7 @@ module Vxod
     end
 
     def authentify(user)
-      remember_me = app.params['remember_me'] == 'on'
-      app.authentify_and_back(user, remember_me)
+      app.authentify_and_back(user, login_form.remember_me)
       Success.new
     end
 
