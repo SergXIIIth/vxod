@@ -3,7 +3,10 @@ require 'spec_helper'
 describe 'Login with password', :type => :feature, feature: true, js: true  do
   let(:email){ "sergey#{rnd}@makridenkov.com" }
   let(:password){ rnd('password') }
-  let(:user){ Vxod::UserRepo.create(email: email, password: password) }
+  let(:user){ Vxod::UserRepo.create(
+    'email' => email, 
+    'password' => password
+  )}
 
   it 'allow access to secret page' do
     # Given I am on home page
@@ -17,7 +20,7 @@ describe 'Login with password', :type => :feature, feature: true, js: true  do
     visit '/'
 
     # And I have an account registerd
-    user
+    expect(user.valid?).to be_true
 
     # When I click on secret page
     click_on 'secret'
