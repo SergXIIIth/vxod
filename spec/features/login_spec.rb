@@ -36,5 +36,31 @@ describe 'Login with password', :type => :feature, feature: true, js: true  do
     expect(page).to have_content("I am secret page for #{email}")
   end
 
-  it 'show login error'
+  it 'show login error' do
+    # Given I am on home page
+    # And I have an account registerd
+    # When I click on secret page
+    # And fill in email, password
+    # And submit login form
+    # Then I should see an error
+
+    # Given I am on home page
+    visit '/'
+
+    # And I have an account registerd
+    expect(user.valid?).to be_true
+
+    # When I click on secret page
+    click_on 'secret'
+
+    # And fill in email, password
+    fill_in('email', with: email)
+    fill_in('password', with: 'bad password')
+
+    # And submit login form
+    find('.btn-primary').click
+
+    # Then I should see an error
+    expect(page).to have_css('.alert-danger')
+  end
 end
