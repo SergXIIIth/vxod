@@ -7,6 +7,7 @@ module Vxod
   autoload :Db, 'vxod/db'
   autoload :Error, 'vxod/error'
   autoload :Success, 'vxod/success'
+  autoload :LoginForm, 'vxod/login_form'
   autoload :BackPath, 'vxod/back_path'
   autoload :Config, 'vxod/config'
   autoload :App, 'vxod/app'

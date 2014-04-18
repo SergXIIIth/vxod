@@ -8,14 +8,14 @@ html
         == slim :'parts/nav'
 
         form role='form' action=Vxod.config.login_path method='POST'
-          - if model.error?
+          - if login_form.errors?
             .alert.alert-danger
-              - model.error.each do |m|
-                p =m
+              - login_form.errors.each do |field, message|
+                p #{field} #{message}
 
           .form-group
             label for='email' Email
-            input.form-control type='email' id='email' name='email' placeholder='Enter email'
+            input.form-control type='email' id='email' name='email' value=login_form.email placeholder='Enter email'
           
           .form-group
             label for='password' Password

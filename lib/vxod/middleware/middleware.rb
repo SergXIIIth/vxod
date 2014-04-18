@@ -8,14 +8,14 @@ module Vxod
     # Login
 
     get Vxod.config.login_path do
-      slim :login, locals: { model: Success.new }
+      slim :login, locals: { model: LoginForm.new }
     end
 
     post Vxod.config.login_path do
-      model = vxod.login
+      login_form = vxod.login
       
-      if model.error?
-        slim :login, locals: { model: model }
+      if login_form.error?
+        slim :login, locals: { model: login_form }
       end
     end
 

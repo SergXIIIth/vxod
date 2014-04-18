@@ -30,6 +30,10 @@ module Vxod
       Success.new
     end
 
+    def login_form
+      @login_form ||= LoginForm.init_by_params(app.params)
+    end
+
     private
 
     def error

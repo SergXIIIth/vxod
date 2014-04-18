@@ -12,6 +12,14 @@ module Vxod
       allow(app).to receive(:params){ params }
     end
 
+    describe '#login_form' do
+      after { login_obj.login_form }
+
+      it 'init LoginForm by app.params' do
+        expect(LoginForm).to receive(:init_by_params).with(params)
+      end
+    end
+
     describe '#login' do
       let(:email){ double('email') }
 
