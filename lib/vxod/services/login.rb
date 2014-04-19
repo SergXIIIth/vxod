@@ -26,7 +26,7 @@ module Vxod
 
     def authentify(user)
       app.authentify_and_back(user, login_form.remember_me)
-      Success.new
+      login_form
     end
 
     def login_form
@@ -36,7 +36,8 @@ module Vxod
     private
 
     def error
-      Error.new('Email or password invalid')
+      login_form.errors[''] = 'Email or password invalid'
+      login_form
     end
   end
 end
