@@ -23,8 +23,8 @@ use Vxod::Middleware
 
 require 'vxod/db/mongoid'
 
-Vxod::Db.openid = Vxod::Db::Mongoid::Openid
-Vxod::Db.user = Vxod::Db::Mongoid::User
+Vxod::Db.openid = Vxod::Db::Default::Openid
+Vxod::Db.user = Vxod::Db::Default::User
 
 # Emails
 

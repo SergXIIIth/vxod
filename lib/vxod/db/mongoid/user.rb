@@ -1,48 +1,52 @@
 require 'mongoid'
 
 module Vxod::Db::Mongoid
-  class User
-    include ::Mongoid::Document
-    include ::Mongoid::Timestamps
-
-    field :email        , type: String
-    field :firstname    , type: String
-    field :lastname     , type: String
-    field :auth_key     , type: String
-    field :password_hash, type: String
-    # 'unconfirm_email' when user click in email in 'I did not require registration'
-    field :lock_code    , type: String 
-
-    field :confirm_email_key  , type: String
-    field :confirm_at         , type: DateTime
-
-    validates :email, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
-    validates :email, presence: true
-    validates :email, uniqueness: true
-    validates :auth_key, presence: true
-    validates :confirm_email_key, presence: true
-
-    has_many :openids, dependent: :destroy
-
-    index({ auth_key: 1 }, { unique: true })
-    index({ email: 1 }, { unique: true })
-    index({ confirm_email_key: 1 }, { unique: true })
-
+  module User
     def name
       "#{firstname} #{lastname}"
     end
 
-    class << self
+    def self.included(base)
+      base.include ::Mongoid::Document
+      base.include ::Mongoid::Timestamps
+
+      base.field :email        , type: String
+      base.field :firstname    , type: String
+      base.field :lastname     , type: String
+      base.field :auth_key     , type: String
+      base.field :password_hash, type: String
+      # 'unconfirm_email' when user click in email in 'I did not require registration'
+      base.field :lock_code    , type: String 
+
+      base.field :confirm_email_key  , type: String
+      base.field :confirm_at         , type: DateTime
+
+      base.validates :email, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
+      base.validates :email, presence: true
+      base.validates :email, uniqueness: true
+      base.validates :auth_key, presence: true
+      base.validates :confirm_email_key, presence: true
+
+      base.has_many :openids, dependent: :destroy
+
+      base.index({ auth_key: 1 }, { unique: true })
+      base.index({ email: 1 }, { unique: true })
+      base.index({ confirm_email_key: 1 }, { unique: true })
+
+      base.extend(ClassMethods)
+    end
+
+    module ClassMethods
       def find_by_auth_key(auth_key)
-        User.where(auth_key: auth_key)[0]
+        where(auth_key: auth_key)[0]
       end
 
       def find_by_email(email)
-        User.where(email: email)[0]
+        where(email: email)[0]
       end
 
       def find_by_confirm_email_key(confirm_email_key)
-        User.where(confirm_email_key: confirm_email_key)[0]
+        where(confirm_email_key: confirm_email_key)[0]
       end
     end
   end   
