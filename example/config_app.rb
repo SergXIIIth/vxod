@@ -18,14 +18,6 @@ end
 
 use Vxod::Middleware
 
-
-# Db
-
-require 'vxod/db/mongoid'
-
-Vxod::Db.openid = Vxod::Db::Default::Openid
-Vxod::Db.user = Vxod::Db::Default::User
-
 # Emails
 
 

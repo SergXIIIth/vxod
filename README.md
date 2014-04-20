@@ -57,13 +57,6 @@ App
 
     use Vxod::Middleware # put it after use OmniAuth
 
-## Config Db
-
-    require 'vxod/db/mongoid'
-
-    Vxod::Db.openid = Vxod::Db::Mongoid::Openid
-    Vxod::Db.user = Vxod::Db::Mongoid::User
-
 ## Config SMTP, example on yander.ru 
 
 
