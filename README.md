@@ -11,15 +11,15 @@ Social and password authorization solution
 
 # Features
 
-- [x] social registration/login
+- [x] openid registration/login
+- [ ] require email in openid registration
 - [ ] password base registration/login
-- [ ] checkbox auto-generated password send to email
+- [ ] checkbox auto-generate password send to email
 - [ ] reset password
-- [ ] optional require email in social registration
 
 Future
 
-- [ ] profile with password reset, link other social servises to user
+- [ ] profile with password reset, link other openid servises to user
 - [ ] adminka for user management
 - [ ] support Sinatra, Mongoid, Rails, ActiveRecord, any Rack app, any DB
 

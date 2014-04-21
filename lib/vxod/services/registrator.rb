@@ -9,7 +9,7 @@ module Vxod
     def register
       user = UserRepo.create(params)
      
-      if user.valid?
+      if user.errors.empty?
         Notify.new.registration(user, password, app.request_host) 
         app.authentify_and_back(user)
       end
@@ -20,7 +20,7 @@ module Vxod
     def register_by_openid(openid)
       user = UserRepo.create_by_openid(openid, generate_password)
         
-      if user.valid?
+      if user.errors.empty?
         openid_registered(openid, user)
       else
         app.redirect_to_fill_openid(openid)
@@ -56,7 +56,7 @@ module Vxod
     end
 
     def openid_registered(openid, user)
-      if user.valid?
+      if user.errors.empty?
         openid.user = user
         openid.save!
 

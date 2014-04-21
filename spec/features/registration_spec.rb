@@ -33,4 +33,19 @@ describe 'Registration', :type => :feature, feature: true, js: true  do
     click_on 'secret'
     expect(page).to have_content("I am secret page for #{email}")
   end
+
+  it 'register a user with invalid password' do
+    # Given I am on registration page
+    # Wnen I fill the form with password
+    # And click on 'registration'
+    # Then I should see an error - password is required
+
+    visit '/registration'
+    fill_in('email', with: email)
+    uncheck('vxod-auto-password-swither')
+
+    click_on 'Register'
+
+    expect(find('.alert-danger')).to have_content('Password is required')
+  end
 end

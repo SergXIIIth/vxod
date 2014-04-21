@@ -9,7 +9,7 @@ module Vxod
 
     def call_vxod_api(function, if_invalid_view)
       user = vxod.send(function)
-      unless user.valid?
+      if user.errors.any?
         slim if_invalid_view, locals: { user: user }
       end
     end

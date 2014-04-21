@@ -14,7 +14,7 @@ module Vxod
     post Vxod.config.login_path do
       login_form = vxod.login
       
-      if login_form.errors?
+      if login_form.errors.any?
         slim :login, locals: { login_form: login_form }
       end
     end

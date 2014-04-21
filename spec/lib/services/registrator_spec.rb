@@ -6,7 +6,7 @@ module Vxod
     let(:app){ double('app') }
     let(:params){ {} }
     let(:registrator){ Registrator.new(app) }
-    let(:user){ double('valid?' => false) }
+    let(:user){ double(errors: {test: 1} ) }
     let(:notify){ double('notify', registration: 1) }
     let(:host){ double('host') }
     let(:openid){ double('openid') }
@@ -78,7 +78,7 @@ module Vxod
 
       context 'when user data is valid' do
         before do
-          allow(user).to receive(:valid?){ true }
+          allow(user).to receive(:errors){ {} }
           allow(app).to receive(:authentify_and_back)
           allow(Notify).to receive(:registration)
           allow(registrator).to receive(:password){ password }
@@ -115,7 +115,7 @@ module Vxod
 
       context 'when user unvalid' do
         before do
-          allow(user).to receive('valid?'){ true }
+          allow(user).to receive(:errors){ {} }
         end
 
         it 'invoke openid_registered' do
@@ -157,7 +157,7 @@ module Vxod
 
       context 'when user valid' do
         before do
-          allow(user).to receive('valid?'){ true }
+          allow(user).to receive(:errors){ {} }
           allow(openid).to receive('user=').with(user)
           allow(openid).to receive('save!')
           allow(notify).to receive(:openid_registration)
