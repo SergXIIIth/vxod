@@ -2,8 +2,8 @@ require 'mongoid'
 
 module Vxod::Db::Mongoid
   module User
-    def name
-      "#{firstname} #{lastname}"
+    def password_valid?(password_uncrypt)
+      errors.add(password: 'is required') if password_uncrypt.blank?
     end
 
     def self.included(base)
@@ -24,6 +24,7 @@ module Vxod::Db::Mongoid
       base.validates :email, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
       base.validates :email, presence: true
       base.validates :email, uniqueness: true
+      base.validates :password_hash, presence: true
       base.validates :auth_key, presence: true
       base.validates :confirm_email_key, presence: true
 

@@ -17,21 +17,10 @@ module Vxod
       allow(user).to receive(:new){ user }
     end
 
-    describe '.crypt_password' do
-      let(:password_hash){ double('password_hash') }
-
-      it 'set User#password_hash' do
-        expect(BCrypt::Password).to receive(:create).with(password){ password_hash }
-        expect(user).to receive(:password_hash=).with(password_hash)
-        UserRepo.crypt_password(user, password)
-      end
-    end
-
     describe '.create' do
       before do
         params.merge!({'password' => password, 'auto_password' => false})
-        allow(user).to receive(:save)
-        allow(UserRepo).to receive(:crypt_password)
+        allow(UserRepo).to receive(:create_with_password){ user }
         allow(UserRepo).to receive(:build){ user }
       end
 
@@ -43,12 +32,8 @@ module Vxod
         expect(UserRepo).to receive(:build).with(firstname, lastname, email)
       end
 
-      it 'crypt password' do
-        expect(UserRepo).to receive(:crypt_password).with(user, password)
-      end
-
-      it 'save to db' do
-        expect(user).to receive(:save)
+      it 'call create_with_password' do
+        expect(UserRepo).to receive(:create_with_password).with(user, password)
       end
 
       it 'returns user' do
@@ -58,26 +43,20 @@ module Vxod
 
     describe '.create_by_openid' do
       before do
-        allow(user).to receive(:save)
-        allow(user).to receive(:password=)
         allow(UserRepo).to receive(:build_by_openid).with(openid){ user }
-        allow(UserRepo).to receive(:crypt_password)
+        allow(UserRepo).to receive(:create_with_password){ user }
       end
 
       subject(:create_by_openid){ UserRepo.create_by_openid(openid, password) }
 
-      after{ create_by_openid }
-
       it 'invoke build_by_openid' do
         expect(UserRepo).to receive(:build_by_openid).with(openid){ user }
+        create_by_openid
       end
 
-      it 'crypt password' do
-        expect(UserRepo).to receive(:crypt_password).with(user, password)
-      end
-
-      it 'save to DB' do
-        expect(user).to receive(:save)
+      it 'call create_with_password' do
+        expect(UserRepo).to receive(:create_with_password).with(user, password)
+        create_by_openid
       end
 
       it 'returns user' do
@@ -90,43 +69,6 @@ module Vxod
 
       it 'delegates to create' do
         expect(UserRepo).to receive(:create).with(params)
-      end
-    end
-
-    describe '.build' do
-      before do
-        allow(user).to receive(:auth_key=)
-        allow(user).to receive(:firstname=)
-        allow(user).to receive(:lastname=)
-        allow(user).to receive(:email=)
-        allow(user).to receive(:confirm_email_key=)
-        allow(user).to receive(:auth_key=)
-        allow(SecureRandom).to receive(:base64).with(64)
-        allow(SecureRandom).to receive(:hex).with(20)
-      end
-
-      it 'set fields' do
-        expect(user).to receive(:firstname=).with(firstname)
-        expect(user).to receive(:lastname=).with(lastname)
-        expect(user).to receive(:email=).with(email)
-
-        UserRepo.build(firstname, lastname, email)
-      end
-
-      it 'generate auth_key' do
-        allow(SecureRandom).to receive(:base64).with(64){ secure_random }
-
-        expect(user).to receive(:auth_key=).with(secure_random)
-
-        UserRepo.build(firstname, lastname, email)
-      end
-
-      it 'generate User#confirm_email_key' do
-        allow(SecureRandom).to receive(:hex).with(20){ secure_random }
-
-        expect(user).to receive(:confirm_email_key=).with(secure_random)
-
-        UserRepo.build(firstname, lastname, email)
       end
     end
 
@@ -152,6 +94,88 @@ module Vxod
 
       it 'invoke build base on parsed data' do
         expect(UserRepo).to receive(:build).with(firstname, lastname, email)
+      end
+    end
+
+    describe '.build' do
+      before do
+        allow(user).to receive(:auth_key=)
+        allow(user).to receive(:firstname=)
+        allow(user).to receive(:lastname=)
+        allow(user).to receive(:email=)
+        allow(user).to receive(:confirm_email_key=)
+        allow(user).to receive(:auth_key=)
+        allow(SecureRandom).to receive(:base64).with(64)
+        allow(SecureRandom).to receive(:hex).with(20)
+      end
+
+      subject(:build){ UserRepo.send(:build, firstname, lastname, email) }
+
+      it 'set fields' do
+        expect(user).to receive(:firstname=).with(firstname)
+        expect(user).to receive(:lastname=).with(lastname)
+        expect(user).to receive(:email=).with(email)
+
+        build
+      end
+
+      it 'generate auth_key' do
+        allow(SecureRandom).to receive(:base64).with(64){ secure_random }
+
+        expect(user).to receive(:auth_key=).with(secure_random)
+
+        build
+      end
+
+      it 'generate User#confirm_email_key' do
+        allow(SecureRandom).to receive(:hex).with(20){ secure_random }
+
+        expect(user).to receive(:confirm_email_key=).with(secure_random)
+
+        build
+      end
+    end
+
+    describe '.create_with_password' do
+      subject(:create_with_password){ UserRepo.send(:create_with_password, user, password) }
+
+      before do
+        allow(user).to receive(:password_valid?){ false }
+      end
+
+      it 'validates password' do
+        expect(user).to receive(:password_valid?).with(password)
+        create_with_password
+      end
+
+      it 'return user' do
+        expect(create_with_password).to eq user
+      end
+
+      context 'when pasword valid' do
+        let(:password_hash){ double('password_hash') }
+
+        before do
+          allow(user).to receive(:password_valid?){ true }
+          allow(user).to receive(:password_hash=)
+          allow(BCrypt::Password).to receive(:create){ password_hash }
+          allow(user).to receive(:save)
+        end
+
+        it 'crypt password' do
+          expect(BCrypt::Password).to receive(:create).with(password)
+          create_with_password
+        end
+
+        it 'store password in password_hash' do
+          expect(user).to receive(:password_hash=).with(password_hash)
+          create_with_password
+        end
+
+        it 'save user' do
+          expect(user).to receive(:save)
+          create_with_password
+        end
       end
     end
   end
