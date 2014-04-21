@@ -13,8 +13,8 @@ module Vxod::Db::Mongoid
     end
 
     def self.included(base)
-      base.include ::Mongoid::Document
-      base.include ::Mongoid::Timestamps
+      base.send(:include, ::Mongoid::Document)
+      base.send(:include, ::Mongoid::Timestamps)
 
       base.field :email        , type: String
       base.field :firstname    , type: String
@@ -40,7 +40,7 @@ module Vxod::Db::Mongoid
       base.index({ email: 1 }, { unique: true })
       base.index({ confirm_email_key: 1 }, { unique: true })
 
-      base.extend(ClassMethods)
+      base.send(:extend, ClassMethods)
     end
 
     module ClassMethods

@@ -3,8 +3,8 @@ require 'mongoid'
 module Vxod::Db::Mongoid
   module Openid
     def self.included(base)
-      base.include(::Mongoid::Document)
-      base.include(::Mongoid::Timestamps)
+      base.send(:include, ::Mongoid::Document)
+      base.send(:include, ::Mongoid::Timestamps)
 
       base.field :provider , type: String
       base.field :uid      , type: String
@@ -19,7 +19,7 @@ module Vxod::Db::Mongoid
 
       base.index({ provider: 1, uid: 1 }, { unique: true })
 
-      base.extend(ClassMethods)
+      base.send(:extend, ClassMethods)
     end
 
     module ClassMethods
