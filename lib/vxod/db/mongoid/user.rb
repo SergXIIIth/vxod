@@ -3,7 +3,13 @@ require 'mongoid'
 module Vxod::Db::Mongoid
   module User
     def password_valid?(password_uncrypt)
-      errors.add(password: 'is required') if password_uncrypt.blank?
+      if password_uncrypt.blank?
+        errors[:password] = 'is required' 
+      else
+        errors[:password] = 'min lenght 7 chars is required' if password_uncrypt.size < 7
+      end
+
+      !errors.any?
     end
 
     def self.included(base)

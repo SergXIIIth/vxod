@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'vxod/db/mongoid'
 
 module Vxod
   describe UserRepo do
@@ -25,8 +24,6 @@ module Vxod
       end
 
       after{ UserRepo.create(params) }
-
-      it 'validate password when not auto password'
 
       it 'call build' do
         expect(UserRepo).to receive(:build).with(firstname, lastname, email)
