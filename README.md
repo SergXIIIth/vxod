@@ -12,9 +12,9 @@ Social and password authorization solution
 # Features
 
 - [x] openid registration/login
-- [ ] require email in openid registration
-- [ ] password base registration/login
-- [ ] checkbox auto-generate password send to email
+- [x] require email in openid registration
+- [x] password base registration/login
+- [x] checkbox auto-generate password and send to email
 - [ ] reset password
 
 Future
