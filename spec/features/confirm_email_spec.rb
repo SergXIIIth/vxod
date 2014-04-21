@@ -2,13 +2,12 @@ require 'spec_helper'
 
 describe 'Confirm email', :type => :feature, feature: true, js: true  do
   let(:email){ "sergey#{rnd}@makridenkov.com" }
+  let(:user) { Vxod::UserRepo.create('email' => email, 'password' => '1234567') }
 
   it 'show message when confirmed' do
     # Given I follow confirmation link
     # Then I should see message "Email confirmed"
     # And link to after login path
-    user = Vxod::UserRepo.create('email' => email)
-
     visit "#{Vxod.config.confirm_email_path}?key=#{user.confirm_email_key}"
 
     expect(page).to have_content 'Confirm email success'
@@ -16,8 +15,6 @@ describe 'Confirm email', :type => :feature, feature: true, js: true  do
   end
 
   it 'show error when confirmation invalid' do
-    user = Vxod::UserRepo.create('email' => email)
-
     user.confirm_at = DateTime.now
     user.save!
 
