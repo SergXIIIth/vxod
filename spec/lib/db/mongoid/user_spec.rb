@@ -3,7 +3,7 @@ require 'vxod/db/mongoid'
 
 module Vxod::Db::Mongoid
   describe User do
-    let(:user_class) { Class.new { include Vxod::Db::Mongoid::User } }
+    let(:user_class) { Class.new { send(:include, Vxod::Db::Mongoid::User) } }
     let(:user){ user_class.new }
 
     describe '#password_valid?' do
