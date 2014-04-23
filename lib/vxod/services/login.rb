@@ -4,15 +4,25 @@ module Vxod
       @app = app
     end
 
-    attr_reader :app
-
     def login
       user = Db.user.find_by_email(login_form.email)
 
       if user
-        check_password(user)
+        check_lock(user)
       else
         error
+      end
+    end
+
+private
+
+    attr_reader :app
+
+    def check_lock(user)
+      if user.lock_code.blank?
+        check_password(user)
+      else
+        error_lock
       end
     end
 
@@ -33,10 +43,13 @@ module Vxod
       @login_form ||= LoginForm.init_by_params(app.params)
     end
 
-    private
-
     def error
       login_form.errors[''] = 'Email or password invalid'
+      login_form
+    end
+
+    def error_lock
+      login_form.errors[''] = 'Account is lock. Please contact the support'
       login_form
     end
   end

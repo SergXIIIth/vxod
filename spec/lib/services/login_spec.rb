@@ -12,7 +12,6 @@ module Vxod
       allow(Db).to receive(:user){ user_class }
     end
 
-
     describe '#login_form' do
       let(:params){ double('params') }
   
@@ -20,10 +19,11 @@ module Vxod
         allow(app).to receive(:params){ params }
       end
 
-      after { Login.new(app).login_form }
+      subject(:login_form) { Login.new(app).send(:login_form) }
 
       it 'init LoginForm by app.params' do
         expect(LoginForm).to receive(:init_by_params).with(params)
+        login_form
       end
     end
 
@@ -52,15 +52,51 @@ module Vxod
       context 'when user found' do
         before do
           allow(Db.user).to receive(:find_by_email){ user }
+          allow(login_obj).to receive(:check_lock){ result }
+        end
+
+        it 'delegate to #check_lock' do
+          expect(login_obj).to receive(:check_lock).with(user)
+        end
+
+        it 'returns #check_password result' do
+          expect(login_obj.login).to eq result
+        end
+      end
+    end
+
+    describe '#check_lock' do
+      let(:login_form){ double('login_form', errors: {}) }
+
+      before do
+        allow(login_obj).to receive(:login_form){ login_form }
+        allow(user).to receive(:lock_code){ nil }
+      end
+
+      subject(:check_lock){ login_obj.send(:check_lock, user) }
+
+      context 'when user lock' do
+        before do
+          allow(user).to receive(:lock_code){ 'unconfirm_email' }
+        end
+
+        it 'returns error' do
+          expect(check_lock.errors.first.join).to include('lock', 'contact', 'support')
+        end
+      end
+
+      context 'when user unlock' do
+        before do
           allow(login_obj).to receive(:check_password){ result }
         end
 
         it 'delegate to #check_password' do
           expect(login_obj).to receive(:check_password).with(user)
+          check_lock
         end
 
         it 'returns #check_password result' do
-          expect(login_obj.login).to eq result
+          expect(check_lock).to eq result
         end
       end
     end
@@ -78,7 +114,7 @@ module Vxod
         allow(login_obj).to receive(:login_form){ login_form }
       end
 
-      subject(:check_password){ login_obj.check_password(user) }
+      subject(:check_password){ login_obj.send(:check_password, user) }
 
       it 'check password' do
         expect(BCrypt::Password).to receive(:new).with(password_hash){ crypt }
@@ -109,7 +145,7 @@ module Vxod
       let(:remember_me){ double('remember_me') }
       let(:login_form){ double('login_form', remember_me: remember_me) }
 
-      subject(:authentify){ login_obj.authentify(user) }
+      subject(:authentify){ login_obj.send(:authentify, user) }
 
       before do
         allow(login_obj).to receive(:login_form){ login_form }
