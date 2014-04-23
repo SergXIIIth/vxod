@@ -23,19 +23,19 @@ html
         == slim :'parts/nav'
 
         form role='form' action=Vxod.config.registration_path method='POST'
-          == errors(user)
+          == errors(model)
 
           .form-group
             label for='firstname' First name
-            input.form-control type='text' id='firstname' name='firstname' placeholder='Enter your first name' value=user.firstname
+            input.form-control type='text' id='firstname' name='firstname' placeholder='Enter your first name' value=model.firstname
 
           .form-group
             label for='lastname' Last name
-            input.form-control type='text' id='lastname' name='lastname' placeholder='Enter your last name' value=user.lastname
+            input.form-control type='text' id='lastname' name='lastname' placeholder='Enter your last name' value=model.lastname
           
           .form-group
             label for='email' Email
-            input.form-control type='email' id='email' name='email' placeholder='Enter your email' value=user.email
+            input.form-control type='email' id='email' name='email' placeholder='Enter your email' value=model.email
 
           .form-group
             .checkbox

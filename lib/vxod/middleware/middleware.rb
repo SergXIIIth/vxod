@@ -8,15 +8,11 @@ module Vxod
     # Login
 
     get Vxod.config.login_path do
-      slim :login, locals: { login_form: LoginForm.new }
+      render_view :login, LoginForm.new
     end
 
     post Vxod.config.login_path do
-      login_form = vxod.login
-      
-      if login_form.errors.any?
-        slim :login, locals: { login_form: login_form }
-      end
+      call_vxod_api :login, :login
     end
 
     get Vxod.config.logout_path do
@@ -26,7 +22,7 @@ module Vxod
     # Registration
 
     get Vxod.config.registration_path do
-      slim :registration, locals: { user: Db.user.new } 
+      render_view :registration, Db.user.new
     end
 
     post Vxod.config.registration_path do
@@ -48,11 +44,11 @@ module Vxod
     end
 
     get "#{OmniAuth.config.path_prefix}/:provider/callback" do
-      vxod.login_with_openid
+      call_vxod_api :login_with_openid, :login
     end
 
     post "#{OmniAuth.config.path_prefix}/:provider/callback" do
-      vxod.login_with_openid
+      call_vxod_api :login_with_openid, :login
     end
   end
 end

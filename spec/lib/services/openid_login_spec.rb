@@ -35,8 +35,16 @@ module Vxod
       end
 
       context 'when user exist' do
-        it 'authentify and redirect back' do
-          expect(app).to receive(:authentify_and_back).with(user)
+        context 'when lock' do
+          it 'returns LoginForm with errors'
+        end
+
+        context 'when unlock' do
+          it 'returns LoginForm'
+
+          it 'authentify and redirect back' do
+            expect(app).to receive(:authentify_and_back).with(user)
+          end
         end
       end
 
@@ -45,6 +53,8 @@ module Vxod
           allow(openid).to receive(:user){ nil }
         end
 
+        it 'returns LoginForm'
+        
         it 'register user by openid' do
           expect(registrator).to receive(:register_by_openid).with(openid)
         end

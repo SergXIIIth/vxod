@@ -7,10 +7,15 @@ module Vxod
       @vxod ||= Vxod.api(self)
     end
 
-    def call_vxod_api(function, if_invalid_view)
-      user = vxod.send(function)
-      if user.errors.any?
-        slim if_invalid_view, locals: { user: user }
+    def render_view(view, model)
+      slim view, locals: { model: model }
+    end
+
+    def call_vxod_api(function, invalid_view)
+      model = vxod.send(function)
+
+      if model.errors.any?
+        slim invalid_view, locals: { model: model }
       end
     end
 

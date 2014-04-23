@@ -8,14 +8,11 @@ html
         == slim :'parts/nav'
 
         form role='form' action=Vxod.config.login_path method='POST'
-          - if login_form.errors?
-            .alert.alert-danger
-              - login_form.errors.each do |field, message|
-                p #{field} #{message}
+          == errors(model)
 
           .form-group
             label for='email' Email
-            input.form-control type='email' id='email' name='email' value=login_form.email placeholder='Enter email'
+            input.form-control type='email' id='email' name='email' value=model.email placeholder='Enter email'
           
           .form-group
             label for='password' Password
@@ -25,7 +22,7 @@ html
             .col-xs-8.vxod-login-option
               .checkbox
                 label
-                  input type='checkbox' name='remember_me' checked=login_form.remember_me Remember me
+                  input type='checkbox' name='remember_me' checked=model.remember_me Remember me
 
               a href='#' Reset password
 
