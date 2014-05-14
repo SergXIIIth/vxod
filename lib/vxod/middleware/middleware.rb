@@ -19,6 +19,11 @@ module Vxod
       vxod.logout
     end
 
+    # Reset password
+    get Vxod.config.reset_password_path do
+      render_view :reset_password, ResetPasswordForm.new.tap{ |f| f.email = params['email'] }
+    end
+
     # Registration
 
     get Vxod.config.registration_path do
@@ -44,12 +49,10 @@ module Vxod
     end
 
     get "#{OmniAuth.config.path_prefix}/:provider/callback" do
-      # p env['omniauth.auth']
       call_vxod_api :login_with_openid, :login
     end
 
     post "#{OmniAuth.config.path_prefix}/:provider/callback" do
-      # p env['omniauth.auth']
       call_vxod_api :login_with_openid, :login
     end
   end

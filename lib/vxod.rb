@@ -6,6 +6,7 @@ require 'bcrypt'
 module Vxod
   autoload :Db, 'vxod/db'
   autoload :LoginForm, 'vxod/login_form'
+  autoload :ResetPasswordForm, 'vxod/reset_password_form'
   autoload :BackPath, 'vxod/back_path'
   autoload :Config, 'vxod/config'
   autoload :App, 'vxod/app'

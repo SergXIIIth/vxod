@@ -8,7 +8,7 @@
   .vxod-login-with
     .row
       .pull-left
-        p = label
+        p: strong = label
       .pull-right
         ul
           - Vxod::OmniAuthProvider.all.each do |provider|

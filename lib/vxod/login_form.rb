@@ -11,10 +11,6 @@ class LoginForm
   # hash - {field_name: "error description"}
   attr_reader :errors
 
-  def errors?
-    errors.any?
-  end
-
   class << self
     def init_by_params(params)
       LoginForm.new.tap do |login_form|

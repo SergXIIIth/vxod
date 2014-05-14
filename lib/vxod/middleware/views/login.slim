@@ -2,6 +2,15 @@ doctype html
 html 
   == slim :'parts/head'
 
+  coffee:
+    $ ->
+      $('.reset-password').click ->
+        reset_password_path = $(@).attr('href')
+        email = $('#email').val()
+        window.location.href = "#{reset_password_path}?email=#{email}"
+        false
+
+
   body#vxod-login-page
     .vxod-login-container
       .well
@@ -26,7 +35,7 @@ html
                 label
                   input type='checkbox' name='remember_me' checked=model.remember_me Remember me
 
-              a href='#' Reset password
+              a.reset-password href=Vxod.config.reset_password_path Reset password
 
             .col-xs-4.text-right
               button.btn.btn-primary.btn-lg type='submit' Login
