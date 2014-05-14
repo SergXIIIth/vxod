@@ -39,6 +39,7 @@ module Vxod
         before do
           params['lock'] = '1'
           allow(user).to receive(:lock_code=)
+          allow(user).to receive(:auth_key=)
           allow(user).to receive(:save!)
         end
 
@@ -46,6 +47,10 @@ module Vxod
 
         it 'set User#lock_code to unconfirm_email' do
           expect(user).to receive(:lock_code=).with('unconfirm_email')
+        end
+
+        it 'drop current sessions by reset User#auth_key' do
+          expect(user).to receive(:auth_key=)
         end
 
         it 'save a user' do

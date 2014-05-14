@@ -28,6 +28,7 @@ module Vxod
     def update_confirm_state
       if app.params['lock']
         @user.lock_code = 'unconfirm_email'
+        @user.auth_key = SecureRandom.base64(64)
         @user.save!
         { success: false, error: [ "We break registration, if any questions please contact the support" ] }
       else
