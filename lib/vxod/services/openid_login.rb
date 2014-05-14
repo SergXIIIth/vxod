@@ -9,11 +9,19 @@ module Vxod
     def login
       openid = OpenidRepo.find_or_create(app.omniauth_hash)
 
+      login_form = LoginForm.new
+
       if openid.user
-        app.authentify_and_back(openid.user)
+        if openid.user.lock_code
+          login_form.errors['lock'] = '- Account is lock. Please contact the support'
+        else
+          app.authentify_and_back(openid.user)
+        end
       else
         registrator.register_by_openid(openid)
       end
+      
+      login_form
     end
 
     def update_openid_data

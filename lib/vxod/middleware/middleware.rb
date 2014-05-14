@@ -44,10 +44,12 @@ module Vxod
     end
 
     get "#{OmniAuth.config.path_prefix}/:provider/callback" do
+      # p env['omniauth.auth']
       call_vxod_api :login_with_openid, :login
     end
 
     post "#{OmniAuth.config.path_prefix}/:provider/callback" do
+      # p env['omniauth.auth']
       call_vxod_api :login_with_openid, :login
     end
   end

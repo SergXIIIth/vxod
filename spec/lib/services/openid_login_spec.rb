@@ -26,24 +26,35 @@ module Vxod
         allow(app).to receive(:authentify_and_back)
         allow(OpenidRepo).to receive(:find_or_create){ openid }
         allow(openid).to receive(:user){ user }
+        allow(user).to receive(:lock_code){ nil }
       end
 
-      after { openid_login.login }
+      subject(:login) { openid_login.login }
 
       it 'find or create openid' do
         expect(OpenidRepo).to receive(:find_or_create).with(omniauth_hash)
+        login
+      end
+
+      it 'returns LoginForm' do
+        expect(login).to be_a(LoginForm)
       end
 
       context 'when user exist' do
-        context 'when lock' do
-          it 'returns LoginForm with errors'
+        context 'and lock' do
+          before do
+            allow(user).to receive(:lock_code){ 'email' }
+          end
+
+          it 'has errors' do
+            expect(login.errors['lock']).to_not be_nil
+          end
         end
 
-        context 'when unlock' do
-          it 'returns LoginForm'
-
+        context 'and unlock' do
           it 'authentify and redirect back' do
             expect(app).to receive(:authentify_and_back).with(user)
+            login
           end
         end
       end
@@ -53,10 +64,9 @@ module Vxod
           allow(openid).to receive(:user){ nil }
         end
 
-        it 'returns LoginForm'
-        
         it 'register user by openid' do
           expect(registrator).to receive(:register_by_openid).with(openid)
+          login
         end
       end
     end

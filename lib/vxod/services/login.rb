@@ -19,10 +19,11 @@ private
     attr_reader :app
 
     def check_lock(user)
-      if user.lock_code.blank?
-        check_password(user)
+      if user.lock_code
+        login_form.errors['lock'] = '- Account is lock. Please contact the support'
+        login_form
       else
-        error_lock
+        check_password(user)
       end
     end
 
@@ -44,12 +45,7 @@ private
     end
 
     def error
-      login_form.errors[''] = 'Email or password invalid'
-      login_form
-    end
-
-    def error_lock
-      login_form.errors[''] = 'Account is lock. Please contact the support'
+      login_form.errors['email'] = 'or password invalid'
       login_form
     end
   end
