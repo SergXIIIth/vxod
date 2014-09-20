@@ -37,6 +37,13 @@ Future
   gem 'vxod'
 ```
 
+### congif/vxod.rb
+
+``` ruby
+  Vxod.config.layout = ''
+```
+
+
 ### app.ru
 
 ``` ruby
@@ -59,6 +66,11 @@ Future
 - config layout
 - config SMTP
 
+
+# API
+
+Vxod.config
+Vxod.api(rack_app)
 
 # Installation
 

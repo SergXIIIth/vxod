@@ -9,10 +9,12 @@ module Vxod
     helpers Helpers
     register Assets
 
+    set :views, "#{__dir__}/middleware/views"
+
     # Login
 
     get Vxod.config.login_path do
-      render_view :login, LoginForm.new
+      slim :login, locals: { login_form: LoginForm.new }
     end
 
     post Vxod.config.login_path do
