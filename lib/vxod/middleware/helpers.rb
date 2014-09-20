@@ -1,8 +1,8 @@
 require 'sinatra/assetpack'
 require 'coffee_script'
 
-module Vxod
-  module MiddlewareHelpers
+class Vxod::Middleware
+  module Helpers
     def vxod
       @vxod ||= Vxod.api(self)
     end

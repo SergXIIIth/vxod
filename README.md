@@ -32,15 +32,18 @@ Future
   gem 'omniauth-twitter'
   gem 'omniauth-vkontakte'
   gem 'omniauth-facebook'
-  gem 'omniauth-google_oauth2'
+  gem 'omniauth-google-oauth2'
   gem 'omniauth-github'
   gem 'vxod'
 ```
 
-### congif.ru
+### app.ru
 
 ``` ruby
   require 'vxod/middleware'
+
+  enable :sessions
+  set :sessions, secret: ENV['secret_secret']
 
   use OmniAuth::Builder do
     provider :twitter, ENV['omniauth.twitter'], ENV['omniauth.twitter_x']

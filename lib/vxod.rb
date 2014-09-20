@@ -22,7 +22,4 @@ module Vxod
 
   require 'vxod/api_static'
   autoload :OmniAuthProvider, 'vxod/omni_auth_provider'
-  autoload :MiddlewareHelpers, 'vxod/middleware/helpers'
-  autoload :MiddlewareAssets, 'vxod/middleware/assets'
-  autoload :Middleware, 'vxod/middleware/middleware'
 end

@@ -1,9 +1,13 @@
 require 'omniauth'
 
+
 module Vxod
   class Middleware < Sinatra::Base
-    helpers MiddlewareHelpers
-    register MiddlewareAssets
+    require 'vxod/middleware/helpers'
+    require 'vxod/middleware/assets'
+
+    helpers Helpers
+    register Assets
 
     # Login
 
