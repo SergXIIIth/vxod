@@ -23,6 +23,39 @@ Future
 - [ ] adminka for user management
 - [ ] support Sinatra, Mongoid, Rails, ActiveRecord, any Rack app, any DB
 
+# Simple usage
+
+### Gemfile
+
+``` ruby
+  gem 'omniauth'
+  gem 'omniauth-twitter'
+  gem 'omniauth-vkontakte'
+  gem 'omniauth-facebook'
+  gem 'omniauth-google_oauth2'
+  gem 'omniauth-github'
+  gem 'vxod'
+```
+
+### congif.ru
+
+``` ruby
+  require 'vxod/middleware'
+
+  use OmniAuth::Builder do
+    provider :twitter, ENV['omniauth.twitter'], ENV['omniauth.twitter_x']
+    provider :vkontakte, ENV['omniauth.vkontakte'], ENV['omniauth.vkontakte_x']
+    provider :facebook, ENV['omniauth.facebook'], ENV['omniauth.facebook_x']
+    provider :google_oauth2, ENV['omniauth.google'], ENV['omniauth.google_x']
+    provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
+  end
+
+  use Vxod::Middleware
+```
+
+- config layout
+- config SMTP
+
 
 # Installation
 
@@ -57,7 +90,7 @@ App
 
     use Vxod::Middleware # put it after use OmniAuth
 
-## Config SMTP, example on yander.ru 
+## Config SMTP, example on yander.ru
 
 
 
