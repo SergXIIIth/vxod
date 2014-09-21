@@ -47,8 +47,6 @@ Future
 ### app.ru
 
 ``` ruby
-  require 'vxod/middleware'
-
   enable :sessions
   set :sessions, secret: ENV['secret_secret']
 
