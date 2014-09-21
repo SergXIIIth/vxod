@@ -37,17 +37,6 @@ Future
   gem 'vxod'
 ```
 
-### config/vxod.rb
-
-``` ruby
-  Vxod.layout do |view_html, vxod_sinatra_app|
-    vxod_sinatra_app.slim File.read(Dum.view_path('layout')) do
-      vxod_sinatra_app.slim view_html
-    end
-  end
-```
-
-
 ### app.ru
 
 ``` ruby
