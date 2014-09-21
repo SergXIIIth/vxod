@@ -1,32 +1,27 @@
-doctype html
-html
-  == slim :'parts/head'
+.vxod-login-container
+  .well
+    == slim :'parts/nav'
 
-  body#vxod-login-page
-    .vxod-login-container
-      .well
-        == slim :'parts/nav'
+    form role='form' action=Vxod.config.login_path method='POST'
+      == errors(login_form)
 
-        form role='form' action=Vxod.config.login_path method='POST'
-          == errors(login_form)
+      .form-group
+        label for='email' Email
+        input.form-control type='email' id='email' name='email' value=login_form.email placeholder='Enter email'
 
-          .form-group
-            label for='email' Email
-            input.form-control type='email' id='email' name='email' value=login_form.email placeholder='Enter email'
+      .form-group
+        label for='password' Password
+        input.form-control type='password' id='password' name='password' placeholder='Enter password'
 
-          .form-group
-            label for='password' Password
-            input.form-control type='password' id='password' name='password' placeholder='Enter password'
+      .row
+        .col-xs-8.vxod-login-option
+          .checkbox
+            label
+              input type='checkbox' name='remember_me' checked=login_form.remember_me Remember me
 
-          .row
-            .col-xs-8.vxod-login-option
-              .checkbox
-                label
-                  input type='checkbox' name='remember_me' checked=login_form.remember_me Remember me
+          a href='#' Reset password
 
-              a href='#' Reset password
+        .col-xs-4.text-right
+          button.btn.btn-primary.btn-lg type='submit' Login
 
-            .col-xs-4.text-right
-              button.btn.btn-primary.btn-lg type='submit' Login
-
-        == slim :'parts/openid'
+    == slim :'parts/openid'

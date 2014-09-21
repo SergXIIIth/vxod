@@ -37,10 +37,14 @@ Future
   gem 'vxod'
 ```
 
-### congif/vxod.rb
+### config/vxod.rb
 
 ``` ruby
-  Vxod.config.layout = ''
+  Vxod.layout do |view_html, vxod_sinatra_app|
+    vxod_sinatra_app.slim File.read(Dum.view_path('layout')) do
+      vxod_sinatra_app.slim view_html
+    end
+  end
 ```
 
 
@@ -59,6 +63,16 @@ Future
   end
 
   use Vxod::Middleware
+
+  %w(get post).each do |method|
+    app.send(method, '*') do
+      if env['VXOD.HTML']
+        slim :vxod_layout, locals: { html: env['VXOD.HTML'] }
+      else
+        pass
+      end
+    end
+  end
 ```
 
 - config layout

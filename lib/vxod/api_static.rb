@@ -7,5 +7,9 @@ module Vxod
     def config
       @config ||= Vxod::Config.new
     end
+
+    def configure
+      yield config
+    end
   end
 end

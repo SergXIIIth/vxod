@@ -9,10 +9,11 @@ module Vxod
       @confirm_email_path = '/confirm_email_path'
     end
 
-    attr_accessor :login_path, 
+    attr_accessor \
+      :login_path,
       :logout_path,
       :confirm_email_path,
-      :fill_openid_path, 
+      :fill_openid_path,
       :after_login_default_path,
       :registration_path
   end

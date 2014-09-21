@@ -14,7 +14,9 @@ module Vxod
     # Login
 
     get Vxod.config.login_path do
-      slim :login, locals: { login_form: LoginForm.new }
+      html = slim(:login, locals: { login_form: LoginForm.new })
+      env['VXOD.HTML'] = html
+      pass
     end
 
     post Vxod.config.login_path do
