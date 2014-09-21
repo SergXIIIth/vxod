@@ -37,7 +37,7 @@ Future
   gem 'vxod'
 ```
 
-### app.ru
+### app.rb
 
 ``` ruby
   enable :sessions
@@ -53,6 +53,7 @@ Future
 
   use Vxod::Middleware
 
+  # render middware html in app layout
   %w(get post).each do |method|
     app.send(method, '*') do
       if env['VXOD.HTML']
@@ -64,7 +65,6 @@ Future
   end
 ```
 
-- config layout
 - config SMTP
 
 

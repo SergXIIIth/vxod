@@ -1,4 +1,8 @@
 module Vxod
+  I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
+  I18n.load_path += Dir[File.join(__dir__, 'locales', '*.yml')]
+  I18n.backend.load_translations
+
   autoload :Db, 'vxod/db'
   autoload :LoginForm, 'vxod/login_form'
   autoload :BackPath, 'vxod/back_path'

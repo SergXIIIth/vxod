@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = '>= 2.0'  
+  spec.required_ruby_version = '>= 2.0'
 
   spec.add_development_dependency "bundler", "~> 1.3"
 
@@ -29,6 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'coffee-script'
   spec.add_dependency 'sinatra-assetpack'
   spec.add_dependency 'pony'
+  spec.add_dependency 'i18n'
 
   spec.add_development_dependency 'omniauth'
   spec.add_development_dependency 'omniauth-twitter'

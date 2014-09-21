@@ -1,27 +1,24 @@
-.vxod-login-container
-  .well
-    == slim :'parts/nav'
+.vxod-login
+  == slim :'parts/nav'
 
-    form role='form' action=Vxod.config.login_path method='POST'
-      == errors(login_form)
+  == slim :'parts/openid'
 
-      .form-group
-        label for='email' Email
-        input.form-control type='email' id='email' name='email' value=login_form.email placeholder='Enter email'
+  form action=Vxod.config.login_path method='POST'
+    == errors(login_form)
 
-      .form-group
-        label for='password' Password
-        input.form-control type='password' id='password' name='password' placeholder='Enter password'
+    .vxod-form-group
+      label for='email' =I18n.t('vxod.email')
+      input.form-control type='email' id='email' name='email' value=login_form.email placeholder=I18n.t('vxod.enter_login')
 
-      .row
-        .col-xs-8.vxod-login-option
-          .checkbox
-            label
-              input type='checkbox' name='remember_me' checked=login_form.remember_me Remember me
+    .vxod-form-group
+      label for='password' =I18n.t('vxod.password')
+      input.form-control type='password' id='password' name='password' placeholder=I18n.t('vxod.enter_password')
 
-          a href='#' Reset password
+    .vxod-login-option
+      label
+        input type='checkbox' name='remember_me' checked=login_form.remember_me =I18n.t('vxod.remember_me')
 
-        .col-xs-4.text-right
-          button.btn.btn-primary.btn-lg type='submit' Login
+      a.vxod-reset-password href='#' =I18n.t('vxod.reset_password')
 
-    == slim :'parts/openid'
+    button.vxod-login-btn type='submit' =I18n.t('vxod.login_btn')
+

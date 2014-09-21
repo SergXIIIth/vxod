@@ -1,0 +1,11 @@
+ru:
+  vxod:
+    login: Вход
+    registration: Регистрация
+    email: Эл.почта
+    enter_login: Введите эл.почту
+    password: Пароль
+    enter_password: Введите пароль
+    remember_me: Запомнить меня
+    reset_password: Сбросить пароль
+    login_btn: Войти
