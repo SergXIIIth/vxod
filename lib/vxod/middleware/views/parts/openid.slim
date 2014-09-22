@@ -1,7 +1,8 @@
 - if Vxod::OmniAuthProvider.any?
   .vxod-login-with
+    .vxod-label =I18n.t('vxod.login_with_label')
     - Vxod::OmniAuthProvider.all.each do |provider|
       - if provider.show?
-        a href=provider.href
+        a.vxod-btn href=provider.href
           span =I18n.t("vxod.#{provider.id}")
           i class="icon provider-#{provider.id}"

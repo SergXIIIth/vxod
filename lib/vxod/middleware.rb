@@ -4,10 +4,8 @@ require 'omniauth'
 module Vxod
   class Middleware < Sinatra::Base
     require 'vxod/middleware/helpers'
-    require 'vxod/middleware/assets'
 
     helpers Helpers
-    register Assets
 
     set :views, "#{__dir__}/middleware/views"
 

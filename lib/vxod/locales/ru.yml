@@ -2,8 +2,8 @@ ru:
   vxod:
     login: Вход
     registration: Регистрация
-    email: Эл.почта
-    enter_login: Введите эл.почту
+    email: Почта
+    enter_login: Введите почту
     password: Пароль
     enter_password: Введите пароль
     remember_me: Запомнить меня
@@ -14,3 +14,5 @@ ru:
     facebook: Facebook
     google_oauth2: Google
     github: GitHub
+    login_with_label: Быстрый вход через
+    or_login: или почта, пароль
