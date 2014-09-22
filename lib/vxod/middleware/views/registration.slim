@@ -1,52 +1,51 @@
-doctype html
-html 
-  == slim :'parts/head'
+== slim :'parts/styles'
 
-  coffee:
-    $ ->
-      auto_password_refresh = ->
-        if $('#vxod-auto-password-swither').is(':checked')
-          $('#vxod-auto-password').slideUp()
-        else
-          $('#vxod-auto-password').slideDown()
+coffee:
+  $ ->
+    auto_password_refresh = ->
+      if $('#vxod-auto-password-swither').is(':checked')
+        $('#vxod-auto-password').slideUp()
+      else
+        $('#vxod-auto-password').slideDown()
 
-      $('#vxod-auto-password-swither')
-        .change(auto_password_refresh)
-        .click(auto_password_refresh)
+    $('#vxod-auto-password-swither')
+      .change(auto_password_refresh)
+      .click(auto_password_refresh)
 
-      $('#vxod-auto-password').hide()
+    $('#vxod-auto-password').hide()
 
+.vxod-container.vxod-registration
+  .vxod-well
+    .vxod-nav
+      a href=Vxod.config.login_path =I18n.t('vxod.login')
+      a.active href=Vxod.config.registration_path =I18n.t('vxod.registration')
 
-  body#vxod-registration-page
-    .vxod-login-container
-      .well
-        == slim :'parts/nav'
+    == slim :'parts/openid'
 
-        form role='form' action=Vxod.config.registration_path method='POST'
-          == errors(model)
+    .vxod-or-label: span =I18n.t('vxod.or_login')
 
-          .form-group
-            label for='firstname' First name
-            input.form-control type='text' id='firstname' name='firstname' placeholder='Enter your first name' value=model.firstname
+    form.vxod-emailpass-wrap action=Vxod.config.registration_path method='POST'
+      == errors(user)
 
-          .form-group
-            label for='lastname' Last name
-            input.form-control type='text' id='lastname' name='lastname' placeholder='Enter your last name' value=model.lastname
-          
-          .form-group
-            label for='email' Email
-            input.form-control type='email' id='email' name='email' placeholder='Enter your email' value=model.email
+      .vxod-form-group
+        label for='firstname' =I18n.t('vxod.firstname')
+        input.form-control type='text' id='firstname' name='firstname' placeholder=I18n.t('vxod.enter_firstname') value=user.firstname
 
-          .form-group
-            .checkbox
-              label
-                input#vxod-auto-password-swither type='checkbox' name='auto_password' checked='1' Auto generate password and sent to email
+      .vxod-form-group
+        label for='lastname' =I18n.t('vxod.lastname')
+        input.form-control type='text' id='lastname' name='lastname' placeholder=I18n.t('vxod.enter_lastname') value=user.lastname
 
-          #vxod-auto-password.form-group
-            label for='password' Password
-            input.form-control type='password' id='password' name='password' placeholder='Enter password'
-          
-          .text-right
-            button.btn.btn-primary.btn-lg type='submit' Register
+      .vxod-form-group
+        label for='email' =I18n.t('vxod.email')
+        input.form-control type='email' id='email' name='email' placeholder=I18n.t('vxod.enter_email') value=user.email
 
-        == slim :'parts/openid', locals: { label: 'Registration with' }
+      .vxod-reg-option
+        label
+          input#vxod-auto-password-swither type='checkbox' name='auto_password' checked='1' =I18n.t('vxod.auto_password')
+
+      #vxod-auto-password.vxod-form-group
+        label for='password' =I18n.t('vxod.password')
+        input.form-control type='password' id='password' name='password' placeholder=I18n.t('vxod.enter_password')
+
+      .vxod-login-btn-wrap
+        button.vxod-btn type='submit' =I18n.t('vxod.reg_btn')

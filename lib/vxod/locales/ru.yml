@@ -3,12 +3,13 @@ ru:
     login: Вход
     registration: Регистрация
     email: Почта
-    enter_login: Введите почту
+    enter_email: Введите почту
     password: Пароль
     enter_password: Введите пароль
     remember_me: Запомнить меня
     reset_password: Сбросить пароль
     login_btn: Войти
+    reg_btn: Зарегистрироваться
     vkontakte: VK
     twitter: Twitter
     facebook: Facebook
@@ -16,3 +17,8 @@ ru:
     github: GitHub
     login_with_label: Быстрый вход через
     or_login: или почта, пароль
+    auto_password: присласть пароль на почту
+    lastname: Фамилия
+    enter_lastname:  Введите фамилию
+    firstname: Имя
+    enter_firstname: Введите имя

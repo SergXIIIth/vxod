@@ -1,7 +1,11 @@
 sass:
+  .vxod-registration
+    .vxod-login-btn-wrap
+      margin-top: 10px
+
   .vxod-container
-    height: 500px
-    padding-top: 50px
+    height: 530px
+    padding-top: 30px
 
     [type="checkbox"]
       margin-right: 5px
@@ -10,12 +14,20 @@ sass:
       width: 400px
       margin: 0 auto
 
+    .vxod-reg-option
+      margin-left: 70px
+      color: #ccc
+      margin-bottom: 6px
+
+      label
+        font-weight: normal
+
     .vxod-login-option
       margin-top: -30px
-      color: #ddd
+      color: #ccc
 
       a
-        color: #ddd
+        color: #ccc
         margin-left: 18px
         font-style: italic
 
@@ -27,7 +39,7 @@ sass:
     .vxod-login-btn-wrap
       text-align: right
 
-    .vxod-email-wrap
+    .vxod-emailpass-wrap
       padding: 0 35px
       position: relative
 
@@ -44,6 +56,9 @@ sass:
         width: 260px
         right: 0
         position: relative
+
+        &::-webkit-input-placeholder
+          color: #ccc
 
     .vxod-nav
       border-bottom: 1px solid #ddd
@@ -91,7 +106,7 @@ sass:
         background-color: #fff
         padding: 0 20px
 
-    .vxod-btn, .vxod-login-btn
+    .vxod-btn
       display: inline-block
       margin-bottom: 0
       font-weight: normal

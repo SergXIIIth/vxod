@@ -10,19 +10,19 @@
 
     .vxod-or-label: span =I18n.t('vxod.or_login')
 
-    form.vxod-email-wrap action=Vxod.config.login_path method='POST'
+    form.vxod-emailpass-wrap action=Vxod.config.login_path method='POST'
       == errors(login_form)
 
       .vxod-form-group
         label for='email' =I18n.t('vxod.email')
-        input.form-control type='email' id='email' name='email' value=login_form.email placeholder=I18n.t('vxod.enter_login')
+        input.form-control type='email' id='email' name='email' value=login_form.email placeholder=I18n.t('vxod.enter_email')
 
       .vxod-form-group
         label for='password' =I18n.t('vxod.password')
         input.form-control type='password' id='password' name='password' placeholder=I18n.t('vxod.enter_password')
 
       .vxod-login-btn-wrap
-        button.vxod-login-btn type='submit' =I18n.t('vxod.login_btn')
+        button.vxod-btn type='submit' =I18n.t('vxod.login_btn')
 
       .vxod-login-option
         label

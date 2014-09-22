@@ -27,7 +27,8 @@ module Vxod
     # Registration
 
     get Vxod.config.registration_path do
-      render_view :registration, Db.user.new
+      env['VXOD.HTML'] = slim(:registration, locals: { user: Db.user.new })
+      pass
     end
 
     post Vxod.config.registration_path do
