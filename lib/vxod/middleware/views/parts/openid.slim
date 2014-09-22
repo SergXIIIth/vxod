@@ -3,5 +3,5 @@
     - Vxod::OmniAuthProvider.all.each do |provider|
       - if provider.show?
         a href=provider.href
-          span =provider.title
-          i class=provider.icon
+          span =I18n.t("vxod.#{provider.id}")
+          i class="icon provider-#{provider.id}"

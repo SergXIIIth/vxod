@@ -2,17 +2,15 @@
 # Detect provider usage in hosting app
 module Vxod
   class OmniAuthProvider
-    def initialize(name, icon, title)
-      @name = name
-      @icon = icon
-      @title = title
+    def initialize(id)
+      @id = id
     end
 
-    attr_reader :name, :icon, :title
+    attr_reader :id
 
     def show?
       @show ||= begin
-        OmniAuth::Strategies.const_get("#{OmniAuth::Utils.camelize(name.to_s)}")
+        OmniAuth::Strategies.const_get("#{OmniAuth::Utils.camelize(id.to_s)}")
         true
       rescue NameError
         false
@@ -20,21 +18,18 @@ module Vxod
     end
 
     def href
-      "#{OmniAuth.config.path_prefix}/#{name}"
+      "#{OmniAuth.config.path_prefix}/#{id}"
     end
 
-    def self.any?
-      all.any?{ |provider| provider.show? }
-    end
+    class << self
+      def any?
+        all.any?{ |provider| provider.show? }
+      end
 
-    def self.all
-      @all ||= [
-        [:vkontakte, 'fa-vk', 'Login with vk.com'],
-        [:twitter, 'fa-twitter', 'Login with Twitter'],
-        [:facebook, 'fa-facebook', 'Login with Facebook'],
-        [:google_oauth2, 'fa-google-plus', 'Login with Google'],
-        [:github, 'fa-github-alt', 'Login with Github'],
-      ].map{ |data| OmniAuthProvider.new(*data) }
+      def all
+        @all ||= %i(vkontakte twitter facebook google_oauth2 github)
+          .map{ |id| new(id) }
+      end
     end
   end
 end

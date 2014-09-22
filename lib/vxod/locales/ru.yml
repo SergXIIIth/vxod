@@ -9,3 +9,8 @@ ru:
     remember_me: Запомнить меня
     reset_password: Сбросить пароль
     login_btn: Войти
+    vkontakte: VK
+    twitter: Twitter
+    facebook: Facebook
+    google_oauth2: Google
+    github: GitHub
