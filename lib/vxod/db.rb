@@ -4,7 +4,7 @@ module Vxod
       def openid
         unless @openid
           require 'vxod/db/mongoid'
-          @openid = Vxod::Db::Default::Openid
+          @openid = Vxod::Db::Mongoid::Openid
         end
 
         @openid
@@ -17,7 +17,7 @@ module Vxod
       def user
         unless @user
           require 'vxod/db/mongoid'
-          @user = Vxod::Db::Default::User
+          @user = Vxod::Db::Mongoid::User
         end
 
         @user

@@ -1,10 +1,37 @@
 require 'mongoid'
 
 module Vxod::Db::Mongoid
-  module User
+  class User
+    include ::Mongoid::Document
+    include ::Mongoid::Timestamps
+
+    field :email        , type: String
+    field :firstname    , type: String
+    field :lastname     , type: String
+    field :auth_key     , type: String
+    field :password_hash, type: String
+    # 'unconfirm_email' when user click in email in 'I did not require registration'
+    field :lock_code    , type: String
+
+    field :confirm_email_key  , type: String
+    field :confirm_at         , type: DateTime
+
+    validates :email, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
+    validates :email, presence: true
+    validates :email, uniqueness: true
+    validates :password_hash, presence: true
+    validates :auth_key, presence: true
+    validates :confirm_email_key, presence: true
+
+    has_many :openids, dependent: :destroy
+
+    index({ auth_key: 1 }, { unique: true })
+    index({ email: 1 }, { unique: true })
+    index({ confirm_email_key: 1 }, { unique: true })
+
     def password_valid?(password_uncrypt)
       if password_uncrypt.blank?
-        errors[:password] = 'is required' 
+        errors[:password] = 'is required'
       else
         errors[:password] = 'min lenght 7 chars is required' if password_uncrypt.size < 7
       end
@@ -12,38 +39,7 @@ module Vxod::Db::Mongoid
       !errors.any?
     end
 
-    def self.included(base)
-      base.send(:include, ::Mongoid::Document)
-      base.send(:include, ::Mongoid::Timestamps)
-
-      base.field :email        , type: String
-      base.field :firstname    , type: String
-      base.field :lastname     , type: String
-      base.field :auth_key     , type: String
-      base.field :password_hash, type: String
-      # 'unconfirm_email' when user click in email in 'I did not require registration'
-      base.field :lock_code    , type: String 
-
-      base.field :confirm_email_key  , type: String
-      base.field :confirm_at         , type: DateTime
-
-      base.validates :email, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
-      base.validates :email, presence: true
-      base.validates :email, uniqueness: true
-      base.validates :password_hash, presence: true
-      base.validates :auth_key, presence: true
-      base.validates :confirm_email_key, presence: true
-
-      base.has_many :openids, dependent: :destroy
-
-      base.index({ auth_key: 1 }, { unique: true })
-      base.index({ email: 1 }, { unique: true })
-      base.index({ confirm_email_key: 1 }, { unique: true })
-
-      base.send(:extend, ClassMethods)
-    end
-
-    module ClassMethods
+    class << self
       def find_by_auth_key(auth_key)
         where(auth_key: auth_key)[0]
       end
@@ -56,5 +52,5 @@ module Vxod::Db::Mongoid
         where(confirm_email_key: confirm_email_key)[0]
       end
     end
-  end   
+  end
 end

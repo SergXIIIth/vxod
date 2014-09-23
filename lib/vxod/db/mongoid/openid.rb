@@ -1,28 +1,24 @@
 require 'mongoid'
 
 module Vxod::Db::Mongoid
-  module Openid
-    def self.included(base)
-      base.send(:include, ::Mongoid::Document)
-      base.send(:include, ::Mongoid::Timestamps)
+  class Openid
+    include ::Mongoid::Document
+    include ::Mongoid::Timestamps
 
-      base.field :provider , type: String
-      base.field :uid      , type: String
-      base.field :raw      , type: Hash
+    field :provider , type: String
+    field :uid      , type: String
+    field :raw      , type: Hash
 
-      base.validates :provider, presence: true
-      base.validates :uid, presence: true
-      base.validates :uid, uniqueness: { scope: 'provider' }
-      base.validates :raw, presence: true
+    validates :provider, presence: true
+    validates :uid, presence: true
+    validates :uid, uniqueness: { scope: 'provider' }
+    validates :raw, presence: true
 
-      base.belongs_to :user
+    belongs_to :user
 
-      base.index({ provider: 1, uid: 1 }, { unique: true })
+    index({ provider: 1, uid: 1 }, { unique: true })
 
-      base.send(:extend, ClassMethods)
-    end
-
-    module ClassMethods
+    class << self
       def find_by_openid(provider, uid)
         where(provider: provider, uid: uid)[0]
       end
