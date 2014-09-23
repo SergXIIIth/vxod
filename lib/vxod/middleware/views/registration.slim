@@ -15,11 +15,11 @@ coffee:
     $('#vxod-auto-password').hide()
 
 .vxod-container.vxod-registration
-  .vxod-well
-    .vxod-nav
-      a href=Vxod.config.login_path =I18n.t('vxod.login')
-      a.active href=Vxod.config.registration_path =I18n.t('vxod.registration')
+  .vxod-nav
+    a href=Vxod.config.login_path =I18n.t('vxod.login')
+    a.active href=Vxod.config.registration_path =I18n.t('vxod.registration')
 
+  .vxod-well
     == slim :'parts/openid', locals: { prefix: 'reg' }
 
     form.vxod-emailpass-wrap action=Vxod.config.registration_path method='POST'

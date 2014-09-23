@@ -1,6 +1,9 @@
 sass:
   .vxod
-    &-registration
+    &-registration, &-login
+      .vxod-emailpass-wrap
+        padding-bottom: 10px
+
       .vxod-login-btn-wrap
         margin-top: 10px
 
@@ -16,13 +19,40 @@ sass:
     &-container
       max-height: 530px
       padding: 30px 0
+      background-color: #ddd
 
       [type="checkbox"]
         margin-right: 5px
 
     &-well
-      width: 400px
+      border: 1px solid #ccc
+      width: 432px
       margin: 0 auto
+      background-color: #fff
+      padding: 15px
+      border-radius: 4px
+
+    &-nav
+      width: 432px
+      margin: 0 auto
+      text-align: right
+      position: relative
+      top: 2px
+
+      a
+        display: inline-block
+        padding: 10px 15px
+        line-height: 1.42857143
+        border: 1px solid transparent
+        border-radius: 4px 4px 0 0
+
+        &.active
+          color: #555
+          cursor: default
+          background-color: #fff
+          border: 1px solid #ccc
+          border-bottom-color: transparent
+
 
     &-reg-option
       margin-left: 70px
@@ -34,12 +64,14 @@ sass:
 
     &-login-option
       margin-top: -30px
+      margin-left: 70px
       color: #ccc
 
       a
         color: #ccc
         margin-left: 18px
         font-style: italic
+        text-decoration: underline
 
       label
         display: block
@@ -76,31 +108,9 @@ sass:
         &:-ms-input-placeholder
           color: #ccc
 
-    &-nav
-      border-bottom: 1px solid #ddd
-      text-align: right
-
-      a
-        position: relative
-        display: inline-block
-        padding: 10px 15px
-        margin-right: 2px
-        line-height: 1.42857143
-        border: 1px solid transparent
-        border-radius: 4px 4px 0 0
-
-        &.active
-          color: #555
-          cursor: default
-          background-color: #fff
-          border: 1px solid #ddd
-          border-bottom-color: transparent
-          top: 1px
-
     &-login-with
       text-align: center
-      margin: 30px 0 0 0
-      padding-bottom: 50px
+      margin: 20px 0 40px 0
 
       .vxod-label
         margin-bottom: 10px

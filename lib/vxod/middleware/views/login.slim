@@ -1,11 +1,11 @@
 == slim :'parts/styles'
 
 .vxod-container.vxod-login
-  .vxod-well
-    .vxod-nav
-      a.active href=Vxod.config.login_path =I18n.t('vxod.login')
-      a href=Vxod.config.registration_path =I18n.t('vxod.registration')
+  .vxod-nav
+    a.active href=Vxod.config.login_path =I18n.t('vxod.login')
+    a href=Vxod.config.registration_path =I18n.t('vxod.registration')
 
+  .vxod-well
     == slim :'parts/openid'
 
     form.vxod-emailpass-wrap action=Vxod.config.login_path method='POST'

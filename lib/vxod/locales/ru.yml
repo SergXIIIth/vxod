@@ -6,8 +6,8 @@ ru:
     enter_email: Введите почту
     password: Пароль
     enter_password: Введите пароль
-    remember_me: Запомнить меня
-    reset_password: Сбросить пароль
+    remember_me: запомнить меня
+    reset_password: сбросить пароль
     login_btn: Войти
     reg_btn: Зарегистрироваться
     vkontakte: VK
