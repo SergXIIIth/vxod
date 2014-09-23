@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'Login with password', :type => :feature, feature: true, js: true  do
-  let(:email){ "sergey#{rnd}@makridenkov.com" }
+  let(:email){ "sergey#{rand(1000)}@makridenkov.com" }
   let(:password){ rnd('password') }
   let(:user){ Vxod::UserRepo.create(
-    'email' => email, 
+    'email' => email,
     'password' => password
   )}
 

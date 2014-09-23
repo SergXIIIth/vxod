@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Confirm email', :type => :feature, feature: true, js: true  do
-  let(:email){ "sergey#{rnd}@makridenkov.com" }
+  let(:email){ "sergey#{rand(1000)}@makridenkov.com" }
   let(:user) { Vxod::UserRepo.create('email' => email, 'password' => '1234567') }
 
   it 'show message when confirmed' do

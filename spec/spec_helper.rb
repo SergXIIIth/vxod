@@ -15,10 +15,8 @@ RSpec.configure do |config|
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
   # config.fail_fast = true
-  config.treat_symbols_as_metadata_keys_with_true_values = true
 
   config.include Rack::Test::Methods
-  config.include CustomHelpers
 
   # feature
 
@@ -30,8 +28,8 @@ RSpec.configure do |config|
       uid:        '12345',
       extra:      {raw: {}},
       info:       {
-                    first_name: 'Sergey', 
-                    last_name:  'Makridenkov', 
+                    first_name: 'Sergey',
+                    last_name:  'Makridenkov',
                     email:      '',
                   }
     )
@@ -39,7 +37,7 @@ RSpec.configure do |config|
     OmniAuth.config.test_mode = true
 
     Mongoid.purge!
-    
+
     Capybara.app = Sinatra::Application
   end
 end

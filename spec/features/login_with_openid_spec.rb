@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Login with openid', :type => :feature, feature: true, js: true  do
-  let(:email){ "sergey#{rnd}@makridenkov.com" }
+  let(:email){ "sergey#{rand(1000)}@makridenkov.com" }
 
   it 'allow access to secret page' do
     # Given I am on home page
@@ -25,7 +25,7 @@ describe 'Login with openid', :type => :feature, feature: true, js: true  do
     expect(find('.alert-danger')).to have_content('Email is invalid')
 
     # And I should receive email with email/password
-    expect(Pony).to receive(:mail).with{|params| 
+    expect(Pony).to receive(:mail).with{|params|
       expect(params[:to]).to eq email
     }
 

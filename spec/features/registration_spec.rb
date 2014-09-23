@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Registration', :type => :feature, feature: true, js: true  do
-  let(:email){ "sergey#{rnd}@makridenkov.com" }
+  let(:email){ "sergey#{rand(1000)}@makridenkov.com" }
 
   it 'shows errors when invalid data' do
     # Given I am on registration page
@@ -24,7 +24,7 @@ describe 'Registration', :type => :feature, feature: true, js: true  do
     visit '/registration'
     fill_in('email', with: email)
 
-    expect(Pony).to receive(:mail).with{|params| 
+    expect(Pony).to receive(:mail).with{|params|
       expect(params[:to]).to eq email
     }
 
