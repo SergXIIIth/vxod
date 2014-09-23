@@ -1,7 +1,13 @@
+development:
+  sessions:
+    default:
+      database: vxod_dev
+      hosts:
+        - 127.0.0.1:27017
 test:
   sessions:
     default:
-      database: redsi_test
+      database: vxod_test
       hosts:
         - 127.0.0.1:27017
       options:

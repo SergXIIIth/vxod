@@ -14,6 +14,19 @@ helpers do
   end
 end
 
+class SetLocale
+  def initialize(app)
+    @app = app
+  end
+
+  def call(env)
+    I18n.locale = :ru
+    @app.call(env)
+  end
+end
+
+use SetLocale
+
 enable :sessions
 set :sessions, secret: ENV['secret_secret']
 
@@ -31,6 +44,18 @@ get '/secret' do
   vxod.required
   slim :secret
 end
+
+# render middware html in app layout
+%w(get post).each do |method|
+  self.send(method, '*') do
+    if env['VXOD.HTML']
+      env['VXOD.HTML']
+    else
+      pass
+    end
+  end
+end
+
 
 template :secret do
 %q(

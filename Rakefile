@@ -2,7 +2,7 @@ require "bundler/gem_tasks"
 
 desc 'Run web server for example app'
 task 'web' do
-  system "bundle exec rerun --pattern '{**/*.rb}' -c 'puma -p 3000 --dir example'"
+  system "bundle exec rerun --pattern '{**/*.rb}' -c 'puma --dir example'"
 end
 
 desc 'Console'
