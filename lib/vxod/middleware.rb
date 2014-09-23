@@ -42,20 +42,20 @@ module Vxod
     # OpenId
 
     get Vxod.config.fill_openid_path do
-      call_vxod_api :show_openid_data, :fill_openid_data
+      html = slim :fill_openid, locals: { user: vxod.show_openid_data }
+      env['VXOD.HTML'] = html
+      pass
     end
 
     post Vxod.config.fill_openid_path do
-      call_vxod_api :update_openid_data, :fill_openid_data
+      call_vxod_api :update_openid_data, :fill_openid
     end
 
     get "#{OmniAuth.config.path_prefix}/:provider/callback" do
-      # p env['omniauth.auth']
       call_vxod_api :login_with_openid, :login
     end
 
     post "#{OmniAuth.config.path_prefix}/:provider/callback" do
-      # p env['omniauth.auth']
       call_vxod_api :login_with_openid, :login
     end
   end

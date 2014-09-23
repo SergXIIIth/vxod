@@ -20,7 +20,7 @@ module Vxod
       else
         registrator.register_by_openid(openid)
       end
-      
+
       login_form
     end
 
@@ -30,15 +30,13 @@ module Vxod
 
     def show_openid_data
       openid = app.current_openid
-      user = openid.user 
-      user ||= UserRepo.build_by_openid(openid)
 
-      user.valid? # fill up user#errors
-
+      user = openid.user || UserRepo.build_by_openid(openid)
+      user.valid?
       user
     end
 
-    private 
+    private
 
     def registrator
       Registrator.new(app)

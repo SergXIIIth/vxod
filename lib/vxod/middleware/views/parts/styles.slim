@@ -1,20 +1,30 @@
 sass:
-  .vxod-registration
-    .vxod-login-btn-wrap
-      margin-top: 10px
+  .vxod
+    &-registration
+      .vxod-login-btn-wrap
+        margin-top: 10px
 
-  .vxod-container
-    height: 530px
-    padding-top: 30px
+    &-errors
+      color: #a94442
+      background-color: #f2dede
+      border-color: #ebccd1
+      padding: 15px
+      margin-bottom: 20px
+      border: 1px solid transparent
+      border-radius: 4px
 
-    [type="checkbox"]
-      margin-right: 5px
+    &-container
+      max-height: 530px
+      padding: 30px 0
 
-    .vxod-well
+      [type="checkbox"]
+        margin-right: 5px
+
+    &-well
       width: 400px
       margin: 0 auto
 
-    .vxod-reg-option
+    &-reg-option
       margin-left: 70px
       color: #ccc
       margin-bottom: 6px
@@ -22,7 +32,7 @@ sass:
       label
         font-weight: normal
 
-    .vxod-login-option
+    &-login-option
       margin-top: -30px
       color: #ccc
 
@@ -36,14 +46,14 @@ sass:
         font-weight: normal
         margin: 0
 
-    .vxod-login-btn-wrap
+    &-login-btn-wrap
       text-align: right
 
-    .vxod-emailpass-wrap
+    &-emailpass-wrap
       padding: 0 35px
       position: relative
 
-    .vxod-form-group
+    &-form-group
       margin-bottom: 10px
 
       label
@@ -66,7 +76,7 @@ sass:
         &:-ms-input-placeholder
           color: #ccc
 
-    .vxod-nav
+    &-nav
       border-bottom: 1px solid #ddd
       text-align: right
 
@@ -87,7 +97,7 @@ sass:
           border-bottom-color: transparent
           top: 1px
 
-    .vxod-login-with
+    &-login-with
       text-align: center
       margin: 30px 0 0 0
       padding-bottom: 50px
@@ -100,7 +110,7 @@ sass:
         width: 100px
         margin-right: 10px
 
-    .vxod-or-label
+    &-or-label
       border-bottom: 1px solid #ddd
       color: #ddd
       text-align: center
@@ -112,7 +122,7 @@ sass:
         background-color: #fff
         padding: 0 20px
 
-    .vxod-btn
+    &-btn, &-btn-primary
       display: inline-block
       margin-bottom: 0
       font-weight: normal
@@ -132,3 +142,13 @@ sass:
         background-color: #e6e6e6
         border-color: #adadad
         text-decoration: none
+
+    &-btn-primary
+      color: #fff
+      background-color: #428bca
+      border-color: #357ebd
+
+      &:hover
+        color: #fff
+        background-color: #3071a9
+        border-color: #285e8e

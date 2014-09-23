@@ -1,0 +1,22 @@
+== slim :'parts/styles'
+
+.vxod-container.vxod-fill-openid
+  .vxod-well
+    form action=Vxod.config.fill_openid_path method='POST'
+      == errors(user)
+
+      .vxod-emailpass-wrap
+        .vxod-form-group
+          label for='email' =I18n.t('vxod.email')
+          input.form-control type='email' id='email' name='email' placeholder=I18n.t('vxod.enter_email') value=user.email
+
+        .vxod-form-group
+          label for='firstname' =I18n.t('vxod.firstname')
+          input.form-control type='text' id='firstname' name='firstname' placeholder=I18n.t('vxod.enter_firstname') value=user.firstname
+
+        .vxod-form-group
+          label for='lastname' =I18n.t('vxod.lastname')
+          input.form-control type='text' id='lastname' name='lastname' placeholder=I18n.t('vxod.enter_lastname') value=user.lastname
+
+        .vxod-login-btn-wrap
+          button.vxod-btn-primary type='submit' =I18n.t('vxod.continue')
