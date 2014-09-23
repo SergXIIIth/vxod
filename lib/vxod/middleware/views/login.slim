@@ -8,8 +8,6 @@
 
     == slim :'parts/openid'
 
-    .vxod-or-label: span =I18n.t('vxod.or_login')
-
     form.vxod-emailpass-wrap action=Vxod.config.login_path method='POST'
       == errors(login_form)
 

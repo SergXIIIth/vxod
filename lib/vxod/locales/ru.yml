@@ -16,6 +16,7 @@ ru:
     google_oauth2: Google
     github: GitHub
     login_with_label: Быстрый вход через
+    reg_with_label: Быстрая регистрация через
     or_login: или почта, пароль
     auto_password: присласть пароль на почту
     lastname: Фамилия

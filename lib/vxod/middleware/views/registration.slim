@@ -20,9 +20,7 @@ coffee:
       a href=Vxod.config.login_path =I18n.t('vxod.login')
       a.active href=Vxod.config.registration_path =I18n.t('vxod.registration')
 
-    == slim :'parts/openid'
-
-    .vxod-or-label: span =I18n.t('vxod.or_login')
+    == slim :'parts/openid', locals: { prefix: 'reg' }
 
     form.vxod-emailpass-wrap action=Vxod.config.registration_path method='POST'
       == errors(user)

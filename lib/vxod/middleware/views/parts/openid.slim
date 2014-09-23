@@ -1,8 +1,13 @@
+- prefix = prefix ? prefix : 'login'
 - if Vxod::OmniAuthProvider.any?
   .vxod-login-with
-    .vxod-label =I18n.t('vxod.login_with_label')
+
+    .vxod-label =I18n.t("vxod.#{prefix}_with_label")
+
     - Vxod::OmniAuthProvider.all.each do |provider|
       - if provider.show?
         a.vxod-btn href=provider.href
           span =I18n.t("vxod.#{provider.id}")
           i class="icon provider-#{provider.id}"
+
+  .vxod-or-label: span =I18n.t('vxod.or_login')
