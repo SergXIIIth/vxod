@@ -1,6 +1,16 @@
 sass:
   .vxod
+    &-container
+      max-height: 530px
+      padding: 30px 0
+      background-color: #ddd
+
+      [type="checkbox"]
+        margin-right: 5px
+
     &-registration, &-login
+      padding-bottom: 50px
+
       .vxod-emailpass-wrap
         padding-bottom: 10px
 
@@ -16,13 +26,8 @@ sass:
       border: 1px solid transparent
       border-radius: 4px
 
-    &-container
-      max-height: 530px
-      padding: 30px 0
-      background-color: #ddd
-
-      [type="checkbox"]
-        margin-right: 5px
+      p:last-child
+        margin-bottom: 0
 
     &-well
       border: 1px solid #ccc

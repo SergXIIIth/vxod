@@ -19,9 +19,7 @@ module Vxod::Db::Mongoid
     validates :email, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
     validates :email, presence: true
     validates :email, uniqueness: true
-    validates :password_hash, presence: true
-    validates :auth_key, presence: true
-    validates :confirm_email_key, presence: true
+    before_save :check_constrains
 
     has_many :openids, dependent: :destroy
 
@@ -51,6 +49,14 @@ module Vxod::Db::Mongoid
       def find_by_confirm_email_key(confirm_email_key)
         where(confirm_email_key: confirm_email_key)[0]
       end
+    end
+
+private
+
+    def check_constrains
+      fail if password_hash.empty?
+      fail if auth_key.empty?
+      fail if confirm_email_key.empty?
     end
   end
 end

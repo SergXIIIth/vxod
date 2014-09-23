@@ -1,4 +1,10 @@
 ru:
+  mongoid:
+    errors:
+      messages:
+        taken: "уже существует"
+        invalid: "имеет неверное значение"
+        blank: "не может быть пустым"
   vxod:
     login: Вход
     registration: Регистрация
