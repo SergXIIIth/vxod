@@ -48,7 +48,9 @@ module Vxod
     end
 
     post Vxod.config.fill_openid_path do
-      call_vxod_api :update_openid_data, :fill_openid
+      html = slim :fill_openid, locals: { user: vxod.update_openid_data }
+      env['VXOD.HTML'] = html
+      pass
     end
 
     get "#{OmniAuth.config.path_prefix}/:provider/callback" do
