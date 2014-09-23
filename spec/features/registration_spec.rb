@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Registration', :type => :feature, feature: true, js: true  do
+describe 'Registration', :feature, :js  do
   let(:email){ "sergey#{rand(1000)}@makridenkov.com" }
 
   it 'shows errors when invalid data' do

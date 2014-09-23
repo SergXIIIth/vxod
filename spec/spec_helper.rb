@@ -18,10 +18,13 @@ RSpec.configure do |config|
 
   config.include Rack::Test::Methods
 
+  config.include Capybara::DSL, :feature
+  config.include Capybara::RSpecMatchers, :feature
+
   # feature
 
   config.before :each, :feature do
-    require_relative '../example/app.rb'
+    require_relative 'app/app.rb'
 
     OmniAuth.config.mock_auth[:vkontakte] = OmniAuth::AuthHash.new(
       provider:   'vkontakte',

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Login with openid', :type => :feature, feature: true, js: true  do
+describe 'Login with openid', :feature  do
   let(:email){ "sergey#{rand(1000)}@makridenkov.com" }
 
   it 'allow access to secret page' do
