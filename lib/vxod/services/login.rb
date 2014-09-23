@@ -20,7 +20,7 @@ private
 
     def check_lock(user)
       if user.lock_code
-        login_form.errors['lock'] = '- Account is lock. Please contact the support'
+        login_form.errors['lock'] = ''
         login_form
       else
         check_password(user)
@@ -45,7 +45,7 @@ private
     end
 
     def error
-      login_form.errors['email'] = 'or password invalid'
+      login_form.errors['email'] = I18n.t('vxod.errors.invalid_password')
       login_form
     end
   end

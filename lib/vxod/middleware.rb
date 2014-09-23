@@ -17,7 +17,8 @@ module Vxod
     end
 
     post Vxod.config.login_path do
-      call_vxod_api :login, :login
+      env['VXOD.HTML'] = slim(:login, locals: { login_form: vxod.login })
+      pass
     end
 
     get Vxod.config.logout_path do
@@ -32,7 +33,8 @@ module Vxod
     end
 
     post Vxod.config.registration_path do
-      call_vxod_api :register, :registration
+      env['VXOD.HTML'] = slim(:registration, locals: { user: vxod.register })
+      pass
     end
 
     get Vxod.config.confirm_email_path do
@@ -54,11 +56,11 @@ module Vxod
     end
 
     get "#{OmniAuth.config.path_prefix}/:provider/callback" do
-      call_vxod_api :login_with_openid, :login
+      vxod.login_with_openid
     end
 
     post "#{OmniAuth.config.path_prefix}/:provider/callback" do
-      call_vxod_api :login_with_openid, :login
+      vxod.login_with_openid
     end
   end
 end

@@ -13,7 +13,7 @@ module Vxod
 
       if openid.user
         if openid.user.lock_code
-          login_form.errors['lock'] = I18n.t('vxod.errors.lock')
+          login_form.errors['lock'] = ''
         else
           app.authentify_and_back(openid.user)
         end
