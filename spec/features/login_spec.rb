@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Login with password', :feature  do
   let(:email){ "sergey#{rand(1000)}@makridenkov.com" }
   let(:password){ "password#{rand}" }
-  let(:user){ Vxod::UserRepo.create('email' => email, 'password' => password) }
+  let!(:user){ Vxod::UserRepo.create('email' => email, 'password' => password) }
 
   it 'allow access to secret page' do
     visit '/'
