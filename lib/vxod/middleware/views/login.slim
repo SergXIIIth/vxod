@@ -19,13 +19,13 @@
         label for='password' =I18n.t('vxod.password')
         input.form-control type='password' id='password' name='password' placeholder=I18n.t('vxod.enter_password')
 
-      .vxod-login-btn-wrap
-        button.vxod-btn type='submit' =I18n.t('vxod.login_btn')
-
       .vxod-login-option
         label
           input type='checkbox' name='remember_me' checked=login_form.remember_me =I18n.t('vxod.remember_me')
 
-        a.vxod-reset-password href='#' =I18n.t('vxod.reset_password')
+      .vxod-login-btn-wrap
+        button.vxod-btn type='submit' =I18n.t('vxod.login_btn')
+
+        // a.vxod-reset-password href='#' =I18n.t('vxod.reset_password')
 
 

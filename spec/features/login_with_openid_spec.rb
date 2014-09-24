@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Login with openid', :feature  do
   let(:email){ "sergey#{rand(1000)}@makridenkov.com" }
 
-  it 'allow access to secret page' do
+  it 'allow access to secret page', :focus do
     visit '/'
     click_on 'secret'
     find('.fa-vk').click
