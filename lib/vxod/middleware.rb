@@ -38,7 +38,8 @@ module Vxod
     end
 
     get Vxod.config.confirm_email_path do
-      slim :confirm_email, locals: vxod.confirm_email
+      env['VXOD.HTML'] = slim :confirm_email, locals: vxod.confirm_email
+      pass
     end
 
     # OpenId
