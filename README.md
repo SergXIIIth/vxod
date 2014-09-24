@@ -92,7 +92,7 @@ helpers do
     @vxod ||= Vxod.api(self)
   end
 end
-``` ruby
+```
 
 # Usage
 
