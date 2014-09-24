@@ -5,10 +5,10 @@ module Vxod
 
       Pony.mail(
         to: user.email,
-        subject: "Registration on #{host}",
+        subject: I18n.t('vxod.reg_mail.subject', host: host),
         html_body: render(
-          templite, 
-          user: user, 
+          templite,
+          user: user,
           host: host,
           password: user_password,
           send_password: send_password
