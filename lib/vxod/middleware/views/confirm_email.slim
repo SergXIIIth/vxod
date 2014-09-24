@@ -3,11 +3,11 @@
 .vxod-container.vxod-login
   .vxod-well
     - if success
-      .alert.alert-success
-        p Confirm email success
+        p =I18n.t('vxod.confirm_success')
     - else
-      .alert.alert-danger
+      .vxod-errors
         - error.each do |m|
           p =m
-    .text-center
-      a.btn.btn-primary.btn-lg href=back_path Continue >
+
+    .vxod-login-btn-wrap
+      a.vxod-btn-primary href=back_path =I18n.t('vxod.continue')

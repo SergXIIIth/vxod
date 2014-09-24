@@ -65,7 +65,24 @@ Future
   end
 ```
 
-- config SMTP
+### config/smtp.rb
+
+``` ruby
+Pony.options = {
+  from: '???',
+  via: :smtp,
+  via_options: {
+    address:      'smtp.yandex.ru',
+    port:         '587',
+    smtp_domain:  '???',
+    user_name:    '???',
+    password:     '???',
+
+    enable_starttls_auto: true,
+    authentication: :plain, # :plain, :login, :cram_md5, no auth by default
+  }
+}
+```
 
 
 # API

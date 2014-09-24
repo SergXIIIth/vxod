@@ -7,8 +7,8 @@ describe 'Confirm email', :feature  do
   it 'show message when confirmed' do
     visit "#{Vxod.config.confirm_email_path}?key=#{user.confirm_email_key}"
 
-    expect(page).to have_content 'Confirm email success'
-    expect(page).to have_content 'Continue'
+    expect(page).to have_content 'Почта подтвеждена.'
+    expect(page).to have_content 'Продолжить'
   end
 
   it 'show error when confirmation invalid' do
@@ -17,6 +17,6 @@ describe 'Confirm email', :feature  do
 
     visit "#{Vxod.config.confirm_email_path}?key=#{user.confirm_email_key}"
 
-    expect(page).to have_css '.alert-danger'
+    expect(page).to have_css('.vxod-errors', text: 'Почта уже подтверждена')
   end
 end

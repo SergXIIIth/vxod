@@ -36,12 +36,12 @@ module Vxod
         @user.save!
         { success: true }
       end
-    end      
+    end
 
     # return nil when confirm state update allowed
     def confirm_state
       if @user.confirm_at
-        { success: false, error: [ "Email already confirmed" ] }
+        { success: false, error: [ I18n.t('vxod.errors.already_confirm') ] }
       elsif @user.lock_code
         { success: false, error: [ "We break registration, if any questions please contact the support" ] }
       else

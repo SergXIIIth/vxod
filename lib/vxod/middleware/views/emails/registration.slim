@@ -15,11 +15,9 @@ p = I18n.t('vxod.reg_mail.p1')
 h2 = I18n.t('vxod.reg_mail.confirm')
 
 p
-  | To cofirm your registration, please, click on
   a href="http://#{host}#{Vxod.config.confirm_email_path}?key=#{user.confirm_email_key}" = I18n.t('vxod.reg_mail.confirm_yes')
 
 p
-  | If you did not register on #{host}, please, click on
   a href="http://#{host}#{Vxod.config.confirm_email_path}?key=#{user.confirm_email_key}&lock=1" = I18n.t('vxod.reg_mail.confirm_no')
 
 
