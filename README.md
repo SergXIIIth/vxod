@@ -23,7 +23,7 @@ Future
 - [ ] adminka for user management
 - [ ] support Sinatra, Mongoid, Rails, ActiveRecord, any Rack app, any DB
 
-# Simple usage
+# Setup
 
 ### Gemfile
 
@@ -84,53 +84,20 @@ Pony.options = {
 }
 ```
 
+### helpers.rb
 
-# API
-
-Vxod.config
-Vxod.api(rack_app)
-
-# Installation
-
-- gem 'vxod'
-- configure email
-- provide key for open auth
-- provide layout to inject views
-
-## Config OmniAuth
-
-Gems
-
-    gem 'omniauth'
-    gem 'omniauth-twitter'
-    gem 'omniauth-vkontakte'
-    gem 'omniauth-facebook'
-    gem 'omniauth-google_oauth2'
-    gem 'omniauth-github'
-
-App
-
-    enable :sessions
-    set :sessions, secret: ENV['secret_secret']
-
-    use OmniAuth::Builder do
-      provider :twitter, ENV['omniauth.twitter'], ENV['omniauth.twitter_x']
-      provider :vkontakte, ENV['omniauth.vkontakte'], ENV['omniauth.vkontakte_x']
-      provider :facebook, ENV['omniauth.facebook'], ENV['omniauth.facebook_x']
-      provider :google_oauth2, ENV['omniauth.google'], ENV['omniauth.google_x']
-      provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
-    end
-
-    use Vxod::Middleware # put it after use OmniAuth
-
-## Config SMTP, example on yander.ru
-
-
-
+``` ruby
+helpers do
+  def vxod
+    @vxod ||= Vxod.api(self)
+  end
+end
+``` ruby
 
 # Usage
 
-TODO: Write usage instructions here
+`p = vxod.user.email` get current user
+
 
 # Contributing
 
