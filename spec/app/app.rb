@@ -45,11 +45,18 @@ get '/secret' do
   slim :secret
 end
 
+get '/jquery.js' do
+  send_file 'jquery.js'
+end
+
 # render middware html in app layout
 %w(get post).each do |method|
   self.send(method, '*') do
     if env['VXOD.HTML']
-      env['VXOD.HTML']
+      "
+        <script src='/jquery.js' />
+        #{env['VXOD.HTML']}
+      "
     else
       pass
     end

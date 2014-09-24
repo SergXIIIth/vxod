@@ -3,19 +3,17 @@ require 'spec_helper'
 describe 'Login with openid', :feature  do
   let(:email){ "sergey#{rand(1000)}@makridenkov.com" }
 
-  it 'allow access to secret page', :focus do
+  it 'allow access to secret page' do
     visit '/'
     click_on 'secret'
-    find('.fa-vk').click
+    find('.provider-vkontakte').click
 
-    expect(find('.alert-danger')).to have_content('Email is invalid')
+    expect(page).to have_css('.vxod-errors')
 
-    expect(Pony).to receive(:mail).with{|params|
-      expect(params[:to]).to eq email
-    }
+    expect(Pony).to receive(:mail).with(hash_including(to: email))
 
     fill_in('email', with: email)
-    find('.btn-primary').click
+    find('.vxod-btn-primary').click
 
     expect(page).to have_content("I am secret page for #{email}")
 
