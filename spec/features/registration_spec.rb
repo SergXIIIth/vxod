@@ -5,9 +5,9 @@ describe 'Registration', :feature  do
 
   it 'shows errors when invalid data' do
     visit '/registration'
-    click_on 'Register'
+    find('[type="submit"]').click
 
-    expect(find('.alert-danger')).to have_content('Email is invalid')
+    expect(find('.vxod-errors')).to have_content('Почта не может быть пустым')
   end
 
   it 'register a user when valid data' do
@@ -16,7 +16,7 @@ describe 'Registration', :feature  do
 
     expect(Pony).to receive(:mail).with(hash_including(to: email))
 
-    click_on 'Register'
+    find('[type="submit"]').click
 
     click_on 'secret'
     expect(page).to have_content("I am secret page for #{email}")
@@ -27,8 +27,8 @@ describe 'Registration', :feature  do
     fill_in('email', with: email)
     uncheck('vxod-auto-password-swither')
 
-    click_on 'Register'
+    find('[type="submit"]').click
 
-    expect(find('.alert-danger')).to have_content('Password is required')
+    expect(find('.vxod-errors')).to have_content('Пароль не может быть пустым')
   end
 end

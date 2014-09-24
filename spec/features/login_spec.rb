@@ -28,6 +28,6 @@ describe 'Login with password', :feature  do
 
     find('[type="submit"]').click
 
-    expect(page).to have_css('.vxod-errors')
+    expect(find('.vxod-errors')).to have_content('Почта или пароль ошибочны')
   end
 end

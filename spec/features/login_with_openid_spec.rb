@@ -8,7 +8,7 @@ describe 'Login with openid', :feature  do
     click_on 'secret'
     find('.provider-vkontakte').click
 
-    expect(page).to have_css('.vxod-errors')
+    expect(find('.vxod-errors')).to have_content('Почта не может быть пустым')
 
     expect(Pony).to receive(:mail).with(hash_including(to: email))
 
