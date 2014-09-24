@@ -29,9 +29,11 @@ module Vxod::Db::Mongoid
 
     def password_valid?(password_uncrypt)
       if password_uncrypt.blank?
-        errors[:password] = 'is required'
+        errors[:password] = I18n.t('vxod.errors.blank')
       else
-        errors[:password] = 'min lenght 7 chars is required' if password_uncrypt.size < 7
+        if password_uncrypt.size < 7
+          errors[:password] = I18n.t('vxod.errors.too_short', count: 6)
+        end
       end
 
       !errors.any?

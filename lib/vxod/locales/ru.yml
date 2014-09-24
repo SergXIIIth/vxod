@@ -33,3 +33,5 @@ ru:
     continue: Продолжить
     errors:
       invalid_password: или пароль ошибочны
+      blank: "не может быть пустым"
+      too_short: "недостаточной длины (нужно более %{count} символов)"
